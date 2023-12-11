@@ -17,7 +17,6 @@ if os.path.exists('env.py'):
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # Quick-start development settings - unsuitable for production
@@ -44,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.sites',
+    'user',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     'cloudinary',
     'pokedex',
     'core',
-    'user',
 ]
 
 SITE_ID = 1
