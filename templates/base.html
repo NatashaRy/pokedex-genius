@@ -47,10 +47,11 @@
                     <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="{% static 'images/avatar.png' %}" alt="Avatar image" class="rounded-circle avatar header-avatar">
                     </a>
-                    <ul class="dropdown-menu shadow" aria-labelledby="dropdown">
-                        <li></li>
+                    <ul class="dropdown-menu mt-2 shadow py-3 px-2 gap-4 text-uppercase fw-normal" aria-labelledby="dropdown">
                         <li><a class="dropdown-item" href="#">Profile</a></li>
                         <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><hr class="green border-2 opacity-50"></li>
+                        <li><a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a></li>
                     </ul>
                 </div>
             </div>

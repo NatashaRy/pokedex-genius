@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container-fluid main-height g-0">
+        <header class="header">
+                <a href="#"><i class="bi bi-backspace dark fs-1"></i></a>
+        </header>
+        <div class="row px-3 py-2 px-md-3 d-grid gap-3 light-shadow bg-white">
+            <div class="text-center">
+                <a href="/" aria-lable="Link to home">
+                    <img src="/static/images/pokedex-logo.webp" alt="Pokedex Genius Logo" class="img-fluid img-max-650 pg-logotype">
+                </a>
+                {% block page_heading %}
+                    
+                {% endblock page_heading %}
+            </div>
+        </div>
+        {% block form_content %}
+            
+        {% endblock form_content %}
+    </div>
+{% endblock content %}
