@@ -20,6 +20,42 @@
 <body>
     <!-- Header -->
     {% block header %}
+    <div class="container-fluid p-sm-0 p-1 m-0 gradient-header sticky-top shadow">
+        <header class="header d-flex flex-wrap justify-content-center py-2 justify-content-md-around align-items-center">
+            <a href="/">
+                <img src="{% static 'images/pokedex-logo.webp' %}" alt="Pokedex Genius logo" class="img-fluid logo pg-logotype">
+            </a>
+            <div class="d-flex flex justify-content-md-end align-items-center gap-4">
+                <ul class="nav nav-pills text-end">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active fw-bold p-1 px-2 mx-2">Dashboard</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle fw-bold p-1 px-2 mx-2" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span>Pokedexes</span>
+                        </a>
+                    </li>
+                    <ul class="dropdown-menu" aria-labelledby="dropdown">
+                        <li><a class="dropdown-item" href="#">Pokedex 1</a></li>
+                        <li><a class="dropdown-item" href="#">Pokedex 2</a></li>
+                    </ul>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link fw-bold p-1 px-2 mx-2">Find Pokemon</a>
+                    </li>
+                </ul>
+                <div class="col-md-2 dropdown text-end">
+                    <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="{% static 'images/avatar.png' %}" alt="Avatar image" class="rounded-circle avatar header-avatar">
+                    </a>
+                    <ul class="dropdown-menu shadow" aria-labelledby="dropdown">
+                        <li></li>
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+    </div>     
 
     {% endblock header %}
 
@@ -32,12 +68,10 @@
 
     <!-- Footer -->
     {% block footer %}
-        <div class="container-fluid p-sm-0 p-1 m-0 bg-blue">
-            <footer class="footer-cred d-flex flex-wrap justify-content-around align-items-center">
-                <div class="col-md-4 d-flex align-items-center">
-                    <span class="mini-text gold">Copyright &copy; 2023 Pokedex Genius</span>
-                </div>
-                <span class="mini-text gold">Created by Natasha Rydell</span>
+        <div class="container-fluid m-0 p-0 bg-blue">
+            <footer class="footer-cred d-flex flex-wrap justify-content-around align-items-center py-1">
+                <span class="mini-text gold text-start">Copyright &copy; 2023 Pokedex Genius</span>
+                <span class="mini-text gold text-end">Created by Natasha Rydell</span>
             </footer>
         </div>
     {% endblock footer %}
