@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.sites',
+    'users',
     'user',
     'allauth',
     'allauth.account',
@@ -57,16 +58,16 @@ INSTALLED_APPS = [
     'core',
 ]
 
-# Custom user model
-AUTH_USER_MODEL = 'user.CustomUser'
-
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-CRISPY_TEMPLATE_PACK = "bootstrap5"
+AUTH_USER_MODEL = 'users.pokedexUser'
 
 SITE_ID = 1
 
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = '/'
+
+# Cripsy forms
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -101,11 +102,6 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
-
-ACCOUNT_FORMS = {
-    'signup': 'user.forms.CustomSignupForm',
-    'login': 'user.forms.CustomLoginForm',
-}
 
 WSGI_APPLICATION = 'pokedex_genius.wsgi.application'
 
@@ -168,6 +164,15 @@ STATICFILES_STORAGE = (
     )
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Cloudinary settings
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'nat-cloud',
+    'API_KEY': '614239632873155',
+    'API_SECRET': 'RjzrU-IQsuZ_fLcalrvA-_t3Z04',
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
