@@ -18,11 +18,14 @@ body {
     min-height: 97vh;
 }
 
+.height-60 {
+    min-height: 60vh;
+}
+
 .main {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
     height: 100%;
 }
 
@@ -75,7 +78,7 @@ body {
 }
 
 /*---------- Colors */
-.gold, .sec-link {
+.gold, .sec-link, .main-link:hover {
     color: #FFD700;
 }
 
@@ -189,8 +192,8 @@ body {
 }
 
 /*---------- Forms */
-.form-container {
-    max-width: 580px;  
+.signup, .login {
+    width: 580px;  
     margin: auto;      
     padding: 15px;     
 }
@@ -219,7 +222,6 @@ body {
 /*----- Footer */
 .footer-cred {
     min-height: 3vh;
-    max-height: auto;
 }
 
 /*-----Modal */
@@ -229,4 +231,16 @@ body {
 
 .invalid-feedback {
     color: #FF6347;
+}
+
+
+
+/* `md` applies to small devices (landscape phones, less than 768px) */
+@media (max-width: 767.98px) { 
+/* Graphics */
+    .img-max-650 {
+        max-width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
