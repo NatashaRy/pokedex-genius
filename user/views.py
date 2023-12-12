@@ -1,30 +1,16 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-# from .forms import SignUpForm
+from django.contrib.auth.decorators import login_required
 
 
-# def login_view(request):
-#     if request.method == 'POST':
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-#         user = authenticate(request, username=username, password=password)
-#         if user is not None:
-#             login(request, user)
-#             return redirect('pokedex/dashboard.html')
-#         else:
-#             # Invalid login
-#             pass
-#     return render(request, 'account/login.html')
+@login_required
+def change_email(request):
+    if request.method == 'POST':
+        form = EmailUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            # Redirect to a success page or show a success message
+            return redirect('#')
+    else:
+        form = EmailUpdateForm(instance=request.user)
 
-
-# def signup_view(request):
-#     if request.method == 'POST':
-#         form = SignUpForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             # Redirect after successful sign up
-#             return redirect('accounts/signup.html')
-#     else:
-#         form = SignUpForm()
-#     return render(
-#         request, 'accounts/signup.html', {'form': form})
+    return render(request, 'email_change.html', {'form': form})
