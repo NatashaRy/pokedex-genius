@@ -17,7 +17,6 @@ class CustomPasswordResetForm(PasswordResetForm):
         return email
 
 
-# ----------------- USER PROFILE
 class UpdateProfilePicture(forms.ModelForm):
     class Meta:
         model = pokedexUser

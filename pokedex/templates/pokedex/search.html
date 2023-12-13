@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block head_title %}
+    {% trans "Search" %}
+{% endblock head_title %}
+
+{% block content %}
+    <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto height-60 align-items-center d-flex flex-column justify-content-center">
+                <h1 class="font-heading letterspacing-2 fw-800 my-4 gold">
+                    Search for a Pokemon
+                </h1>
+                <form id="pokemonForm" action="/search/" method="GET">
+                    <div class="form-group form gap-3">
+                        <label for="pokemonDropdown">Choose a Pokémon:</label>
+                        <select id="pokemonDropdown" name="selected_pokemon" class="form-select">
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-75 dark text-uppercase fw-800 fs-5">Search</button>
+                </form>
+                
+                <div class="pokemon-cards-container">
+                    {% if search_performed %}
+                        {% if pokemon_data %}
+                            <div class="pokemon-card">
+                                <h3>{{ pokemon_data.name | title }}</h3>
+                                <img src="{{ pokemon_data.sprites.front_default }}" alt="Image of {{ pokemon_data.name }}">
+                                <p><strong>ID:</strong> {{ pokemon_data.id }}</p>
+                                <p><strong>Type:</strong> 
+                                    {% for type in pokemon_data.types %}
+                                        {{ type.type.name | title }}
+                                        {% if not forloop.last %}, {% endif %}
+                                    {% endfor %}
+                                </p>
+                                <a href="{% url 'pokemon_detail' pokemon_name=pokemon_data.name %}">View Details</a>
+                            </div>
+                        {% else %}
+                            <p>No Pokémon found for "{{ query }}".</p>
+                        {% endif %}
+                    {% endif %}
+                </div>
+                
+            </div>
+        </div>
+    </section>
+{% endblock content %}

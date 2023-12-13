@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block head_title %}
+    {% trans "Pokemon details {% pokemon_data.name  %}" %}
+{% endblock head_title %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="p-5 mb-4 bg-body-tertiary rounded-3">
+        <div class="container-fluid py-5">
+            <img src="{{ pokemon_data.sprites.front_default }}" alt="Image of {{ pokemon_data.name }} class="img-fluid">
+        </div>
+    </div>
+
+    <div class="row align-items-md-stretch">
+        <div class="col-md-6">
+            <div class="h-100 p-5 text-bg-dark rounded-3">
+                <h1 class="font-heading letterspacing-2 fw-800 my-4">{{ pokemon_data.name | title }}</h1>
+                <p><strong>ID:</strong> {{ pokemon_data.id }}</p>
+                <p><strong>Type:</strong> 
+                    {% for type in pokemon_data.types %}
+                        {{ type.type.name | title }}
+                        {% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="h-100 p-5 bg-body-tertiary border rounded-3">
+                <h2>Add borders</h2>
+                <p>Or, keep it light and add a border for some added definition to the boundaries of your content. Be sure to look under the hood at the source HTML here as we've adjusted the alignment and sizing of both column's content for equal-height.</p>
+                <button class="btn btn-outline-secondary" type="button">Example button</button>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
