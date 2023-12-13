@@ -6,7 +6,7 @@
 {% load allauth account socialaccount %}
 
 {% block head_title %}
-    {% trans "Sign In" %}
+    {% trans "Sign Up" %}
 {% endblock head_title %}
 
 {% block page_heading %}
@@ -17,18 +17,14 @@
     <div class="container">
         <div class="col-lg-6 col-md-8 col-sm-10 col-12 mx-auto">
             <div class="col d-block justify-content-center flex-wrap align-items-center">
-                <p class="text-uppercase fs-6 gold mb-3 text-center">
+                <p class="text-uppercase fs-6 gold mb-3 pb-2 text-center">
                     Already have an account? Please <a href="{% url 'account_login' %}" class="main-link text-decoration-none">sign in here</a> instead.
                 </p>
                 <div class="col mt-3 d-flex justify-content-center mb-3">
-                    {% url 'account_signup' as action_url %}
-                    <form method="post" action="{{ action_url }}">
+                    <form method="post" class="form-signup">
                         {% csrf_token %}
                         {{ form|crispy }}
-                        {% if redirect_field_value %}
-                            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-                        {% endif %}
-                        <button class="btn btn-primary mt-3 fs-5 fw-800 text-uppercase letter-spacing-2 dark w-100" type="submit">Sign Up</button>
+                        <button type="submit" class="btn btn-primary w-100 dark text-uppercase fw-800 fs-5">Sign up</button>
                     </form>
                 </div>
             </div>

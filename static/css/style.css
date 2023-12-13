@@ -68,7 +68,7 @@ body {
     font-weight: 800;
 }
 
-.mini-text {
+.mini-text, .form-check-label, .form-text {
     font-size: 12px;
     letter-spacing: 0.1rem;
 }
@@ -78,15 +78,15 @@ body {
 }
 
 /*---------- Colors */
-.gold, .sec-link, .main-link:hover {
+.gold, .sec-link, .main-link:hover, a, .form-check-label {
     color: #FFD700;
 }
 
-.green, .main-link, .sec-link:hover {
+.green, .main-link, .sec-link:hover, a:hover {
     color: #32CD32;
 }
 
-.red {
+.red, .invalid-feedback {
     color: #FF6347;
 }
 
@@ -179,6 +179,17 @@ body {
     box-shadow: 0 0 12px #ffd700b0;
 } 
 
+.btn-outline-seconday {
+    color: #FF6347;
+    border: 2px solid #FF6347;
+} 
+
+.btn-outline-seconday:hover {
+    background-color: #FF6347;
+    border: 2px solid #FF6347;
+    box-shadow: 0 0 12px #ffd700b0;
+} 
+
 .dark-shadow {
     box-shadow: 2px 4px 10px #1717175b;
 }
@@ -191,11 +202,32 @@ body {
     box-shadow: 0 0 20px #FF6347;
 }
 
+a {
+    text-decoration: none;
+}
+
 /*---------- Forms */
-.signup, .login {
+.form-signup, .form-login {
     width: 580px;  
     margin: auto;      
     padding: 15px;     
+}
+
+.form-control {
+    padding: 0.8rem 0.75rem;
+}
+
+.form-check-label, .form-text {
+    margin: 1rem 0px 1rem;
+    text-transform: uppercase;
+}
+
+.checkboxinput {
+    margin: 15px 15px 1rem;
+}
+
+#id_password1_helptext, .form-label {
+    display: none;
 }
 
 /*----- Header */
@@ -228,11 +260,6 @@ body {
 .modal-header, .modal-footer {
     border: none
 }
-
-.invalid-feedback {
-    color: #FF6347;
-}
-
 
 
 /* `md` applies to small devices (landscape phones, less than 768px) */
