@@ -1,27 +1,37 @@
-{% extends "account/base_manage.html" %}
-{% load allauth i18n %}
+{% extends "guest_header.html" %}
+
+{% load crispy_forms_tags %}
+
+{% load i18n %}
+{% load allauth account socialaccount %}
+
 {% block head_title %}
-    {% trans "Sign Out" %}
+    {% trans "Logout" %}
 {% endblock head_title %}
-{% block content %}
-    {% element h1 %}
-        {% trans "Sign Out" %}
-    {% endelement %}
-    <p>{% trans 'Are you sure you want to sign out?' %}</p>
-    {% url 'account_logout' as action_url %}
-    {% element form method="post" action=action_url no_visible_fields=True %}
-        {% slot body %}
-            {% csrf_token %}
-            {% if redirect_field_value %}
-                <input type="hidden"
-                       name="{{ redirect_field_name }}"
-                       value="{{ redirect_field_value }}" />
-            {% endif %}
-        {% endslot %}
-        {% slot actions %}
-            {% element button type="submit" %}
-                {% trans 'Sign Out' %}
-            {% endelement %}
-        {% endslot %}
-    {% endelement %}
-{% endblock content %}
+
+{% block page_heading %}
+    <h1 class="blue text-center font-heading fw-800 my-3">Are you sure you wanna sign out?</h1>
+{% endblock page_heading %}
+
+{% block form_content %}
+    <div class="container">
+        <div class="col-lg-6 col-md-8 col-sm-10 col-12 mx-auto">
+            <div class="col d-block justify-content-center flex-wrap align-items-center">
+                <div class="col mt-3 d-flex justify-content-center mb-3">
+                    <form method="post" class="form-login">
+                        {% csrf_token %}
+                        <p class="text-uppercase fs-5 gold mb-4 text-center">
+                            Please comfirm that you want to sign out.
+                        </p>
+                        <div>
+                            <a href="{% url 'dashboard' %}" class="btn btn-primary w-100 dark text-uppercase fw-800 fs-5 mb-4">Changed my mind</a>
+                            <button type="submit" class="btn btn-outline-seconday w-100 dark text-uppercase fw-800 fs-5 mb-3">Sign out</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock form_content %}
+
+
