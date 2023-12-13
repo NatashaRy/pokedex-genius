@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load i18n %}
+
+{% block head_title %}
+    {% trans "Profile" %}
+{% endblock head_title %}
+
+{% block content %}
+    <section class="py-5 text-center container">
+        <div class="row justify-content-center">
+            <h1 class="font-heading letterspacing-2 fw-800 mt-4">Welcome to your profile,</h1>
+            <div class="user-profile text-center mb-4 p-0">
+                <p class="fs-1 fw-800 text-uppercase green p-0 m-0">{{ user.username }}</p>
+            </div>
+            <div class="col-md-8 my-2">
+                <div class="row justify-content-center">
+                    <div class="col-3 text-end">
+                        {% if user.profile_picture %}
+                            <img src="{{ user.profile_picture.url }}" alt="Profile picture" class="img-thumbnail w-100 rounded-circle avatar">
+                        {% else %}
+                            <img src="{% static 'images/pikachu-placeholder.webp' %}" alt="Placeholder avatar" class="img-thumbnail w-100 rounded-circle avatar">
+                        {% endif %}
+                    </div>
+                    <div class="col-8 p-3 user-profile text-start border-gold ms-5">
+                        <p class="fw-bold text-uppercase letterspacing-2 fs-5">Bio:</p>
+                        <p>{{ user.bio }}</p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+    <div class="container-fluid justify-content-stretch py-1 text-center bg-white shadow">
+        <a href="{% url 'update_profile' %}" class="text-justify text-uppercase letterspacing-2 dark fw-800 fs-5 w-100 m-0 py-2">Update profile</a>
+    </div>
+    <div class="p-5 bg-body-tertiary container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-8 py-5">
+                <div class="row justify-content-around">
+                    <div class="col-3 p-3 user-profile text-end">
+                        {% if user.profile_picture %}
+                            <img src="{{ user.trainer_qr_code.url }}" alt="Profile picture" class="img-fluid w-75">
+                        {% else %}
+                            <img src="{% static 'images/pikachu-placeholder.webp' %}" alt="Pokemon Trainer qr-code" class="img-fluid w-75">
+                        {% endif %}
+                    </div>
+                    <div class="col-3 p-3 user-profile text-start">
+                        <p class="fs-5 mt-2">
+                            <span class="fw-bold">Trainer Id:</span> 
+                            <span class="ms-1">{{ user.go_trainer_id }}</span>
+                        </p>
+                        <p class="fs-5 mt-2">
+                            <span class="fw-bold">Username:</span> 
+                            <span class="ms-1">{{ user.username}}</span>
+                        </p>
+                        <p class="fs-5 mt-2">
+                            <span class="fw-bold">Email address:</span> 
+                            <span class="ms-1">{{ user.go_trainer_id }}</span>
+                        </p>
+                        <p class="fs-5 mt-2">
+                            <span class="fw-bold">Website:</span> 
+                            <span class="ms-1">{{ user.website_url}}</span>
+                        </p>
+                        <p class="fs-5 mt-2">
+                            <span class="fw-bold">Date of birth:</span> 
+                            <span class="ms-1">{{ user.date_of_birth }}</span>
+                        </p>
+                    </div>
+                    <div class="col-3 p-3 user-profile text-start">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% load i18n %}
+{% load allauth account socialaccount %}
+
+{% block head_title %}
+    {% trans "Update profile" %}
+{% endblock head_title %}
+
+{% block content %}
+    <section class="py-5 text-center container">
+        <div class="row">
+            <h1 class="font-heading letterspacing-2 fw-800 m-4 mb-5">Update profile</h1>
+            <div class="row gap-3 justify-content-center">
+                <div class="col-md-4 p-3">
+                    <form method="post" action="" enctype="multipart/form-data" class="mini-text text-uppercase w-100">
+                        {% csrf_token %}
+                        <div>
+                            {% if user.profile_picture %}
+                                <img src="{{ user.profile_picture.url }}" alt="Profile picture" class="img-fluid rounded-circle avatar w-50">
+                            {% else %}
+                                <img src="{% static 'images/pikachu-placeholder.webp' %}" alt="Placeholder avatar" class="img-fluid rounded-circle avatar w-50">
+                            {% endif %}
+                        </div>
+                        {{ picture_form.as_p }}
+                        <button type="submit" name="update_picture" class="btn btn-secondary dark text-uppercase fw-800 fs-6 w-50 mt-2">Update picture</button>
+                    </form>
+                </div>
+                <div class="col">
+                    <form method="post" action="" class="text-start mt-1">
+                        {% csrf_token %}
+                        {{ bio_form.as_p }}
+                        <button type="submit" name="update_picture" class="btn btn-secondary dark text-uppercase fw-800 fs-6 mt-2">Update bio</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="py-5 bg-body-tertiary container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-8 py-4">
+                <div class="row justify-content-around align-top">
+                    <div class="col-md-4 p-3 text-start">
+                        <form method="post" action="" class="w-100">
+                            {% csrf_token %}
+                            {{ profile_form.as_p }}
+                            <button type="submit" name="update_profile" class="btn btn-secondary dark text-uppercase fw-800 fs-6 w-100 mt-2">Update Profile</button>
+                        </form>
+                    </div>
+                    <div class="col-md-4 p-3 text-start">
+                        <form method="post" action="">
+                            {% csrf_token %}
+                            {{ account_form.as_p }}
+                            <button type="submit" name="update_account" class="btn btn-secondary dark text-uppercase fw-800 fs-6 w-100 mt-2">Update account</button>
+                        </form>
+                    </div>
+                    <div class="col-md-3">
+                        <form method="post" action="" class="form w-100 text-start">
+                            {% csrf_token %}
+                            {{ trainer_form.as_p }}
+                            <button type="submit" name="update_trainer" class="btn btn-secondary dark text-uppercase fw-800 fs-6 w-100 mt-2">Update trainer info</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

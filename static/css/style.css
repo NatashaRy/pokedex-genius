@@ -207,7 +207,7 @@ a {
 }
 
 /*---------- Forms */
-.form-signup, .form-login {
+.form {
     width: 580px;  
     margin: auto;      
     padding: 15px;     
@@ -229,6 +229,18 @@ a {
 #id_password1_helptext, .form-label {
     display: none;
 }
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 10px; 
+}
+
+.form-field {
+    flex: 1;
+    min-width: 120px;
+}
+
 
 /*----- Header */
 .gradient-header {
@@ -269,5 +281,11 @@ a {
         max-width: 90%;
         margin-left: auto;
         margin-right: auto;
+    }
+}
+
+@media (max-width: 600px) {
+    .form-row {
+        flex-direction: column;
     }
 }
