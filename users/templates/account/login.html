@@ -21,7 +21,7 @@
                     Don't have an account yet? <a href="{{ signup_url }}" class="main-link text-decoration-none">sign up</a> for free!
                 </p>
                 <div class="col mt-3 d-flex justify-content-center mb-3">
-                    <form method="post" class="form-login">
+                    <form method="post" class="form-login from">
                         {% csrf_token %}
                         {{ form|crispy }}
                         <button type="submit" class="btn btn-primary w-100 dark text-uppercase fw-800 fs-5">Sign in</button>

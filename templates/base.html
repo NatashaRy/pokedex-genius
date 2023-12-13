@@ -25,10 +25,10 @@
             <a href="/">
                 <img src="{% static 'images/pokedex-logo.webp' %}" alt="Pokedex Genius logo" class="img-fluid logo pg-logotype">
             </a>
-            <div class="d-flex flex justify-content-md-end align-items-center gap-4">
+            <div class="col-md-4 d-flex flex justify-content-md-end align-items-center gap-4">
                 <ul class="nav nav-pills text-end">
                     <li class="nav-item">
-                        <a href="#" class="nav-link active fw-bold p-1 px-2 mx-2">Dashboard</a>
+                        <a href="{% url 'dashboard' %}" class="nav-link active fw-bold p-1 px-2 mx-2">Dashboard</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle fw-bold p-1 px-2 mx-2" data-bs-toggle="dropdown" aria-expanded="false">
@@ -43,13 +43,16 @@
                         <a href="#" class="nav-link fw-bold p-1 px-2 mx-2">Find Pokemon</a>
                     </li>
                 </ul>
-                <div class="col-md-2 dropdown text-end">
+                <div class="col-md-1 dropdown text-end">
                     <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{% static 'images/avatar.png' %}" alt="Avatar image" class="rounded-circle avatar header-avatar">
+                        {% if user.profile_picture %}
+                            <img src="{{ user.profile_picture.url }}" alt="Profile avatar image" class="img-fluid rounded-circle avatar w-50">
+                        {% else %}
+                            <img src="{% static 'images/pikachu-placeholder.webp' %}" alt="Placeholder avatar image" class="rounded-circle avatar header-avatar">
+                        {% endif %}
                     </a>
                     <ul class="dropdown-menu mt-2 shadow py-3 px-2 gap-4 text-uppercase fw-normal" aria-labelledby="dropdown">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
-                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
                         <li><hr class="green border-2 opacity-50"></li>
                         <li><a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a></li>
                     </ul>
