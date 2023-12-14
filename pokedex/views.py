@@ -1,6 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import generic
-from django.http import JsonResponse
 from .models import Pokedex
 import requests
 from .forms import PokemonDropdown
@@ -15,43 +14,46 @@ def search(request):
         response = requests.get('https://pokeapi.co/api/v2/pokedex/1')
         response.raise_for_status()
         data = response.json()
-
         pokemon_entries = data.get('pokemon_entries', [])
-        choices = [(
-            pokemon['pokemon_species']['name'],
-            pokemon['pokemon_species']['name'].
-            title()) for pokemon in pokemon_entries]
-
-        form = PokemonDropdown(choices=choices)
-
+        choices = [(pokemon['entry_number'],
+                    pokemon['pokemon_species']['name'].
+                    title()) for pokemon in pokemon_entries]
     except requests.exceptions.HTTPError as e:
         print(e)
-        form = PokemonDropdown(choices=[])
+        choices = []
+
+    if request.method == 'POST':
+        form = PokemonDropdown(data=request.POST, choices=choices)
+        if form.is_valid():
+            entry_number = form.cleaned_data['pokemon']
+            return redirect('pokemon_details', entry_number=entry_number)
+        else:
+            form = PokemonDropdown(choices=choices)
+            print('Form is invalid')
+            print(form.errors)  # Print form errors for debugging
+    else:
+        form = PokemonDropdown(choices=choices)
 
     return render(request, 'pokedex/search.html', {'form': form})
 
-# def pokemon_data_view(request):
-#     pokemon_id = request.GET.get('id')
-#     data = get_pokemon_data(pokemon_id)
-#     if data is None:
-#         return JsonResponse({'error': 'Error fetching data'}, status=500)
-#     return JsonResponse(data)
 
+def pokemon_details(request, entry_number):
+    try:
+        response = requests.get(
+            f'https://pokeapi.co/api/v2/pokemon/{entry_number}/'
+            )
+        response.raise_for_status()
+        print('Requests pokemon entry number', entry_number)    # Debug print
+        pokemon_details = response.json()
 
-# def pokemon_view(request):
-#     region = request.GET.get('region', '')
-#     pokemons = get_pokemons(region)
-    return JsonResponse({'pokemons': pokemons})
+    except requests.exceptions.HTTPError as e:
+        print(e)
+        pokemon_details = {}
 
-
-# def pokemon_detail(request, pokemon_name):
-#     pokemon = get_data(pokemon_name)
-#     if pokemon:
-#         return render(request,
-#                       'pokedex/pokemon_detail.html', {
-#                           'pokemon': pokemon})
-#     else:
-#         return render(request, 'pokedex/pokemon_not_found.html')
+    return render(request,
+                  'pokedex/pokemon_details.html',
+                  {'pokemon': pokemon_details}
+                  )
 
 
 class PokedexList(generic.ListView):
