@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block head_title %}
+    {% trans "Pokemon details {{ pokemon.name | title }}" %}
+{% endblock head_title %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row align-items-md-stretch">
+        <div class="col-md-6">
+            <div class="h-100 p-5 text-bg-dark rounded-3">
+                <img src="{{ pokemon.sprites.front_default }}" alt="Image of {{ pokemona.name }}" class="img-fluid w-100">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="h-100 p-5 bg-body-tertiary border rounded-3">
+                <h1 class="font-heading letterspacing-2 fw-800 my-4">{{ pokemon.name | title }}</h1>
+                <div class="row align-items-md-stretch">
+                    <div class="col">
+                        <p><strong>ID:</strong> {{ pokemon.order }}</p>
+                    </div>
+                    <div class="col">
+                        <p><strong>Height:</strong> {{ pokemon.height|floatformat:1 }} m</p>
+                    </div>
+                    <div class="col">
+                        <p><strong>Weight:</strong> {{ pokemon.weight|floatformat:1 }} kg</p>
+                    </div>
+                </div>
+
+                <p><strong>Types:</strong></p>
+                <ul>
+                    {% for type in pokemon.types %}
+                        <li>{{ type.type.name | title }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
