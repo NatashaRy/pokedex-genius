@@ -1,5 +1,5 @@
 ---
-name: 'EPIC: <TITLE>'
+name: EPIC
 about: This is our default epics template
 title: ''
 labels: ''
