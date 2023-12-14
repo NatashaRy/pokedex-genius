@@ -200,9 +200,15 @@ Here is a good idea to talk about how and why you have tested with certain tools
 We always have bugs in development, a few bullet points here to talk about bugs you found and how you fixed them, in later projects this will be more detailed
 ​
 * Issue - When the user filled the login form with invalid information, the form clears.
-* Cause - The images had absolute positioning and caused them to go off screen
-* Resolution - Changed the width of the image to stay within the confines of the screen.
+* Cause - 
+* Resolution - 
 ​
+
+* Issue - When user tries to select Pokemon the redirection is not working
+    * Issue 2: TypeError: PokemonDropdown.__init__() got multiple values for argument 'choices'
+* Cause - Invalid form.
+* Resolution - By adding debugging `search` in the pokedex views.py, we could see the form was not valid. Trying to fix the invaild form we got an new error (issue 2). We solved the problem by adding an if-statment to the `request.method == 'POST'`to explicity specifiy to pass the `'POST'` data, else pass the choices, which resolved both our problems with the form and redirect to the chosen Pokemons details.
+
 ***
 ## **Deployment**
 I deployed the page on GitHub pages via the following procedure: -
