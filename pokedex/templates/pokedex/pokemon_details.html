@@ -11,16 +11,18 @@
 <div class="container py-4">
     <div class="row align-items-md-stretch">
         <div class="col-md-6">
-            <div class="h-100 p-2 py-4 text-bg-dark rounded-3 text-center">
-                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{ pokemon.id }}.png" alt="Official Artwork of {{ pokemon.species.name | title }}" class="img-fluid">
+            <div class="h-100 p-2 py-4 radial-gradient-background rounded-3 text-center">
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{ pokemon.id }}.png" alt="Official Artwork of {{ pokemon.species.name | title }}" class="img-fluid w-75">
             </div>
         </div>
         <div class="col-md-6">
             <div class="h-100 p-5 bg-body-tertiary border rounded-3">
-                <p class="text-uppercase fw-semibold text-center">ID: {{ pokemon.order }}</p>
+                <div class="text-center">
+                    <div class="badge rounded-pill text-bg-info fs-6 mb-4">ID: {{ pokemon.order }}</div>
+                </div>
                 <h1 class="font-heading letterspacing-2 fw-800 mb-4 text-center">{{ pokemon.name | title }}</h1>
-                <div class="d-flex flex-row flex-wrap mb-3 gap-3 justify-content-evenly mt-3">
-                    <div class="col text-center bg-gold rounded-3 dark p-2 pb-3 d-flex justify-content-center">
+                <div class="d-flex flex-row flex-wrap justify-content-around gap-2 row-gap-3 mb-3 mt-4">
+                    <div class="col-md-3 text-center bg-gold rounded-3 dark p-2 pb-3 d-flex justify-content-center">
                         <div>
                             <span class="text-uppercase fw-semibold text-center">Types:</span>
                             <ul class="text-start fw-bold m-0 p-0">
@@ -30,19 +32,40 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col text-center bg-gold rounded-3 dark p-2 px-0 d-flex justify-content-center">
+                    <div class="col-md-3 text-center bg-gold rounded-3 dark p-2 pb-3 d-flex justify-content-center">
+                        <div>
+                            <span class="text-uppercase fw-semibold text-center">Abilities:</span>
+                            <ul class="text-start fw-bold m-0 p-0">
+                                {% for ability in pokemon.abilities.all %}
+                                    <li>{{ ability.name | title }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4  text-center bg-gold rounded-3 dark p-2 px-0 d-flex justify-content-center">
                         <div>
                             <span class="text-uppercase fw-semibold">Height:</span></br>
                             <span class="fw-800 fs-3">{{ pokemon.height|floatformat:1 }} m</span>
                         </div>
                     </div>
-                    <div class="col text-center bg-gold rounded-3 dark p-2 px-0 d-flex justify-content-center">
+                    <div class="col-md-4  text-center bg-gold rounded-3 dark p-2 px-0 d-flex justify-content-center">
                         <div>
                             <span class="text-uppercase fw-semibold">Weight:</span></br>
                             <span class="fw-800 fs-3">{{ pokemon.weight|floatformat:1 }} kg</span>
                         </div>
                     </div>
+                    <div class="col-md-2  text-center bg-gold rounded-3 dark p-2 px-0 d-flex justify-content-center">
+                        <div>
+                            <span class="text-uppercase fw-semibold">EXP:</span></br>
+                            <span class="fw-800 fs-3">{{ pokemon.base_experience }}</span>
+                            <!-- EXP = Represents the base experience points (EXP) that a Pokémon provides when defeated in battle or caught. In the context of the Pokémon games, gaining experience points is essential for a Pokémon to level up and become stronger. -->
+                        </div>
+                    </div>
                 </div>
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    <button type="submit">Add to Pokedex</button>
+                </form>
             </div>
         </div>
     </div>
