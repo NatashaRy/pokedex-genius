@@ -1,4 +1,5 @@
 from django.db import models
+from users.models import pokedexUser
 
 STATUS = ((0, 'Draft'), (1, 'Published'))
 
@@ -16,3 +17,13 @@ class Pokedex(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class UserPokemon(models.Model):
+    user = models.ForeignKey(pokedexUser, on_delete=models.CASCADE)
+    pokemon_id = models.IntegerField()
+    pokedex_id = models.ForeignKey(Pokedex, on_delete=models.CASCADE)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('pokemon_id', 'pokedex_id')
