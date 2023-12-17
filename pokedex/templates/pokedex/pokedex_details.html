@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block head_title %}{{ pokedex.name|title }} | Pokedex Genius{% endblock head_title %}
+
+
+{% block content %}
+    <!-- Your main content here -->
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletePokedexModal">
+      Delete Pokedex
+    </button>
+
+    <!-- Include the modal -->
+{% endblock content %}
+
+

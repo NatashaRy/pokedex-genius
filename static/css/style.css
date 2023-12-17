@@ -58,6 +58,14 @@ body {
     color: #4169E1;
 }
 
+.color-picker {
+    color: white;
+    border: solid 2px white;
+    outline: none;
+    cursor: pointer;
+    border-radius: 0.1em;
+  }
+
 /*------ Typography  */
 .font-heading, .nav-link {
     font-family: 'poppins', sans-serif;
@@ -143,7 +151,6 @@ body {
     border: 2px solid #FFD700;
 }
 
-
 /*----------- Buttons */
 .btn-primary {
     border: 2px solid #32CD32;
@@ -199,7 +206,7 @@ body {
 }
 
 .orchid-shadow {
-    box-shadow: 0 0 20px #FF6347;
+    box-shadow: 0 0 20px #BA55D3;
 }
 
 a {
@@ -305,3 +312,4 @@ a {
         flex-direction: column;
     }
 }
+  

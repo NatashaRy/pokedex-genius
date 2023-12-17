@@ -1,29 +1,47 @@
+from django.conf import settings
 from django.db import models
-from users.models import pokedexUser
-
-STATUS = ((0, 'Draft'), (1, 'Published'))
+from django.utils.text import slugify
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 
 class Pokedex(models.Model):
-    title = models.CharField(max_length=255)
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE,
+                             null=True  # Temporarily allow null values
+                             )
+    name = models.CharField(max_length=100, unique=True, null=True)
     slug = models.SlugField(max_length=255, unique=True)
-    # featured_image = models.ImageField(upload_to='media/')
+    description = models.TextField(blank=True)
+    color = models.CharField(max_length=7, null=True)
+    cover_image = models.ImageField(upload_to='pokedex_covers/',
+                                    blank=True,
+                                    null=True)
     updated_on = models.DateTimeField(auto_now=True)
     created_on = models.DateTimeField(auto_now_add=True)
-    status = models.IntegerField(choices=STATUS, default=0)
-
-    class Meta:
-        ordering = ['-created_on']
+    # STATUS = ((0, 'Draft'), (1, 'Published'))
+    # status = models.IntegerField(choices=STATUS, default=0)
+    is_public = models.BooleanField(default=False)
+    is_favorite = models.BooleanField(default=False)
+    numbers_of_pokemon = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.title
+        return self.name
+
+
+@receiver(pre_save, sender=Pokedex)
+def pre_save_slug(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = slugify(instance.name)
 
 
 class UserPokemon(models.Model):
-    user = models.ForeignKey(pokedexUser, on_delete=models.CASCADE)
+    pokedex = models.ForeignKey(Pokedex, on_delete=models.CASCADE)
     pokemon_id = models.IntegerField()
-    pokedex_id = models.ForeignKey(Pokedex, on_delete=models.CASCADE)
+    is_favorite = models.BooleanField(default=False)
     date_added = models.DateTimeField(auto_now_add=True)
+    additional_notes = models.TextField(blank=True)
 
     class Meta:
-        unique_together = ('pokemon_id', 'pokedex_id')
+        unique_together = ('pokemon_id', 'pokedex')

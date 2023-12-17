@@ -1,5 +1,5 @@
 from django import forms
-from datetime import datetime
+from .models import UserPokemon, Pokedex
 
 
 class PokemonDropdown(forms.Form):
@@ -8,18 +8,50 @@ class PokemonDropdown(forms.Form):
         self.fields['pokemon'] = forms.ChoiceField(choices=choices or [])
 
 
-class AddPokemonForm(forms.Form):
-    pokedex_id = forms.IntegerField()
-    date_added = forms.DateTimeField(
-        initial=datetime.now(),
-        widget=forms.HiddenInput()
-        )
-    additional_notes = forms.CharField(
-        max_length=200,
-        widget=forms.Textarea, required=False
-        )
+class AddUserPokemonForm(forms.ModelForm):
+    class Meta:
+        model = UserPokemon
+        fields = ('pokemon_id',
+                  'pokedex',
+                  )
+        widgets = {
+            'additional_notes': forms.Textarea(attrs={'rows': 3}),
+        }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        pokedexUser = self.user
+        selected_pokemon_id = cleaned_data.get('pokemon_id')
+        selected_pokedex_id = cleaned_data.get('pokedex')
+
+        if UserPokemon.objects.filter(
+            user=pokedexUser,
+            pokemon_id=selected_pokemon_id,
+            pokedex=selected_pokedex_id
+        ).exists():
+            raise forms.ValidationError(
+                'You already have this pokemon in your pokedex!')
+
+        # if not PokedexList.objects.filter(user=user, id=selected_pokedex_id).exists():
+        #     raise forms.ValidationError(
+        #         'You do not own the selected Pokedex!'
+        #         'Please select an other Pokedex.'
+        #         )
+
+        return cleaned_data
+
+
+class PokedexForm(forms.ModelForm):
+    color = forms.CharField(
+        widget=forms.TextInput(
+            attrs={'type': 'color', 'class': 'form-control'}))
 
     class Meta:
-        fields = ('pokedex_id',
-                  'date_added'
-                  'additional_notes')
+        model = Pokedex
+        fields = ['name',
+                  'description',
+                  'cover_image',
+                  'color',
+                  'is_public',
+                  'is_favorite',
+                  ]

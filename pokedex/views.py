@@ -1,14 +1,75 @@
+from django.db import IntegrityError
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import DetailView, ListView
+from django.urls import reverse, reverse_lazy
 from .models import Pokedex, UserPokemon
 import requests
-from .forms import PokemonDropdown, AddPokemonForm
+from .forms import PokemonDropdown, PokedexForm, AddUserPokemonForm
 
 
+@login_required
 def dashboard(request):
-    return render(request, 'pokedex/dashboard.html')
+    pokedexes = Pokedex.objects.filter(user=request.user)
+    return render(request, 'pokedex/dashboard.html', {'pokedexes': pokedexes})
 
 
+class PokedexCreateView(LoginRequiredMixin, CreateView):
+    print('View is called')
+    model = Pokedex
+    form_class = PokedexForm
+    template_name = 'pokedex/create_pokedex.html'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        color_value = form.cleaned_data['color']
+        form.instance.color = color_value
+
+        try:
+            print('Form is valid')
+            return super().form_valid(form)
+        except IntegrityError:
+            form.add_error(None, "A Pokedex with this slug already exists.")
+            print('Form is invalid')
+            return self.form_invalid(form)
+
+    def get_success_url(self):
+        return reverse('pokedex_details', kwargs={'slug': self.object.slug})
+
+
+class PokedexDetailsView(LoginRequiredMixin, DetailView):
+    print('Pokedex detailsView is called')
+    model = Pokedex
+    template_name = 'pokedex/pokedex_details.html'
+
+
+class PokedexUpdateView(LoginRequiredMixin, UpdateView):
+    model = Pokedex
+    form_class = PokedexForm
+    template_name = 'pokedex/update_pokedex.html'
+    success_url = reverse_lazy('dashboard')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class PokedexDeleteView(LoginRequiredMixin, DeleteView):
+    model = Pokedex
+    slug_field = 'slug'
+    success_url = reverse_lazy('dashboard')
+
+
+class PokedexList(LoginRequiredMixin, ListView):
+    model: Pokedex
+    queryset = Pokedex.objects.order_by('-created_on')
+    template_name = 'pokedex/dashboard.html'
+    paginate_by = 9
+
+
+@login_required
 def search(request):
     try:
         response = requests.get('https://pokeapi.co/api/v2/pokedex/1')
@@ -37,6 +98,7 @@ def search(request):
     return render(request, 'pokedex/search.html', {'form': form})
 
 
+@login_required
 def pokemon_details(request, entry_number):
     try:
         response = requests.get(
@@ -51,7 +113,7 @@ def pokemon_details(request, entry_number):
         pokemon_details = {}
 
     if request.method == 'POST':
-        add_pokemon_form = AddPokemonForm(request.POST)
+        add_pokemon_form = AddUserPokemonForm(request.POST)
         if add_pokemon_form.is_valid():
             UserPokemon.objects.create(
                 user=request.user,
@@ -60,7 +122,7 @@ def pokemon_details(request, entry_number):
             )
             # Toast comfirmation message
     else:
-        add_pokemon_form = AddPokemonForm()
+        add_pokemon_form = AddUserPokemonForm()
 
     return render(request,
                   'pokedex/pokemon_details.html',
@@ -69,17 +131,21 @@ def pokemon_details(request, entry_number):
                   )
 
 
-class PokedexList(generic.ListView):
-    model = Pokedex
-    queryset = Pokedex.objects.filter(status=1).order_by('-created_on')
-    template_name = 'pokedex/dashboard.html'
-    paginate_by = 9
 
 
 
 
 
 
+
+
+
+# @login_required
+# class pokedex_list(generic.ListView):
+#     model = Pokedex
+#     queryset = Pokedex.objects.filter(status=1).order_by('-created_on')
+#     template_name = 'pokedex/dashboard.html'
+#     paginate_by = 9
 
 
 # Characteristics
