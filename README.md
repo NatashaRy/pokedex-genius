@@ -199,6 +199,7 @@ Here is a good idea to talk about how and why you have tested with certain tools
 ​
 We always have bugs in development, a few bullet points here to talk about bugs you found and how you fixed them, in later projects this will be more detailed
 ​
+### *During development*
 * Issue - When the user filled the login form with invalid information, the form clears.
 * Cause - 
 * Resolution - 
@@ -208,6 +209,19 @@ We always have bugs in development, a few bullet points here to talk about bugs 
     * Issue 2: TypeError: PokemonDropdown.__init__() got multiple values for argument 'choices'
 * Cause - Invalid form.
 * Resolution - By adding debugging `search` in the pokedex views.py, we could see the form was not valid. Trying to fix the invaild form we got an new error (issue 2). We solved the problem by adding an if-statment to the `request.method == 'POST'`to explicity specifiy to pass the `'POST'` data, else pass the choices, which resolved both our problems with the form and redirect to the chosen Pokemons details.
+
+* Issue - Error message when updating profile information.
+* Cause - 
+* Resolution - 
+
+* Issue - Pokedex dropdown menu not appearing.
+* Cause - 
+* Resolution - 
+
+* Issue - User could create Pokedex even if an error occured.
+* Cause - 
+* Resolution - 
+​
 
 ***
 ## **Deployment**
