@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     'core',
 ]
 
-
 # Custom user
 AUTH_USER_MODEL = 'users.pokedexUser'
 
@@ -68,6 +67,9 @@ LOGOUT_REDIRECT_URL = '/'
 # Cripsy forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+# Account
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_HOST = 'your-smtp-server.com'
