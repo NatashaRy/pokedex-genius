@@ -1,13 +1,9 @@
 {% extends "guest_header.html" %}
 
-{% load crispy_forms_tags %}
-
 {% load i18n %}
 {% load allauth account socialaccount %}
 
-{% block head_title %}
-    {% trans "Logout" %}
-{% endblock head_title %}
+{% block head_title %}Comfirm logout | Pokedex Genius{% endblock head_title %}
 
 {% block page_heading %}
     <h1 class="blue text-center font-heading fw-800 my-3">Are you sure you wanna sign out?</h1>

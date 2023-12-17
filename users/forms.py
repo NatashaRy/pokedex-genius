@@ -6,7 +6,6 @@ from .models import pokedexUser
 
 
 class CustomPasswordResetForm(PasswordResetForm):
-
     def clean_email(self):
         """
         Validates that an account exists for the given email.
