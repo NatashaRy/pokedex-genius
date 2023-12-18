@@ -26,7 +26,7 @@
   <!-- Overview Pokedexes -->
   <div class="album py-5 bg-body-tertiary">
     <div class="container">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-5">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-5 mb-2">
             {% for pokedex in pokedexes %}
                 <div class="col">
                     <div class="card shadow-sm" style="border: solid 0.35rem {{ pokedex.color }};">
@@ -40,8 +40,8 @@
                             <p class="card-text mb-4">{{ pokedex.description }}</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-primary">View</button>
-                                    <button type="button" class="btn btn-sm btn-outline-primary">Edit</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary fw-semibold text-uppercase">View</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary fw-semibold text-uppercase">Edit</button>
                                 </div>
                                 <small class="text-body-secondary mini-text text-uppercase fw-800 align-self-end gold">No. of Pokemons: {{ pokedex.numbers_of_pokemon }}</small>
                             </div>

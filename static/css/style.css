@@ -102,7 +102,7 @@ body {
     color: #4169E1;
 }
 
-.dark, .nav-link:hover, .dropdown-item:hover {
+.dark, .nav-link:hover, .dropdown-item:hover, .btn-outline-secondary:hover {
     color: #171717;
 }
 
@@ -186,14 +186,14 @@ body {
     box-shadow: 0 0 12px #ffd700b0;
 } 
 
-.btn-outline-seconday {
-    color: #FF6347;
-    border: 2px solid #FF6347;
+.btn-outline-secondary {
+    color: #32CD32;
+    border: 2px solid #32CD32;
 } 
 
-.btn-outline-seconday:hover {
-    background-color: #FF6347;
-    border: 2px solid #FF6347;
+.btn-outline-secondary:hover {
+    background-color: #32CD32;
+    border: 2px solid #32CD32;
     box-shadow: 0 0 12px #ffd700b0;
 } 
 
