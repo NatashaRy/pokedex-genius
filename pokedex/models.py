@@ -37,11 +37,14 @@ def pre_save_slug(sender, instance, *args, **kwargs):
 
 
 class UserPokemon(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE,
+                             null=True  # Temporarily allow null values
+                             )
     pokedex = models.ForeignKey(Pokedex, on_delete=models.CASCADE)
     pokemon_id = models.IntegerField()
     is_favorite = models.BooleanField(default=False)
     date_added = models.DateTimeField(auto_now_add=True)
-    additional_notes = models.TextField(blank=True)
 
     class Meta:
         unique_together = ('pokemon_id', 'pokedex')

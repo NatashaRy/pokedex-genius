@@ -63,26 +63,33 @@
 
   <!-- Overview Pokemons -->
     <div class="container mb-5">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 justify-content-center">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 justify-content-center row-gap-4 my-5 pb-3">
             {% for pokemon in pokemons %}
                 <div class="col-md-3">
                     <div class="card shadow-sm p-2" style="background-color: {{ pokedex.color }};">
                         <div class="col bg-white border border-dark-subtle border-2 shadow">
-                            <div class="col radial-gradient-background text-center ratio-1-1 p-2">
-                                <div class="w-100 text-end p-0 m-0">
-                                        <i class="bi bi-bookmark-heart fs-2 dark pe-1 m-0 pb-0"></i>
+                            <div class="col radial-gradient-background text-center ratio-1-1 pt-0 p-2">
+                                <div class="row w-100 justify-content-between p-0 m-0">
+                                    <!-- Date Column -->
+                                    <div class="col text-start p-0 m-0">
+                                        <small class="mini-text dark fw-bold text-uppercase">Added {{ pokemon.date_added|date:"Y-m-d" }}</small>
                                     </div>
-                                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{ pokemon.id }}.png" alt="Official Artwork of {{ pokemon.species.name | title }}" class="img-fluid pt-0 mt-0">
+                                
+                                    <!-- Icon Column -->
+                                    <div class="col-auto text-end p-0 m-0 ">
+                                        <i class="bi bi-bookmark-heart fs-2 dark m-0 p-0"></i>
+                                    </div>
+                                </div>
+                                <!-- Pokemon image -->
+                                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{ pokemon.id }}.png" alt="Official Artwork of {{ pokemon.species.name | title }}" class="img-fluid w-75 pt-0 pb-3 mt-0">
                             </div>                        
                             <div class="card-body p-3">
                                 <h3 class="card-title font-heading"><a href="{% url 'pokemon_details' entry_number=pokemon.pokemon_id %}" class="dark">{{ pokemon.id}}</a></h3>
-                                <p>{{ additional_notes }}</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                         <a href="#" class="btn btn-sm btn-outline-success fw-semibold text-uppercase">View</a>
                                         <a href="#" class="btn btn-sm btn-outline-danger fw-semibold text-uppercase">Delete</a>                           
                                     </div>
-                                    <small class="mini-text text-uppercase align-self-end">Added {{ pokemon.date_added|date:"Y-m-d" }}</small>
                                 </div>
                             </div>
                         </div>

@@ -1,4 +1,5 @@
 from django.db import IntegrityError
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -13,6 +14,7 @@ from .forms import PokemonDropdown, PokedexForm, AddUserPokemonForm
 @login_required
 def dashboard(request):
     pokedexes = Pokedex.objects.filter(user=request.user)
+    print("Pokedexes:", pokedexes)
     return render(request, 'pokedex/dashboard.html', {'pokedexes': pokedexes})
 
 
@@ -20,7 +22,7 @@ class PokedexCreateView(LoginRequiredMixin, CreateView):
     print('View is called')
     model = Pokedex
     form_class = PokedexForm
-    template_name = 'pokedex/create_pokedex.html'
+    template_name = 'pokedex/pokedex_create.html'
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -32,7 +34,6 @@ class PokedexCreateView(LoginRequiredMixin, CreateView):
             return super().form_valid(form)
         except IntegrityError:
             form.add_error(None, "A Pokedex with this slug already exists.")
-            print('Form is invalid')
             return self.form_invalid(form)
 
     def get_success_url(self):
@@ -40,15 +41,20 @@ class PokedexCreateView(LoginRequiredMixin, CreateView):
 
 
 class PokedexDetailsView(LoginRequiredMixin, DetailView):
-    print('Pokedex detailsView is called')
     model = Pokedex
     template_name = 'pokedex/pokedex_details.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['pokemons'] = UserPokemon.objects.filter(pokedex=self.object)
+        print("Pokemons in Pokedex:", context['pokemons'])
+        return context
 
 
 class PokedexUpdateView(LoginRequiredMixin, UpdateView):
     model = Pokedex
     form_class = PokedexForm
-    template_name = 'pokedex/update_pokedex.html'
+    template_name = 'pokedex/pokedex_update.html'
     success_url = reverse_lazy('dashboard')
 
     def form_valid(self, form):
@@ -56,10 +62,15 @@ class PokedexUpdateView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-class PokedexDeleteView(LoginRequiredMixin, DeleteView):
+class PokedexDeleteView(DeleteView):
     model = Pokedex
     slug_field = 'slug'
+    template_name = 'pokedex/pokedex_delete.html'
     success_url = reverse_lazy('dashboard')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, 'Pokedex successfully deleted.')
+        return super().delete(request, *args, **kwargs)
 
 
 class PokedexList(LoginRequiredMixin, ListView):
@@ -90,8 +101,6 @@ def search(request):
             return redirect('pokemon_details', entry_number=entry_number)
         else:
             form = PokemonDropdown(choices=choices)
-            print('Form is invalid')
-            print(form.errors)  # Print form errors for debugging
     else:
         form = PokemonDropdown(choices=choices)
 
@@ -105,39 +114,51 @@ def pokemon_details(request, entry_number):
             f'https://pokeapi.co/api/v2/pokemon/{entry_number}/'
             )
         response.raise_for_status()
-        print('Requests pokemon entry number', entry_number)    # Debug print
-        pokemon_details = response.json()
-
+        pokemon_data = response.json()
     except requests.exceptions.HTTPError as e:
         print(e)
-        pokemon_details = {}
+        messages.error(request, 'Failed to fetch Pokemon details.')
+        return redirect('search')  # Assuming 'search' is the correct URL name
+
+    form = AddUserPokemonForm(user=request.user)
 
     if request.method == 'POST':
-        add_pokemon_form = AddUserPokemonForm(request.POST)
-        if add_pokemon_form.is_valid():
-            UserPokemon.objects.create(
-                user=request.user,
-                pokemon_id=entry_number,
-                pokedex_id=request.objects.get('pokedex')
-            )
-            # Toast comfirmation message
-    else:
-        add_pokemon_form = AddUserPokemonForm()
+        form = AddUserPokemonForm(request.POST, user=request.user)
+        if form.is_valid():
+            print('Form is valid')      # For debugging
+            try:
+                new_user_pokemon = form.save(commit=False)
+                new_user_pokemon.user = request.user
+                new_user_pokemon.pokemon_id = entry_number
 
-    return render(request,
-                  'pokedex/pokemon_details.html',
-                  {'pokemon': pokemon_details,
-                   'form': add_pokemon_form}
-                  )
+                if UserPokemon.objects.filter(pokemon_id=entry_number,
+                                              pokedex=new_user_pokemon.
+                                              pokedex).exists():
+                    print('Already in pokedex')      # For debugging
+                    messages.error(request, 'This Pokemon is already in '
+                                   'the selected Pokedex.'
+                                   )
+                else:
+                    new_user_pokemon.save()
+                    print('Pokemon added')      # For debugging
+                    return redirect('pokedex_details',
+                                    slug=form.instance.pokedex.slug
+                                    )
+            except IntegrityError as e:
+                messages.error(request,
+                               'An error occurred while adding the Pokemon.'
+                               )
+                print(f"IntegrityError: {e}")  # For debugging
+        else:
+            print(form.errors)      # For debugging
+            messages.error(request,
+                           'There was an error in the form.'
+                           )
 
-
-
-
-
-
-
-
-
+    return render(request, 'pokedex/pokemon_details.html', {
+        'pokemon': pokemon_data,
+        'form': form,
+    })
 
 
 # @login_required

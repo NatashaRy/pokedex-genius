@@ -3,28 +3,85 @@
 {% load crispy_forms_tags %}
 {% load i18n %}
 
-{% block head_title %}
-    {% trans "Pokemon details {{ pokemon.species.name | title }}" %}
-{% endblock head_title %}
+{% block head_title %}Pokemon details {{ pokemon.species.name | title }} | Pokedex Genius{% endblock head_title %}
 
 {% block content %}
+<!-- Toast container -->
+<div aria-live="polite" aria-atomic="true" class="toast">
+    <div id="toastContainer" class="text-uppercase fw-semibold">
+        <!-- Toasts will be dynamically added here -->
+    </div>
+</div>
+
+
 <div class="container py-4">
     <div class="row align-items-md-stretch">
+
+        <!-- Pokemon image -->
         <div class="col-md-6">
-            <div class="h-100 p-2 py-4 radial-gradient-background rounded-3 text-center">
+            <div class="h-100 p-3 pt-4 pb-2 radial-gradient-background rounded-3 text-center">
                 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{ pokemon.id }}.png" alt="Official Artwork of {{ pokemon.species.name | title }}" class="img-fluid w-75">
+                <div class="row w-100">
+                    <form method="POST" action="{% url 'pokemon_details' entry_number=pokemon.id %}">
+                        {% csrf_token %}
+                        <div class="col gap-0">
+                            <div class="d-flex flex-row align-items-center justify-content-between gap-3 m-0 pb-0">
+                                <div class="flex-grow-1 m-0 p-0">
+                                    <select name="pokedex" id="id_pokedex" class="form-control py-2 m-0">
+                                        {% for value, text in form.pokedex.field.choices %}
+                                            <option value="{{ value }}" {% if form.pokedex.value == value %} selected {% endif %} class="lh-base">
+                                                {{ text|capfirst }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-auto p-0 m-0">
+                                    <button type="submit" class="btn p-0 m-0">
+                                        <i class="bi bi-plus-circle fs-1 fw-800 dark p-0 m-0" aria-label="Add Pokemon to Pokedex"></i>
+                                    </button> 
+                                </div>
+                            </div>
+                            {% if messages %}
+                                <script type="text/javascript">
+                                    $(document).ready(function() {
+                                        {% for message in messages %}
+                                            var toastHTML = `<div class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                                                                <div class="d-flex">
+                                                                    <div class="toast-body">
+                                                                        {{ message }}
+                                                                    </div>
+                                                                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                                                                </div>
+                                                            </div>`;
+                                            $('#toastContainer').append(toastHTML);
+                                        {% endfor %}
+                            
+                                        $('.toast').toast({ delay: 3000 }); 
+                                        $('.toast').toast('show');
+                                    });
+                                </script>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
+
+        <!-- Pokemon details -->
         <div class="col-md-6">
-            <div class="h-100 p-5 bg-body-tertiary border rounded-3">
+            <div class="bg-body-tertiary border rounded-3 p-5 h-100">
                 <div class="text-center">
-                    <div class="badge rounded-pill text-bg-info fs-6 mb-4">ID: {{ pokemon.order }}</div>
+                    <div class="badge rounded-pill fs-6 text-bg-info mb-3">ID: {{ pokemon.id }}</div>
                 </div>
-                <h1 class="font-heading letterspacing-2 fw-800 mb-4 text-center">{{ pokemon.name | title }}</h1>
-                <div class="d-flex flex-row flex-wrap justify-content-around gap-2 row-gap-3 mb-3 mt-4">
-                    <div class="col-md-3 text-center bg-gold rounded-3 dark p-2 pb-3 d-flex justify-content-center">
+                <h1 class="font-heading letterspacing-2 fw-800 text-center mb-4 py-2">{{ pokemon.name | title }}</h1>
+                
+                <!-- Pokemon description -->
+                <div class="d-flex flex-row flex-wrap justify-content-around gap-2 row-gap-4 mt-4 dark">
+                    
+                    <!-- Types -->
+                    <div class="col-md-3 bg-gold rounded-3 d-flex text-center shadow justify-content-center py-3">
                         <div>
-                            <span class="text-uppercase fw-semibold text-center">Types:</span>
+                            <h6 class="text-uppercase fw-semibold mb-0">Types:</h6>
                             <ul class="text-start fw-bold m-0 p-0">
                                 {% for type in pokemon.types %}
                                     <li>{{ type.type.name | title }}</li>
@@ -32,9 +89,11 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-md-3 text-center bg-gold rounded-3 dark p-2 pb-3 d-flex justify-content-center">
+
+                    <!-- Abilities -->
+                    <div class="col-md-3 bg-gold rounded-3 d-flex text-center shadow justify-content-center py-3">
                         <div>
-                            <span class="text-uppercase fw-semibold text-center">Abilities:</span>
+                            <h6 class="text-uppercase fw-semibold mb-0">Abilities:</h6>
                             <ul class="text-start fw-bold m-0 p-0">
                                 {% for ability in pokemon.abilities.all %}
                                     <li>{{ ability.name | title }}</li>
@@ -42,32 +101,36 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-md-4  text-center bg-gold rounded-3 dark p-2 px-0 d-flex justify-content-center">
+
+                    <!-- Weight -->
+                    <div class="col-md-3 bg-gold rounded-3 d-flex text-center shadow justify-content-center align-items-center py-1">
                         <div>
-                            <span class="text-uppercase fw-semibold">Height:</span></br>
-                            <span class="fw-800 fs-3">{{ pokemon.height|floatformat:1 }} m</span>
+                            <h6 class="text-uppercase fw-semibold mb-1">Weight:</h6>
+                            <p class="fw-800 fs-3 lh-1 m-0 p-0">{{ pokemon.weight|floatformat:1 }} <span class="fs-5">kg</span></p>
                         </div>
                     </div>
-                    <div class="col-md-4  text-center bg-gold rounded-3 dark p-2 px-0 d-flex justify-content-center">
+
+                    <!-- Height -->
+                    <div class="col-md-3 bg-gold rounded-3 d-flex text-center shadow align-items-center justify-content-center py-1">
                         <div>
-                            <span class="text-uppercase fw-semibold">Weight:</span></br>
-                            <span class="fw-800 fs-3">{{ pokemon.weight|floatformat:1 }} kg</span>
+                            <h6 class="text-uppercase fw-semibold mb-1">Height:</h6>
+                            <p class="fw-800 fs-3 lh-1 m-0 p-0">{{ pokemon.height|floatformat:1 }} <span class="fs-4">m</span></p>
                         </div>
                     </div>
-                    <div class="col-md-2  text-center bg-gold rounded-3 dark p-2 px-0 d-flex justify-content-center">
-                        <div>
-                            <span class="text-uppercase fw-semibold">EXP:</span></br>
-                            <span class="fw-800 fs-3">{{ pokemon.base_experience }}</span>
-                            <!-- EXP = Represents the base experience points (EXP) that a Pokémon provides when defeated in battle or caught. In the context of the Pokémon games, gaining experience points is essential for a Pokémon to level up and become stronger. -->
+
+                    <!-- Base Experience -->
+                    <div class="col-md-2 bg-gold rounded-3 d-flex flex-column align-items-center text-center shadow pb-1">
+                        <div class="w-100 text-end p-0 m-0">
+                            <button type="button" class="btn m-0 p-0 text-end me-1 mb-n2 blue" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Base experience points gained from defeating or catching this Pokemon, crucial for leveling up and strengthening your Pokemon.">
+                                <i class="bi bi-question-circle fw-bold"></i>
+                            </button>
                         </div>
+                            <h6 class="text-uppercase fw-semibold mt-n3 mb-1">EXP:</h6>
+                            <p class="fw-800 fs-3 lh-1 p-0 m-0 mb-2">{{ pokemon.base_experience }}</p>
                     </div>
                 </div>
-                <form method="POST" action="">
-                    {% csrf_token %}
-                    <button type="submit">Add to Pokedex</button>
-                </form>
             </div>
         </div>
     </div>
-
+</div>
 {% endblock content %}

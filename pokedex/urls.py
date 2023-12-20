@@ -7,11 +7,10 @@ urlpatterns = [
      path('search/', views.search, name='search'),
      path('pokemon/<int:entry_number>/',
           views.pokemon_details,
-          name='pokemon_details'
-          ),
+          name='pokemon_details'),
      path('pokedex/create/',
           PokedexCreateView.as_view(),
-          name='create_pokedex'),
+          name='pokedex_create'),
 
      path('pokedex/<slug:slug>/',
           PokedexDetailsView.as_view(),
@@ -19,9 +18,9 @@ urlpatterns = [
 
      path('pokedex/<slug:slug>/update/',
           PokedexUpdateView.as_view(),
-          name='update_pokedex'),
+          name='pokedex_update'),
 
      path('pokedex/<slug:slug>/delete/',
           PokedexDeleteView.as_view(),
-          name='delete_pokedex_modal'),
+          name='pokedex_delete'),
 ]

@@ -9,20 +9,23 @@ class PokemonDropdown(forms.Form):
 
 
 class AddUserPokemonForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(AddUserPokemonForm, self).__init__(*args, **kwargs)
+        self.fields['pokedex'].choices = [
+            ('', 'Select Pokedex to add Pokemon to')
+            ] + list(self.fields['pokedex'].choices)[1:]
+
     class Meta:
         model = UserPokemon
-        fields = ('pokemon_id',
-                  'pokedex',
-                  )
-        widgets = {
-            'additional_notes': forms.Textarea(attrs={'rows': 3}),
-        }
+        exclude = ['pokemon_id']
+        fields = ('pokedex',)
 
     def clean(self):
         cleaned_data = super().clean()
         pokedexUser = self.user
         selected_pokemon_id = cleaned_data.get('pokemon_id')
-        selected_pokedex_id = cleaned_data.get('pokedex')
+        selected_pokedex_id = cleaned_data.get('pokedex',)
 
         if UserPokemon.objects.filter(
             user=pokedexUser,
@@ -31,12 +34,6 @@ class AddUserPokemonForm(forms.ModelForm):
         ).exists():
             raise forms.ValidationError(
                 'You already have this pokemon in your pokedex!')
-
-        # if not PokedexList.objects.filter(user=user, id=selected_pokedex_id).exists():
-        #     raise forms.ValidationError(
-        #         'You do not own the selected Pokedex!'
-        #         'Please select an other Pokedex.'
-        #         )
 
         return cleaned_data
 
