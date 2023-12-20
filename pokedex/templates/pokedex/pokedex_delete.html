@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block head_title %}Delete Pokedex {{ pokedex.name|title }} | Pokedex Genius{% endblock head_title %}
+
+{% block content %}
+    <section class="py-5 text-center container create-pokedex-page">
+        <div class="row py-lg-5">
+            <div class="col-md-8 mx-auto height-60 align-items-center d-flex flex-column justify-content-center">
+                <h1 class="font-heading letterspacing-2 fw-800 mb-4 gold">
+                    Confirm your Pokedex deletion
+                </h1>
+                <p class="lead">Are you sure you want to delete {{ pokedex.name|title }}?</p>
+                <form action="" method="post" class="mt-3">
+                    {% csrf_token %}
+                    <div class="col d-grid gap-3">
+                        <input type="submit" value="Yes, delete {{ pokedex.name|title }}" class="btn btn-lg btn btn-danger text-uppercase">
+                        <a href="{% url 'dashboard' %}" class="btn btn-lg btn-outline-info text-uppercase">
+                            No, don't delete <strong>{{ pokedex.name|title }}</strong>,<br>
+                            <span class="fs-6">Back to Dashboard.</span>
+                        </a>                     
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
