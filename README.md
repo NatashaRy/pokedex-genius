@@ -221,6 +221,10 @@ We always have bugs in development, a few bullet points here to talk about bugs 
 * Issue - User could create Pokedex even if an error occured.
 * Cause - 
 * Resolution - 
+
+* Issue - When a Pokemon is added to the Pokedex, another Pokemon is displayed in the pokedex.
+* Cause - 
+* Resolution - 
 ​
 
 ***
