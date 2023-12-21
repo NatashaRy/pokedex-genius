@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Pokedex
+from .models import Pokedex, UserPokemon
 
 
 class PokedexAdmin(admin.ModelAdmin):
@@ -8,4 +8,11 @@ class PokedexAdmin(admin.ModelAdmin):
     search_fields = ('name', 'user__username')
 
 
+class UserPokemonAdmin(admin.ModelAdmin):
+    list_display = ('user', 'pokedex', 'pokemon_id', 'date_added', 'is_favorite')
+    list_filter = ('pokedex', 'user')
+    search_fields = ('pokedex__name', 'user__username')
+
+
 admin.site.register(Pokedex, PokedexAdmin)
+admin.site.register(UserPokemon, UserPokemonAdmin)
