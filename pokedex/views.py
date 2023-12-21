@@ -1,7 +1,9 @@
+from django.core.exceptions import PermissionDenied
 from django.db import IntegrityError
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.db.models import Count
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import DetailView, ListView
@@ -11,15 +13,25 @@ import requests
 from .forms import PokemonDropdown, PokedexForm, AddUserPokemonForm
 
 
+class UserIsOwnerMixin:
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.user != request.user:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
+
+
 @login_required
 def dashboard(request):
-    pokedexes = Pokedex.objects.filter(user=request.user)
+    pokedexes = Pokedex.objects.filter(
+        user=request.user).annotate(
+        num_pokemon=Count('userpokemon')
+        )
     print("Pokedexes:", pokedexes)
     return render(request, 'pokedex/dashboard.html', {'pokedexes': pokedexes})
 
 
 class PokedexCreateView(LoginRequiredMixin, CreateView):
-    print('View is called')
     model = Pokedex
     form_class = PokedexForm
     template_name = 'pokedex/pokedex_create.html'
@@ -30,7 +42,7 @@ class PokedexCreateView(LoginRequiredMixin, CreateView):
         form.instance.color = color_value
 
         try:
-            print('Form is valid')
+            print('Form is valid')          # debugging
             return super().form_valid(form)
         except IntegrityError:
             form.add_error(None, "A Pokedex with this slug already exists.")
@@ -47,7 +59,7 @@ class PokedexDetailsView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['pokemons'] = UserPokemon.objects.filter(pokedex=self.object)
-        print("Pokemons in Pokedex:", context['pokemons'])
+        context['num_pokemon'] = context['pokemons'].count()
         return context
 
 
@@ -62,7 +74,7 @@ class PokedexUpdateView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-class PokedexDeleteView(DeleteView):
+class PokedexDeleteView(UserIsOwnerMixin, DeleteView):
     model = Pokedex
     slug_field = 'slug'
     template_name = 'pokedex/pokedex_delete.html'
@@ -70,6 +82,25 @@ class PokedexDeleteView(DeleteView):
 
     def delete(self, request, *args, **kwargs):
         messages.success(request, 'Pokedex successfully deleted.')
+        return super().delete(request, *args, **kwargs)
+
+
+class PokemonDeleteView(LoginRequiredMixin, DeleteView):
+    model = UserPokemon
+    template_name = 'pokedex/pokemon_confirm_delete.html'
+    pk_url_kwarg = 'pokemon_id'
+
+    def get_queryset(self):
+        print("Pokedex Slug:", self.kwargs['pokedex_slug'], "Pokemon ID:", self.kwargs['pokemon_id'])
+        queryset = super().get_queryset()
+        return queryset.filter(pokedex__slug=self.kwargs['pokedex_slug'], pokedex__user=self.request.user)
+
+    def get_success_url(self):
+        messages.success(self.request, 'Pokemon successfully removed from Pokedex.')
+        return reverse_lazy('pokedex_details', kwargs={'slug': self.kwargs['pokedex_slug']})
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, 'Pokemon successfully deleted.')
         return super().delete(request, *args, **kwargs)
 
 

@@ -1,55 +1,61 @@
 {% extends 'base.html' %}
 
-{% block head_title %}Create new Pokedex | Pokedex Genius{% endblock head_title %}
-
 {% block content %}
-    <section class="py-5 text-center container create-pokedex-page">
-        <div class="row py-lg-5">
-            <div class="col-md-8 mx-auto height-60 align-items-center d-flex flex-column justify-content-center">
-                <h1 class="font-heading letterspacing-2 fw-800 mb-4 gold">
-                    Create new Pokedex
-                </h1>
-                <form method="post" action="" class="mt-3">
-                    {% csrf_token %}
+<div class="container mt-3 vertical-center">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-10 mt-5">
+            <h1 class="font-heading letterspacing-2 text-center fw-800 my-4 mt-5">Create a New Pokedex</h2>
+            <form method="post" enctype="multipart/form-data" class="form-floating">
+                {% csrf_token %}
 
-                    <!-- Name Field -->
-                    <div class="form-group">
-                        <label for="id_name">Name</label>
-                        {{ form.name }}
+                <div class="mini-text text-uppercase text-center my-3">
+                    <label for="{{ form.cover_image.id_for_label }}">Cover Image</label>
+                    {{ form.cover_image }}
+                    {% for error in form.cover_image.errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            
+                <div class="row">
+                    <div class="col-md-8">
+                        <!-- Name field -->
+                        <div class="form-floating mb-4">
+                            {{ form.name }}
+                            <label for="{{ form.name.id_for_label }}">Name of Pokedex</label>
+                            {% for error in form.name.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+        
+                        <!-- Description field -->
+                        <div class="form-floating mb-4">
+                            {{ form.description }}
+                            <label for="{{ form.description.id_for_label }}">Description</label>
+                            {% for error in form.description.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
                     </div>
+                    <div class="col">
+                        <!-- Color field -->
+                        <div class="col d-flex align-items-center mb-4">
+                            {{ form.color }}
+                            <label for="{{ form.color.id_for_label }}" class="ms-3">Pokedex color </label>
+                            {% for error in form.color.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
 
-                    <!-- Description Field -->
-                    <div class="form-group">
-                        <label for="id_description">Description</label>
-                        {{ form.description }}
+                        <!-- Favourite checkbox -->
+                        <div class="form-check mb-4">
+                            {{ form.is_favorite }}
+                            <label for="{{ form.is_favorite.id_for_label }}">Favorite Pokedex</label>
+                        </div>
                     </div>
-
-                    <!-- Cover Image Field -->
-                    <div class="form-group">
-                        <label for="id_cover_image">Cover Image</label>
-                        {{ form.cover_image }}
-                    </div>
-
-                    <!-- Color Picker -->
-                    <div class="form-group">
-                        {{ form.color }}
-                    </div>       
-
-                    <!-- Is Public Field -->
-                    <div class="form-group">
-                        <label for="id_is_public">Is Public</label>
-                        {{ form.is_public }}
-                    </div>
-
-                    <!-- Is Favorite Field -->
-                    <div class="form-group">
-                        <label for="id_is_favorite">Is Favorite</label>
-                        {{ form.is_favorite }}
-                    </div>
-
-                    <button type="submit">Create Pokedex</button>
-                </form>
-            </div>
+                </div>
+                <button type="submit" class="btn btn-primary text-uppercase fw-800 dark fs-5 w-100">Create Pokedex</button>
+            </form>
         </div>
-    </section>
+    </div>
+</div>
 {% endblock content %}

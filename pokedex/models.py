@@ -20,11 +20,7 @@ class Pokedex(models.Model):
                                     null=True)
     updated_on = models.DateTimeField(auto_now=True)
     created_on = models.DateTimeField(auto_now_add=True)
-    # STATUS = ((0, 'Draft'), (1, 'Published'))
-    # status = models.IntegerField(choices=STATUS, default=0)
-    is_public = models.BooleanField(default=False)
     is_favorite = models.BooleanField(default=False)
-    numbers_of_pokemon = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -43,6 +39,7 @@ class UserPokemon(models.Model):
                              )
     pokedex = models.ForeignKey(Pokedex, on_delete=models.CASCADE)
     pokemon_id = models.IntegerField()
+    pokemon_name = models.CharField(max_length=100, null=True)   # Temporarily allow null values
     is_favorite = models.BooleanField(default=False)
     date_added = models.DateTimeField(auto_now_add=True)
 
