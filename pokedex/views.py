@@ -109,6 +109,8 @@ def search(request):
 
 @login_required
 def pokemon_details(request, entry_number):
+    print(f"Received entry number (parameter): {entry_number}")
+
     try:
         response = requests.get(
             f'https://pokeapi.co/api/v2/pokemon/{entry_number}/'
@@ -116,57 +118,49 @@ def pokemon_details(request, entry_number):
         response.raise_for_status()
         pokemon_data = response.json()
     except requests.exceptions.HTTPError as e:
-        print(e)
+        print(f'Error fetching Pokemon details: {e}')  # Debugging
         messages.error(request, 'Failed to fetch Pokemon details.')
-        return redirect('search')  # Assuming 'search' is the correct URL name
+        return redirect('search')
 
     form = AddUserPokemonForm(user=request.user)
 
     if request.method == 'POST':
         form = AddUserPokemonForm(request.POST, user=request.user)
-        if form.is_valid():
-            print('Form is valid')      # For debugging
-            try:
-                new_user_pokemon = form.save(commit=False)
-                new_user_pokemon.user = request.user
-                new_user_pokemon.pokemon_id = entry_number
+        print(f"Form data (POST): {request.POST}")  # Debugging
 
-                if UserPokemon.objects.filter(pokemon_id=entry_number,
-                                              pokedex=new_user_pokemon.
-                                              pokedex).exists():
-                    print('Already in pokedex')      # For debugging
-                    messages.error(request, 'This Pokemon is already in '
-                                   'the selected Pokedex.'
-                                   )
-                else:
-                    new_user_pokemon.save()
-                    print('Pokemon added')      # For debugging
-                    return redirect('pokedex_details',
-                                    slug=form.instance.pokedex.slug
-                                    )
-            except IntegrityError as e:
+        if form.is_valid():
+            print('Form is valid')  # Debugging
+            new_user_pokemon = form.save(commit=False)
+            new_user_pokemon.user = request.user
+            new_user_pokemon.pokemon_id = request.POST.get(
+                'entry_number',
+                entry_number
+                )
+            print(f'Form fields entry number: {new_user_pokemon.pokemon_id}')  # Debugging
+
+            if UserPokemon.objects.filter(
+                pokemon_id=new_user_pokemon.pokemon_id,
+                pokedex=new_user_pokemon.
+                    pokedex).exists():
                 messages.error(request,
-                               'An error occurred while adding the Pokemon.'
+                               'This Pokemon is already in '
+                               'the selected Pokedex.'
                                )
-                print(f"IntegrityError: {e}")  # For debugging
+            else:
+                new_user_pokemon.save()
+                print(f'Pokemon added: {new_user_pokemon.pokemon_id} to Pokedex: {new_user_pokemon.pokedex}')  # Debugging
+                return redirect('pokedex_details',
+                                slug=form.instance.pokedex.slug
+                                )
         else:
-            print(form.errors)      # For debugging
-            messages.error(request,
-                           'There was an error in the form.'
-                           )
+            print('Form errors:', form.errors)  # Debugging
+    else:
+        print('GET request, no form data')  # Debugging
 
     return render(request, 'pokedex/pokemon_details.html', {
         'pokemon': pokemon_data,
         'form': form,
     })
-
-
-# @login_required
-# class pokedex_list(generic.ListView):
-#     model = Pokedex
-#     queryset = Pokedex.objects.filter(status=1).order_by('-created_on')
-#     template_name = 'pokedex/dashboard.html'
-#     paginate_by = 9
 
 
 # Characteristics

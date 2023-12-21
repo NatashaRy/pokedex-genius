@@ -3,11 +3,14 @@ from . import views
 from .views import PokedexCreateView, PokedexDetailsView, PokedexUpdateView, PokedexDeleteView
 
 urlpatterns = [
-     path('dashboard', views.dashboard, name='dashboard'),
+     path('dashboard/', views.dashboard, name='dashboard'),
+
      path('search/', views.search, name='search'),
+
      path('pokemon/<int:entry_number>/',
           views.pokemon_details,
           name='pokemon_details'),
+
      path('pokedex/create/',
           PokedexCreateView.as_view(),
           name='pokedex_create'),

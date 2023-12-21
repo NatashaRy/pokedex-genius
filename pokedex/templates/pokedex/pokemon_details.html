@@ -36,31 +36,12 @@
                                     </select>
                                 </div>
                                 <div class="col-auto p-0 m-0">
+                                    <input type="hidden" name="entry_number" value="{{ pokemon.id }}">
                                     <button type="submit" class="btn p-0 m-0">
                                         <i class="bi bi-plus-circle fs-1 fw-800 dark p-0 m-0" aria-label="Add Pokemon to Pokedex"></i>
                                     </button> 
                                 </div>
                             </div>
-                            {% if messages %}
-                                <script type="text/javascript">
-                                    $(document).ready(function() {
-                                        {% for message in messages %}
-                                            var toastHTML = `<div class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
-                                                                <div class="d-flex">
-                                                                    <div class="toast-body">
-                                                                        {{ message }}
-                                                                    </div>
-                                                                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-                                                                </div>
-                                                            </div>`;
-                                            $('#toastContainer').append(toastHTML);
-                                        {% endfor %}
-                            
-                                        $('.toast').toast({ delay: 3000 }); 
-                                        $('.toast').toast('show');
-                                    });
-                                </script>
-                            {% endif %}
                         </div>
                     </form>
                 </div>
@@ -106,7 +87,7 @@
                     <div class="col-md-3 bg-gold rounded-3 d-flex text-center shadow justify-content-center align-items-center py-1">
                         <div>
                             <h6 class="text-uppercase fw-semibold mb-1">Weight:</h6>
-                            <p class="fw-800 fs-3 lh-1 m-0 p-0">{{ pokemon.weight|floatformat:1 }} <span class="fs-5">kg</span></p>
+                            <p class="fw-800 fs-3 lh-1 m-0 p-0">{{ pokemon.weight|floatformat:0 }} <span class="fs-5">kg</span></p>
                         </div>
                     </div>
 
@@ -114,7 +95,7 @@
                     <div class="col-md-3 bg-gold rounded-3 d-flex text-center shadow align-items-center justify-content-center py-1">
                         <div>
                             <h6 class="text-uppercase fw-semibold mb-1">Height:</h6>
-                            <p class="fw-800 fs-3 lh-1 m-0 p-0">{{ pokemon.height|floatformat:1 }} <span class="fs-4">m</span></p>
+                            <p class="fw-800 fs-3 lh-1 m-0 p-0">{{ pokemon.height|floatformat:0 }} <span class="fs-4">m</span></p>
                         </div>
                     </div>
 
@@ -133,4 +114,26 @@
         </div>
     </div>
 </div>
+{% if messages %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            {% for message in messages %}
+                var toastHTML = `
+                    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
+                        <div class="toast-header bg-warning text-dark">
+                            <strong class="me-auto">Notification</strong>
+                            <small>Just now</small>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                            {{ message }}
+                        </div>
+                    </div>`;
+                $('#toastContainer').append(toastHTML);
+            {% endfor %}
+            
+            $('.toast').toast('show');
+        });
+    </script>
+{% endif %}
 {% endblock content %}

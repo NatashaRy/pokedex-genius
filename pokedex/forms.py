@@ -9,6 +9,8 @@ class PokemonDropdown(forms.Form):
 
 
 class AddUserPokemonForm(forms.ModelForm):
+    entry_number = forms.IntegerField(widget=forms.HiddenInput())
+
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super(AddUserPokemonForm, self).__init__(*args, **kwargs)
@@ -18,17 +20,16 @@ class AddUserPokemonForm(forms.ModelForm):
 
     class Meta:
         model = UserPokemon
-        exclude = ['pokemon_id']
-        fields = ('pokedex',)
+        exclude = ['user', 'pokemon_id']
 
     def clean(self):
         cleaned_data = super().clean()
-        pokedexUser = self.user
-        selected_pokemon_id = cleaned_data.get('pokemon_id')
-        selected_pokedex_id = cleaned_data.get('pokedex',)
+        pokedex_user = self.user
+        selected_pokemon_id = cleaned_data.get('entry_number')
+        selected_pokedex_id = cleaned_data.get('pokedex')
 
         if UserPokemon.objects.filter(
-            user=pokedexUser,
+            user=pokedex_user,
             pokemon_id=selected_pokemon_id,
             pokedex=selected_pokedex_id
         ).exists():
@@ -36,6 +37,13 @@ class AddUserPokemonForm(forms.ModelForm):
                 'You already have this pokemon in your pokedex!')
 
         return cleaned_data
+
+    def save(self, commit=True):
+        instance = super(AddUserPokemonForm, self).save(commit=False)
+        instance.pokemon_id = self.cleaned_data.get('entry_number')
+        if commit:
+            instance.save()
+        return instance
 
 
 class PokedexForm(forms.ModelForm):
