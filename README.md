@@ -229,6 +229,14 @@ We always have bugs in development, a few bullet points here to talk about bugs 
 * Issue - Confirmation of password resetting without existing email address.
 * Cause - 
 * Resolution - 
+
+* Issue - Favorite Pokedex
+* Cause - 
+* Resolution - 
+
+* Issue - Display "None" instead of Pokemons name
+* Cause - 
+* Resolution - 
 ​
 
 ***

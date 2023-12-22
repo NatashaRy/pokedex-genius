@@ -91,28 +91,31 @@ class PokedexDeleteView(UserIsOwnerMixin, DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
-class PokemonDeleteView(LoginRequiredMixin, DeleteView):
+class PokemonDeleteView(UserIsOwnerMixin, DeleteView):
     model = UserPokemon
-    template_name = 'pokedex/pokemon_confirm_delete.html'
     pk_url_kwarg = 'pokemon_id'
+    template_name = 'pokedex/pokemon_confirm_delete.html'
 
-    def get_queryset(self):
-        print('Pokedex Slug:',
-              self.kwargs['pokedex_slug'],
-              'Pokemon ID:',
-              self.kwargs['pokemon_id'])
-        queryset = super().get_queryset()
-        return queryset.filter(
-            pokedex__slug=self.
-            kwargs['pokedex_slug'],
-            pokedex__user=self.request.user
-            )
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Retrieve the relevant Pokemon and Pokedex objects and add them to the context
+        context['pokemon'] = self.get_object()
+        context['pokedex'] = context['pokemon'].pokedex  # Assuming there's a ForeignKey relationship
+        return context
+    
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        # Add the context variables to the template context
+        context['pokemon'] = self.get_object()
+        context['pokedex'] = context['pokemon'].pokedex  # Assuming there's a ForeignKey relationship
+        return self.render_to_response(context)
+
 
     def get_success_url(self):
         messages.success(self.request,
                          'Pokemon successfully removed from Pokedex.')
         return reverse_lazy('pokedex_details',
-        kwargs={'slug': self.kwargs['pokedex_slug']})
+                            kwargs={'slug': self.kwargs['pokedex_slug']})
 
     def delete(self, request, *args, **kwargs):
         messages.success(request, 'Pokemon successfully deleted.')
@@ -155,14 +158,17 @@ def search(request):
 
 @login_required
 def pokemon_details(request, entry_number):
-    print(f"Received entry number (parameter): {entry_number}")
+    print(f"Received entry number (parameter): {entry_number}") # Debugging
 
     try:
         response = requests.get(
             f'https://pokeapi.co/api/v2/pokemon/{entry_number}/'
-            )
+        )
         response.raise_for_status()
         pokemon_data = response.json()
+
+        # Extract the name of the Pokemon from the API response
+        pokemon_name = pokemon_data.get("name", "")
     except requests.exceptions.HTTPError as e:
         print(f'Error fetching Pokemon details: {e}')  # Debugging
         messages.error(request, 'Failed to fetch Pokemon details.')
@@ -171,7 +177,12 @@ def pokemon_details(request, entry_number):
     form = AddUserPokemonForm(user=request.user)
 
     if request.method == 'POST':
-        form = AddUserPokemonForm(request.POST, user=request.user)
+        # Populate the "pokemon_name" field with the extracted name
+        form = AddUserPokemonForm(
+            data=request.POST,
+            user=request.user,
+            initial={"pokemon_name": pokemon_name}  # Initialize the field
+        )
         print(f"Form data (POST): {request.POST}")  # Debugging
 
         if form.is_valid():
@@ -181,23 +192,17 @@ def pokemon_details(request, entry_number):
             new_user_pokemon.pokemon_id = request.POST.get(
                 'entry_number',
                 entry_number
-                )
+            )
             print(f'Form fields entry number: {new_user_pokemon.pokemon_id}')  # Debugging
 
             if UserPokemon.objects.filter(
                 pokemon_id=new_user_pokemon.pokemon_id,
-                pokedex=new_user_pokemon.
-                    pokedex).exists():
-                messages.error(request,
-                               'This Pokemon is already in '
-                               'the selected Pokedex.'
-                               )
+                pokedex=new_user_pokemon.pokedex
+            ).exists():
+                form.add_error(None, 'This Pokemon is already in the selected Pokedex.')
             else:
                 new_user_pokemon.save()
-                print(f'Pokemon added: {new_user_pokemon.pokemon_id} to Pokedex: {new_user_pokemon.pokedex}')  # Debugging
-                return redirect('pokedex_details',
-                                slug=form.instance.pokedex.slug
-                                )
+                return redirect('pokedex_details', slug=form.instance.pokedex.slug)
         else:
             print('Form errors:', form.errors)  # Debugging
     else:
@@ -207,6 +212,7 @@ def pokemon_details(request, entry_number):
         'pokemon': pokemon_data,
         'form': form,
     })
+
 
 
 # Characteristics

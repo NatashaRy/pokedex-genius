@@ -2,14 +2,15 @@ from django import forms
 from .models import UserPokemon, Pokedex
 
 
-# Dropdown with Pokemon on search.html
+# Dropdown with list of Pokemon from the PokeAPI
 class PokemonDropdown(forms.Form):
     def __init__(self, choices=None, *args, **kwargs):
         super(PokemonDropdown, self).__init__(*args, **kwargs)
         self.fields['pokemon'] = forms.ChoiceField(choices=choices or [])
 
 
-# Form to add Pokemon to Pokedex
+# Form to add Pokemon to Pokedex. Holdes the Pokemons entry number and
+# validates that the user does not already exist in the user's Pokedex.
 class AddUserPokemonForm(forms.ModelForm):
     entry_number = forms.IntegerField(widget=forms.HiddenInput())
 
@@ -19,6 +20,9 @@ class AddUserPokemonForm(forms.ModelForm):
         self.fields['pokedex'].choices = [
             ('', 'Select Pokedex to add Pokemon to')
             ] + list(self.fields['pokedex'].choices)[1:]
+
+        # Mark 'pokemon_name' field as not required
+        self.fields['pokemon_name'].required = False
 
     class Meta:
         model = UserPokemon
@@ -49,7 +53,7 @@ class AddUserPokemonForm(forms.ModelForm):
         return instance
 
 
-# Form to customize Pokedex when creating
+# Form for customization to create or updating a Pokedex
 class PokedexForm(forms.ModelForm):
     color = forms.CharField(
         widget=forms.TextInput(
