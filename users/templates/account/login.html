@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load crispy_forms_tags %}
+{% load widget_tweaks %}
 
 {% block head_title %}Sign in | Pokedex Genius{% endblock head_title %}
 
@@ -13,18 +14,48 @@
 <div class="container">
     <div class="col-lg-6 col-md-8 col-sm-10 col-12 mx-auto">
         <div class="col d-block justify-content-center flex-wrap align-items-center">
-            <p class="text-uppercase lead gold text-center mb-4">
+            <p class="text-uppercase lead gold text-center mb-5">
                 Don't have an account yet? <a href="{{ signup_url }}" class="link-success text-decoration-none">Sign up</a> for free!
             </p>
 
-            <!-- Login Form -->
-            <div class="col d-flex flex-column justify-content-center mb-3">
+            <!-- Login form -->
+            <div class="col d-flex flex-column justify-content-center mb-2">
                 <form method="post" class="form-login">
                     {% csrf_token %}
-                    {{ form|crispy }}
 
-                    <!-- Submit Button -->
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ form.non_field_errors|first }}
+                        </div>
+                    {% endif %}
+
+                    {% for field in form %}
+                        {% if field.name == 'remember' %}
+                            <div class="form-check d-flex align-items-center mb-3">
+                                {{ field|add_class:"form-check-input" }}
+                                <label for="{{ field.id_for_label }}" class="form-check-label ms-2 pt-1">{{ field.label }}</label>
+                                {% if field.errors %}
+                                    <div class="error text-danger">{{ field.errors|first }}</div>
+                                {% endif %}
+                            </div>
+                        {% else %}
+                            <div class="form-floating mb-3">
+                                {{ field|add_class:"form-control" }}
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {% if field.errors %}
+                                    <div class="error text-danger">{{ field.errors|first }}</div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    <!-- Submit button -->
                     <button type="submit" class="btn btn-primary text-uppercase fw-800 dark fs-5 w-100">Sign in</button>
+
+                    <!-- Forgot password link -->
+                    <div class="mt-4 text-center">
+                        <a href="/accounts/password/reset/" class="main-link mini-text text-uppercase">Forgot password?</a>
+                    </div>
                 </form>                
             </div>
         </div>

@@ -225,6 +225,10 @@ We always have bugs in development, a few bullet points here to talk about bugs 
 * Issue - When a Pokemon is added to the Pokedex, another Pokemon is displayed in the pokedex.
 * Cause - 
 * Resolution - 
+
+* Issue - Confirmation of password resetting without existing email address.
+* Cause - 
+* Resolution - 
 ​
 
 ***

@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'crispy_forms',
     'crispy_bootstrap5',
+    'widget_tweaks',
     'django.contrib.staticfiles',
     'pokedex',
     'core',
@@ -72,6 +73,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap5'
 # Account
 ACCOUNT_FORMS = {
 }
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
 
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
@@ -112,6 +114,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'pokedex.context_processors.user_pokedexes',
             ],
         },
     },

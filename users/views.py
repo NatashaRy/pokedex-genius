@@ -1,12 +1,8 @@
-from django.contrib.auth import get_user_model, authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import PasswordResetView
-from django.contrib import messages
-from .forms import (CustomPasswordResetForm, UpdateProfilePicture, BioForm,
-                    ProfileForm, TrainerForm, AccountForm)
-
-User = get_user_model()
+from .forms import (CustomPasswordResetForm, UpdateProfilePicture,
+                    BioForm, ProfileForm, TrainerForm, AccountForm)
 
 
 def login_view(request):

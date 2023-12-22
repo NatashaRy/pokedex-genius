@@ -1,9 +1,8 @@
 {% extends "guest_header.html" %}
 
-{% load crispy_forms_tags %}
-
 {% load i18n %}
-{% load allauth account socialaccount %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
 
 {% block head_title %}Sign up | Create free Pokedex Genius account {% endblock head_title %}
 
@@ -19,14 +18,24 @@
                     Already have an account? Please <a href="{% url 'account_login' %}" class="link-success text-decoration-none">sign in here</a> instead.
                 </p>
 
-                <!-- Sign up Form -->
+                <!-- Sign up form -->
                 <div class="col d-flex flex-column justify-content-center mb-3">
-                    <form method="post" class="form-signup gap-3">
+                    <form method="post" class="form-signup">
                         {% csrf_token %}
-                        {{ form|crispy }}
+
+                        <!-- Form fields -->
+                        {% for field in form %}
+                            <div class="form-floating mb-3">
+                                {{ field|add_class:"form-control" }}
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {% if field.errors %}
+                                    <div class="error text-danger mini-text text-uppercase my-2">{{ field.errors|first }}</div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
 
                         <!-- Submit button -->
-                        <button type="submit" class="btn btn-primary w-100 dark text-uppercase fw-800 fs-5">Sign up</button>
+                        <button type="submit" class="btn btn-primary text-uppercase fw-800 dark fs-5 w-100">Sign up</button>
                     </form>
                 </div>
             </div>
