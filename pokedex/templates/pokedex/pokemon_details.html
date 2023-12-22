@@ -6,59 +6,71 @@
 {% block head_title %}Pokemon details {{ pokemon.species.name | title }} | Pokedex Genius{% endblock head_title %}
 
 {% block content %}
-<!-- Toast container -->
-<div aria-live="polite" aria-atomic="true" class="toast">
-    <div id="toastContainer" class="text-uppercase fw-semibold">
-        <!-- Toasts will be dynamically added here -->
-    </div>
-</div>
-
-
-<div class="container py-4">
-    <div class="row align-items-md-stretch">
-
-        <!-- Pokemon image -->
-        <div class="col-md-6">
-            <div class="h-100 p-3 pt-4 pb-2 radial-gradient-background rounded-3 text-center">
-                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{ pokemon.id }}.png" alt="Official Artwork of {{ pokemon.species.name | title }}" class="img-fluid w-75">
-                <div class="row w-100">
-                    <form method="POST" action="{% url 'pokemon_details' entry_number=pokemon.id %}">
-                        {% csrf_token %}
-                        <div class="col gap-0">
-                            <div class="d-flex flex-row align-items-center justify-content-between gap-3 m-0 pb-0">
-                                <div class="flex-grow-1 m-0 p-0">
-                                    <select name="pokedex" id="id_pokedex" class="form-control py-2 m-0">
-                                        {% for value, text in form.pokedex.field.choices %}
-                                            <option value="{{ value }}" {% if form.pokedex.value == value %} selected {% endif %} class="lh-base">
-                                                {{ text|capfirst }}
-                                            </option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="col-auto p-0 m-0">
-                                    <input type="hidden" name="entry_number" value="{{ pokemon.id }}">
-                                    <button type="submit" class="btn p-0 m-0">
-                                        <i class="bi bi-plus-circle fs-1 fw-800 dark p-0 m-0" aria-label="Add Pokemon to Pokedex"></i>
-                                    </button> 
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+<div class="container-fluid d-flex justify-content-center align-items-center vh-90 p-0">
+    <div class="col-md-8 p-0">
+        <div class="col">
+            <div class="col-md-6 ms-2 pe-5 me-5">
+                <!-- Display form errors -->
+                {% if form.errors %}
+                    <div class="alert alert-danger text-center text-uppercase fs-6 py-2 me-4">
+                        {% for error in form.non_field_errors %}
+                        {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}   
             </div>
         </div>
+        <div class="row justify-content-center align-items-stretch gap-3 p-0 m-0">
+            <div class="col radial-gradient-background rounded-3 p-0 m-1">
+                <div class="text-center p-3 pt-4 pb-2">
+                    <!-- Pokemon image -->
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{ pokemon.id }}.png" alt="Official Artwork of {{ pokemon.species.name | title }}" class="img-fluid w-75">
+                    <div class="row w-100">
 
-        <!-- Pokemon details -->
-        <div class="col-md-6">
-            <div class="bg-body-tertiary border rounded-3 p-5 h-100">
+                        <!-- Add Pokemon to Pokedex -->
+                        <form method="POST" action="{% url 'pokemon_details' entry_number=pokemon.id %}" class="mt-2">
+                            {% csrf_token %}
+                            
+                            <div class="col gap-0">
+                                <div class="d-flex flex-row align-items-center justify-content-between gap-3 m-0 pb-0">
+                                    <div class="flex-grow-1 m-0 p-0">
+
+                                        <!-- Select Pokedex field -->
+                                        <select name="pokedex" id="id_pokedex" class="form-control py-2 m-0">
+                                            {% for value, text in form.pokedex.field.choices %}
+                                                <option value="{{ value }}" {% if form.pokedex.value == value %} selected {% endif %} class="lh-base">
+                                                    {{ text|capfirst }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                        
+                                    <div class="col-auto p-0 m-0">
+                                        <!-- Hidden entry number -->
+                                        <input type="hidden" name="entry_number" value="{{ pokemon.id }}">
+
+                                        <!-- Submit button -->
+                                        <button type="submit" class="btn p-0 m-0">
+                                            <i class="bi bi-plus-circle fs-1 fw-800 dark p-0 m-0" aria-label="Add Pokemon to Pokedex"></i>
+                                        </button> 
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pokemon details -->
+            <div class="col bg-body-tertiary border rounded-3 p-5 m-1">
                 <div class="text-center">
                     <div class="badge rounded-pill fs-6 text-bg-info mb-3">ID: {{ pokemon.id }}</div>
                 </div>
                 <h1 class="font-heading letterspacing-2 fw-800 text-center mb-4 py-2">{{ pokemon.name | title }}</h1>
-                
+
                 <!-- Pokemon description -->
                 <div class="d-flex flex-row flex-wrap justify-content-around gap-2 row-gap-4 mt-4 dark">
-                    
+
                     <!-- Types -->
                     <div class="col-md-3 bg-gold rounded-3 d-flex text-center shadow justify-content-center py-3">
                         <div>
@@ -106,34 +118,19 @@
                                 <i class="bi bi-question-circle fw-bold"></i>
                             </button>
                         </div>
-                            <h6 class="text-uppercase fw-semibold mt-n3 mb-1">EXP:</h6>
-                            <p class="fw-800 fs-3 lh-1 p-0 m-0 mb-2">{{ pokemon.base_experience }}</p>
+                        <h6 class="text-uppercase fw-semibold mt-n3 mb-1">EXP:</h6>
+                        <p class="fw-800 fs-3 lh-1 p-0 m-0 mb-2">{{ pokemon.base_experience }}</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-{% if messages %}
-    <script type="text/javascript">
-        $(document).ready(function() {
-            {% for message in messages %}
-                var toastHTML = `
-                    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
-                        <div class="toast-header bg-warning text-dark">
-                            <strong class="me-auto">Notification</strong>
-                            <small>Just now</small>
-                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                        </div>
-                        <div class="toast-body">
-                            {{ message }}
-                        </div>
-                    </div>`;
-                $('#toastContainer').append(toastHTML);
-            {% endfor %}
-            
-            $('.toast').toast('show');
-        });
-    </script>
-{% endif %}
+
+<style>
+    .align-items-stretch {
+        align-items: stretch;
+    }
+</style>
+
 {% endblock content %}

@@ -22,28 +22,39 @@
     {% block header %}
         <div class="container-fluid p-sm-0 p-1 m-0 gradient-header sticky-top shadow">
             <header class="header d-flex flex-wrap justify-content-center py-2 justify-content-md-around align-items-center">
+                <!-- Linked logotype -->
                 <a href="/">
                     <img src="{% static 'images/pokedex-logo.webp' %}" alt="Pokedex Genius logo" class="img-fluid logo pg-logotype">
                 </a>
+
+                <!-- Navigation -->
                 <div class="col-md-4 d-flex flex justify-content-md-end align-items-center gap-4">
                     <ul class="nav nav-pills text-end">
                         <li class="nav-item">
                             <a href="{% url 'dashboard' %}" class="nav-link fw-bold p-1 px-2 mx-2">Dashboard</a>
                         </li>
+
+                        <!-- Dynamic dropdown of Pokedexes -->
                         <li class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle fw-bold p-1 px-2 mx-2" data-bs-toggle="dropdown1" aria-expanded="false">
+                            <a href="#" class="nav-link d-block fw-bold text-decoration-none dropdown-toggle p-1 px-2 mx-2 w-auto" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span>Pokedexes</span>
                             </a>
+                            <ul class="dropdown-menu custom-dropdown-menu justify-content-start fw-normal mt-1 p-2 shadow" aria-labelledby="dropdown">
+                                <li><a class="dropdown-item text-uppercase mt-2" href="{% url 'pokedex_create' %}">Create Pokedex</a></li>
+                                <li><hr class="d-flex green border-2 opacity-50 align-self-center w-75"></li>
+                                {% for pokedex in user_pokedexes %}
+                                    <li><a class="dropdown-item text-uppercase" href="{% url 'pokedex_details' slug=pokedex.slug %}">{{ pokedex.name }}</a></li>
+                                {% endfor %}
+                            </ul>
                         </li>
-                        <ul class="dropdown-menu" aria-labelledby="dropdown1">
-                            <li><a class="dropdown-item" href="{% url 'pokedex_create' %}">Create new Pokedex</a></li>
-                            <li><a class="dropdown-item" href="#">Pokedex 1</a></li>
-                            <li><a class="dropdown-item" href="#">Pokedex 2</a></li>
-                        </ul>
+
+                        <!-- Find a Pokemon -->
                         <li class="nav-item">
                             <a href="{% url 'search' %}" class="nav-link fw-bold p-1 px-2 mx-2">Find Pokemon</a>
                         </li>
                     </ul>
+
+                    <!-- Profile dropdown -->
                     <div class="col-md-1 dropdown text-end">
                         <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             {% if user.profile_picture %}
@@ -52,7 +63,7 @@
                                 <img src="{% static 'images/pikachu-placeholder.webp' %}" alt="Placeholder avatar image" class="rounded-circle avatar header-avatar">
                             {% endif %}
                         </a>
-                        <ul class="dropdown-menu mt-2 shadow py-3 px-2 gap-4 text-uppercase fw-normal" aria-labelledby="dropdown">
+                        <ul class="dropdown-menu text-uppercase fw-normal mt-2 py-3 px-2 gap-3 shadow" aria-labelledby="dropdown">
                             <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
                             <li><hr class="green border-2 opacity-50"></li>
                             <li><a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a></li>
