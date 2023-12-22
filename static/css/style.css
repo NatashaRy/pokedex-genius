@@ -8,6 +8,7 @@ Bg #171717
 Text #FFFFFF
 **/
 
+
 /* Generic */
 body {
     background-color: #171717;
@@ -17,6 +18,14 @@ body {
 }
 .main-height {
     min-height: 97vh;
+}
+
+.vh-90 {
+    min-height: 90vh;
+}
+
+.h-510 {
+    min-height: 510px;
 }
 
 .height-60 {
