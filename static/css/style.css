@@ -43,13 +43,18 @@ body {
     animation: fadeInDown .9s ease-in-out;
 }
 
+/*-------- Navigation */
+.dropdown-item:hover {
+    padding: auto;
+}
+
 /*-------- Details boxes */
 .box-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: 1rem; /* Adjust as needed */
+    padding-top: 1rem;
 }
 
 .glassmorphism {
@@ -62,12 +67,11 @@ body {
 }
 
 .box-content > h6 {
-    margin-bottom: 0.5rem; /* Control space between the heading and the content below */
+    margin-bottom: 0.5rem; 
 }
 
-/* Additional styling for tooltips if necessary */
 .btn[data-bs-toggle="tooltip"] {
-    margin-bottom: 0.5rem; /* Align with the heading's margin-bottom */
+    margin-bottom: 0.5rem;
 }
 
 /*------- Graphics  */
@@ -85,14 +89,6 @@ body {
 .bi-backspace:hover {
     color: #4169E1;
 }
-
-.color-picker {
-    color: white;
-    border: solid 2px white;
-    outline: none;
-    cursor: pointer;
-    border-radius: 0.1em;
-  }
 
 /*------ Typography  */
 .font-heading, .nav-link {
@@ -268,13 +264,16 @@ a {
 }
 
 /*---------- Forms, popups, toasts */
-.toast {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+input[type='color'] {
+    height: calc(1.1em + 0.3rem + 2px);
+    padding: 0;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
 }
 
+.pokedex-description {
+    height: 100px;
+}
 
 .form {
     width: 580px;  

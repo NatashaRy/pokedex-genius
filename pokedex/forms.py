@@ -59,20 +59,13 @@ class PokedexForm(forms.ModelForm):
 
     class Meta:
         model = Pokedex
-        fields = ['name',
-                  'description',
-                  'cover_image',
-                  'color',
-                  'is_favorite'
-                  ]
+        fields = ['name', 'description', 'cover_image', 'color', 'is_favorite']
         widgets = {
             'name': forms.TextInput(
-                attrs={'class': 'form-control',
-                       'placeholder': ' '}
-                       ),
+                attrs={'class': 'form-control', 'placeholder': ' '}
+                ),
             'description': forms.Textarea(
-                attrs={'class': 'form-control',
-                       'placeholder': ' ', 'rows': 3}
+                attrs={'class': 'form-control', 'placeholder': ' '}
                 ),
             'is_favorite': forms.CheckboxInput(
                 attrs={'class': 'form-check-input'}

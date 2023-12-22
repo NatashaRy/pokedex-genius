@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import PokedexCreateView, PokedexDetailsView, PokedexUpdateView, PokedexDeleteView
+from .views import PokedexCreateView, PokedexDetailsView, PokedexUpdateView, PokedexDeleteView, PokemonDeleteView
 
 urlpatterns = [
      path('dashboard/', views.dashboard, name='dashboard'),
@@ -26,4 +26,8 @@ urlpatterns = [
      path('pokedex/<slug:slug>/delete/',
           PokedexDeleteView.as_view(),
           name='pokedex_delete'),
+
+     path('pokedex/<slug:pokedex_slug>/delete-pokemon/<int:pokemon_id>/',
+          PokemonDeleteView.as_view(),
+          name='pokemon_delete'),
 ]

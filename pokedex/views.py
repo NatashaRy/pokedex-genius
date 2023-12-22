@@ -41,8 +41,10 @@ class PokedexCreateView(LoginRequiredMixin, CreateView):
         color_value = form.cleaned_data['color']
         form.instance.color = color_value
 
+        form.instance.is_favorite = form.cleaned_data.get('is_favorite')
+
         try:
-            print('Form is valid')          # debugging
+            print('Form is valid')  # debugging
             return super().form_valid(form)
         except IntegrityError:
             form.add_error(None, "A Pokedex with this slug already exists.")
@@ -71,6 +73,10 @@ class PokedexUpdateView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+
+        # Set the is_favorite field based on the form input
+        form.instance.is_favorite = form.cleaned_data.get('is_favorite')
+
         return super().form_valid(form)
 
 
@@ -91,13 +97,22 @@ class PokemonDeleteView(LoginRequiredMixin, DeleteView):
     pk_url_kwarg = 'pokemon_id'
 
     def get_queryset(self):
-        print("Pokedex Slug:", self.kwargs['pokedex_slug'], "Pokemon ID:", self.kwargs['pokemon_id'])
+        print('Pokedex Slug:',
+              self.kwargs['pokedex_slug'],
+              'Pokemon ID:',
+              self.kwargs['pokemon_id'])
         queryset = super().get_queryset()
-        return queryset.filter(pokedex__slug=self.kwargs['pokedex_slug'], pokedex__user=self.request.user)
+        return queryset.filter(
+            pokedex__slug=self.
+            kwargs['pokedex_slug'],
+            pokedex__user=self.request.user
+            )
 
     def get_success_url(self):
-        messages.success(self.request, 'Pokemon successfully removed from Pokedex.')
-        return reverse_lazy('pokedex_details', kwargs={'slug': self.kwargs['pokedex_slug']})
+        messages.success(self.request,
+                         'Pokemon successfully removed from Pokedex.')
+        return reverse_lazy('pokedex_details',
+        kwargs={'slug': self.kwargs['pokedex_slug']})
 
     def delete(self, request, *args, **kwargs):
         messages.success(request, 'Pokemon successfully deleted.')
