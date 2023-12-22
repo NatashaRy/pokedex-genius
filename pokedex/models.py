@@ -39,7 +39,7 @@ class UserPokemon(models.Model):
                              )
     pokedex = models.ForeignKey(Pokedex, on_delete=models.CASCADE)
     pokemon_id = models.IntegerField()
-    pokemon_name = models.CharField(max_length=100, null=True)   # Temporarily allow null values
+    pokemon_name = models.CharField(max_length=100, null=False)   # Temporarily allow null values
     is_favorite = models.BooleanField(default=False)
     date_added = models.DateTimeField(auto_now_add=True)
 

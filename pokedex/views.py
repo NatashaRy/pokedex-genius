@@ -57,10 +57,12 @@ class PokedexCreateView(LoginRequiredMixin, CreateView):
 class PokedexDetailsView(LoginRequiredMixin, DetailView):
     model = Pokedex
     template_name = 'pokedex/pokedex_details.html'
+    context_object_name = 'pokedex'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['pokemons'] = UserPokemon.objects.filter(pokedex=self.object)
+        pokedex = self.get_object()
+        context['pokemons'] = UserPokemon.objects.filter(pokedex=pokedex)
         context['num_pokemon'] = context['pokemons'].count()
         return context
 
@@ -69,15 +71,16 @@ class PokedexUpdateView(LoginRequiredMixin, UpdateView):
     model = Pokedex
     form_class = PokedexForm
     template_name = 'pokedex/pokedex_update.html'
-    success_url = reverse_lazy('dashboard')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-
-        # Set the is_favorite field based on the form input
         form.instance.is_favorite = form.cleaned_data.get('is_favorite')
-
         return super().form_valid(form)
+
+    def get_success_url(self):
+        updated_pokedex_slug = self.object.slug
+        return reverse('pokedex_details',
+                       kwargs={'slug': updated_pokedex_slug})
 
 
 class PokedexDeleteView(UserIsOwnerMixin, DeleteView):
@@ -102,7 +105,7 @@ class PokemonDeleteView(UserIsOwnerMixin, DeleteView):
         context['pokemon'] = self.get_object()
         context['pokedex'] = context['pokemon'].pokedex  # Assuming there's a ForeignKey relationship
         return context
-    
+
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
         # Add the context variables to the template context
@@ -158,7 +161,7 @@ def search(request):
 
 @login_required
 def pokemon_details(request, entry_number):
-    print(f"Received entry number (parameter): {entry_number}") # Debugging
+    print(f"Received entry number (parameter): {entry_number}")              # Debugging
 
     try:
         response = requests.get(
@@ -170,7 +173,7 @@ def pokemon_details(request, entry_number):
         # Extract the name of the Pokemon from the API response
         pokemon_name = pokemon_data.get("name", "")
     except requests.exceptions.HTTPError as e:
-        print(f'Error fetching Pokemon details: {e}')  # Debugging
+        print(f'Error fetching Pokemon details: {e}')                            # Debugging
         messages.error(request, 'Failed to fetch Pokemon details.')
         return redirect('search')
 
@@ -183,17 +186,18 @@ def pokemon_details(request, entry_number):
             user=request.user,
             initial={"pokemon_name": pokemon_name}  # Initialize the field
         )
-        print(f"Form data (POST): {request.POST}")  # Debugging
+        print(f"Form data (POST): {request.POST}")                       # Debugging
 
         if form.is_valid():
-            print('Form is valid')  # Debugging
+            print('Form is valid')                                  # Debugging
             new_user_pokemon = form.save(commit=False)
             new_user_pokemon.user = request.user
             new_user_pokemon.pokemon_id = request.POST.get(
                 'entry_number',
                 entry_number
             )
-            print(f'Form fields entry number: {new_user_pokemon.pokemon_id}')  # Debugging
+            new_user_pokemon.pokemon_name = pokemon_name
+            print(f'Form fields entry number: {new_user_pokemon.pokemon_id}')                           # Debugging
 
             if UserPokemon.objects.filter(
                 pokemon_id=new_user_pokemon.pokemon_id,
@@ -204,9 +208,9 @@ def pokemon_details(request, entry_number):
                 new_user_pokemon.save()
                 return redirect('pokedex_details', slug=form.instance.pokedex.slug)
         else:
-            print('Form errors:', form.errors)  # Debugging
+            print('Form errors:', form.errors)                  # Debugging
     else:
-        print('GET request, no form data')  # Debugging
+        print('GET request, no form data')                  # Debugging
 
     return render(request, 'pokedex/pokemon_details.html', {
         'pokemon': pokemon_data,

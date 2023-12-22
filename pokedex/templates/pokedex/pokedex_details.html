@@ -12,22 +12,22 @@
             <!-- Statistics -->
             <div class="col-lg-8 justify-content-center mx-auto">
                 <div class="row gap-4 my-5">
-                    <div class="col d-flex rounded-3 bg-orchid text-center white justify-content-center p-2 px-0">
+                    <div class="col d-flex rounded-3 text-center white justify-content-center p-2 px-0" style="background-color: {{ pokedex.color }};">
                         <div>
-                            <span class="text-uppercase fw-semibold">Pokemon:</span></br>
-                            <span class="fw-800 fs-3">{{ num_pokemon }}</span>
+                            <span class="text-uppercase fw-semibold text-color-adjust">Pokemon:</span></br>
+                            <span class="fw-800 fs-3 text-color-adjust">{{ num_pokemon }}</span>
                         </div>
                     </div>
-                    <div class="col d-flex rounded-3 bg-orchid text-center white justify-content-center p-2 px-0">
+                    <div class="col d-flex rounded-3 text-center white justify-content-center p-2 px-0" style="background-color: {{ pokedex.color }};">
                         <div>
-                            <span class="text-uppercase fw-semibold">Pokemon:</span></br>
-                            <span class="fw-800 fs-3">{{ numbers_of_pokemon }}</span>
+                            <span class="text-uppercase fw-semibold text-color-adjust">Pokemon:</span></br>
+                            <span class="fw-800 fs-3 text-color-adjust">{{ numbers_of_pokemon }}</span>
                         </div>
                     </div>
-                    <div class="col d-flex rounded-3 bg-orchid text-center white justify-content-center p-2 px-0">
+                    <div class="col d-flex rounded-3 text-center white justify-content-center p-2 px-0" style="background-color: {{ pokedex.color }};">
                         <div>
-                            <span class="text-uppercase fw-semibold">Pokemon:</span></br>
-                            <span class="fw-800 fs-3">{{ numbers_of_pokemon }}</span>
+                            <span class="text-uppercase fw-semibold text-color-adjust">Pokemon:</span></br>
+                            <span class="fw-800 fs-3 text-color-adjust">{{ numbers_of_pokemon }}</span>
                         </div>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
                                     <small class="mini-text dark fw-bold text-uppercase">Pokemon ID: {{ pokemon.pokemon_id }}</small>
                                 </div>
                             </div>                        
-                            <div class="card-body p-3">
+                            <div class="card-body text-center p-3">
                                 <div class="col">
                                     <h3 class="card-title font-heading align-items-center">
                                         <a href="{% url 'pokemon_details' entry_number=pokemon.pokemon_id %}" class="dark mb-3">
@@ -94,7 +94,7 @@
                                         </a>
                                     </h3>
                                 </div>
-                                <div class="d-flex justify-content-between align-items-center pt-1">
+                                <div class="d-flex justify-content-center align-items-center pt-1">
                                     <div class="btn-group btn-group-sm" role="group" aria-label="Pokemon management in Pokedex">
                                         <a href="{% url 'pokemon_details' entry_number=pokemon.pokemon_id %}" class="btn btn-sm btn-outline-success fw-semibold text-uppercase">View</a>
                                         <a href="{% url 'pokemon_delete' pokedex_slug=pokedex.slug pokemon_id=pokemon.id %}" class="btn btn-sm btn-outline-danger fw-semibold text-uppercase">Delete</a>                          
@@ -105,8 +105,35 @@
                     </div>
                 </div>
             {% empty %}
-                <p class="text-center lead mt-4 gold"><i>No Pokemons added to this Pokedex yet.</i></p>
+                <p class="text-center lead mt-4 gold"><i>No Pokemon added to this Pokedex yet.</i></p>
             {% endfor %}
         </div>
     </div>
 {% endblock content %}
+
+{% block footer_scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var textElements = document.querySelectorAll(".text-color-adjust");
+
+        textElements.forEach(function (element) {
+            var bgColor = getComputedStyle(element.parentElement.parentElement).backgroundColor;
+            var textColor = getTextColorForBackground(bgColor);
+            element.style.color = textColor;
+        });
+
+        function getTextColorForBackground(backgroundColor) {
+            // Convert the background color to RGB values
+            var rgb = backgroundColor.match(/\d+/g);
+            if (!rgb) return; // Invalid color
+
+            // Calculate the perceived brightness using the formula
+            // Y = 0.299*R + 0.587*G + 0.114*B
+            var brightness = (parseInt(rgb[0]) * 299 + parseInt(rgb[1]) * 587 + parseInt(rgb[2]) * 114) / 1000;
+
+            // Determine whether the text should be dark or light based on brightness
+            return brightness >= 128 ? "black" : "white";
+        }
+    });
+</script>
+{% endblock footer_scripts %}

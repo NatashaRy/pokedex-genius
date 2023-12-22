@@ -9,8 +9,8 @@ class PokedexAdmin(admin.ModelAdmin):
 
 
 class UserPokemonAdmin(admin.ModelAdmin):
-    list_display = ('user', 'pokedex', 'pokemon_id', 'date_added', 'is_favorite',)
-    list_filter = ('pokedex', 'user',)
+    list_display = ('user', 'pokedex', 'pokemon_name', 'pokemon_id', 'date_added', 'is_favorite',)
+    list_filter = ('pokemon_name', 'pokedex', 'user',)
     search_fields = ('pokedex__name', 'user__username')
 
 
