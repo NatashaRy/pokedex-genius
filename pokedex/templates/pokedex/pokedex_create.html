@@ -20,9 +20,9 @@
                     <label for="{{ form.cover_image.id_for_label }}">Add a cover image: </label>
                     <div>
                         {% if form.instance.cover_image %}
-                            <img src="{{ form.instance.cover_image.url }}" alt="Cover image" class="img-fluid">
+                            <img src="{{ form.instance.cover_image.url }}" alt="Cover image" class="img-fluid cover ratio-16x9">
                         {% else %}
-                            <img src="#" alt="Placeholder Cover Image" class="img-fluid">
+                            <img src="{% static 'images/placeholder-pokedex-cover' %}" alt="Placeholder Pokedex Cover Image" class="img-fluid cover ratio-16x9">
                         {% endif %}
                     </div>
                     {{ form.cover_image }}

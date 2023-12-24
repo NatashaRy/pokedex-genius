@@ -22,7 +22,7 @@
                             {% if user.profile_picture %}
                                 <img src="{{ user.profile_picture.url }}" alt="Profile picture" class="img-fluid rounded-circle avatar w-50">
                             {% else %}
-                                <img src="{% static 'images/pikachu-placeholder.webp' %}" alt="Placeholder avatar" class="img-fluid rounded-circle avatar w-50">
+                                <img src="{% static 'images/placeholder-pokedex-cover' %}" alt="Placeholder avatar" class="img-fluid rounded-circle avatar w-50">
                             {% endif %}
                         </div>
                         {{ picture_form.as_p }}
