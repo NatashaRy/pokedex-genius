@@ -28,7 +28,9 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
@@ -61,7 +63,6 @@ SITE_ID = 1
 
 # Custom user
 AUTH_USER_MODEL = 'users.pokedexUser'
-
 
 # Login and logout settings
 LOGIN_REDIRECT_URL = '/dashboard/'
@@ -140,9 +141,8 @@ WSGI_APPLICATION = 'pokedex_genius.wsgi.application'
 # }
 
 DATABASES = {
-   'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+    'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
 }
-
 
 
 # Password validation

@@ -1,0 +1,1 @@
+web: gunicorn pokedex_genius.wsgi
