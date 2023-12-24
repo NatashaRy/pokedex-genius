@@ -32,7 +32,7 @@ DEBUG = False
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
-ALLOWED_HOSTS = ['pokedex-genius-9617911b5f35.herokuapp.com/',
+ALLOWED_HOSTS = ['pokedex-genius-9617911b5f35.herokuapp.com',
                  'localhost', '127.0.0.1']
 
 # Authentication settings
