@@ -22,7 +22,7 @@
                         {% if form.instance.cover_image %}
                             <img src="{{ form.instance.cover_image.url }}" alt="Cover image" class="img-fluid cover ratio-16x9">
                         {% else %}
-                            <img src="{% static 'images/placeholder-pokedex-cover' %}" alt="Placeholder Pokedex Cover Image" class="img-fluid cover ratio-16x9">
+                            <img src="#" alt="Placeholder Pokedex Cover Image" class="img-fluid cover ratio-16x9">
                         {% endif %}
                     </div>
                     {{ form.cover_image }}

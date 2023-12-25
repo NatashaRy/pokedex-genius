@@ -1,0 +1,385 @@
+/**
+Red #FF6347
+Gold #FFD700
+Green #32CD32
+Blue #4169E1
+Orchid #BA55D3
+Bg #171717
+Text #FFFFFF
+**/
+
+
+/* Generic */
+body {
+    background-color: #171717;
+    font-family: 'open sans', sans-serif;
+    font-size: 17px;
+    line-height: normal;
+}
+.main-height {
+    min-height: 97vh;
+}
+
+.vh-90 {
+    min-height: 90vh;
+}
+
+.h-510 {
+    min-height: 510px;
+}
+
+.height-60 {
+    min-height: 60vh;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+/*------- Animations  */
+.pg-logotype, .btn {
+    transition: transform .2s;
+}
+
+.pg-logotype:hover, .btn:hover {
+    transform: scale(.93);
+}
+
+.pg-start-img {
+    animation: fadeInDown .9s ease-in-out;
+}
+
+/*-------- Navigation */
+.dropdown-item:hover {
+    padding: auto;
+}
+
+/*-------- Details boxes */
+.box-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1rem;
+}
+
+.glassmorphism {
+    background: rgba( 255, 255, 255, 0.55 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 2.5px );
+    -webkit-backdrop-filter: blur( 2.5px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+.box-content > h6 {
+    margin-bottom: 0.5rem; 
+}
+
+.btn[data-bs-toggle="tooltip"] {
+    margin-bottom: 0.5rem;
+}
+
+/*------- Graphics  */
+.img-max-650 {
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.img-max-750 {
+    max-width: 750px;
+    margin-left: auto;
+    margin-right: auto;}
+
+.bi-backspace:hover {
+    color: #4169E1;
+}
+
+/*------ Typography  */
+.font-heading, .nav-link {
+    font-family: 'poppins', sans-serif;
+    text-transform: uppercase;
+}
+
+.fw-800 {
+    font-weight: 800;
+}
+
+.mini-text, .form-check-label, .form-text {
+    font-size: 12px;
+    letter-spacing: 0.1rem;
+}
+
+.letterspacing-2 {
+    letter-spacing: 2px;
+}
+
+/*---------- Colors */
+.gold, a, .form-check-label {
+    color: #FFD700;
+}
+
+.green, a:hover {
+    color: #32CD32;
+}
+
+.red, .invalid-feedback {
+    color: #FF6347;
+}
+
+.blue {
+    color: #4169E1;
+}
+
+.dark, .nav-link:hover, .dropdown-item:hover, .btn-outline-green:hover {
+    color: #171717;
+}
+
+.orchid {
+    color: #BA55D3;
+}
+
+.white, .nav-link {
+    color: #FFF;
+}
+
+.main-bg  {
+    background-color: #171717;
+}
+
+.bg-blue {
+    background-color: #4169E1;
+}
+
+.bg-white {
+    background-color: #FFF;
+}
+
+.bg-green, .dropdown-item:hover {
+    background-color: #32CD32;
+}
+
+.bg-gold, .nav-link:hover  {
+    background-color: #FFD700;
+}
+
+.bg-red {
+    background-color: #FF6347;
+}
+
+.bg-orchid {
+    background-color: #BA55D3;
+}
+
+/* Background Index.html */
+.radial-gradient-background {
+    background-image: radial-gradient(circle, #ffffff, #576480);
+}
+
+.border-gold {
+    border: 2px solid #FFD700;
+}
+
+/*----------- Buttons */
+.btn-primary {
+    border: 2px solid #32CD32;
+    background-color: #32CD32;
+}
+
+.btn-primary:hover {
+    background-color: #FFD700;
+    border: 2px solid #FFD700;
+    box-shadow: 0 0 12px #BA55D3;
+    color: #171717;
+}
+
+.btn-secondary {
+    background-color: #FFD700;
+    border: 2px solid #FFD700;
+}
+
+.btn-secondary:hover {
+    border: 2px solid #FF6347;
+    background-color: #FF6347;
+    box-shadow: 0 0 12px #32CD32d3;
+}
+
+.btn-outline-primary {
+    color: #BA55D3;
+    border: 2px solid #BA55D3;
+} 
+
+.btn-outline-primary:hover {
+    background-color: #BA55D3;
+    border: 2px solid #BA55D3;
+} 
+
+.btn-outline-blue {
+    color: #4169E1;
+    border: 2px solid #4169E1;
+} 
+
+.btn-outline-blue:hover {
+    background-color: #4169E1;
+    border: 2px solid #4169E1;
+    box-shadow: 0 0 12px #BA55D3;
+} 
+
+.btn-outline-secondary {
+    color: #FF6347;
+    border: 2px solid #FF6347;
+} 
+
+.btn-outline-secondary:hover {
+    background-color: #FF6347;
+    border: 2px solid #FF6347;
+    box-shadow: 0 0 12px #BA55D3;
+} 
+
+.btn-outline-gold {
+    color: #FFD700;
+    border: 2px solid #FFD700;
+} 
+
+.btn-outline-gold:hover {
+    background-color: #FFD700;
+    border: 2px solid #FFD700;
+    box-shadow: 0 0 12px #BA55D3;
+} 
+
+
+.dark-shadow {
+    box-shadow: 0px -5px 20px #1717175b;
+}
+
+.light-shadow {
+    box-shadow: 0px -5px 20px #ffffff96;
+}
+
+.orchid-shadow {
+    box-shadow: 0px 1px 17px #ba55d390;
+}
+
+.gold-shadow {
+    box-shadow: 0px 1px 17px #ffd9009f;
+}
+
+a {
+    text-decoration: none;
+}
+
+/*---------- Forms, popups, toasts */
+input[type='color'] {
+    height: calc(1.1em + 0.3rem + 2px);
+    padding: 0;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+}
+
+.pokedex-description {
+    height: 100px;
+}
+
+.form {
+    width: 580px;  
+    margin: auto;      
+    padding: 15px;     
+}
+
+.form-control {
+    padding: 0.8rem 0.75rem;
+}
+
+.form-check-label, .form-text {
+    margin: 1rem 0px 1rem;
+    text-transform: uppercase;
+}
+
+.checkboxinput {
+    margin: 15px 15px 1rem;
+}
+
+#id_password1_helptext, .form-label {
+    display: none;
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 10px; 
+}
+
+.form-field {
+    flex: 1;
+    min-width: 120px;
+}
+
+
+/*----- Header */
+.gradient-header {
+    background: linear-gradient(304deg, #4169E1, #BA55D3); 
+    color: #fff;
+}
+
+.dropdown-item:hover {
+    font-weight: 600;
+}
+
+.logo {
+    max-width: 170px;
+    padding: auto;
+    margin: auto;
+}
+
+.header-avatar {
+    width: 32px;
+    height: 32px;
+}
+
+/*----- Footer */
+.footer-cred {
+    min-height: 3vh;
+}
+
+/*-----Modal */
+.modal-header, .modal-footer {
+    border: none
+}
+
+/*--------------- Pokemon Cards */
+.pokemon-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.pokemon-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+}
+
+
+
+/* `md` applies to small devices (landscape phones, less than 768px) */
+@media (max-width: 767.98px) { 
+/* Graphics */
+    .img-max-650 {
+        max-width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media (max-width: 600px) {
+    .form-row {
+        flex-direction: column;
+    }
+}
+  
