@@ -40,12 +40,12 @@
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-5">
             {% for pokedex in pokedexes %}
             <div class="col">
-              <div class="card shadow-sm h-100" style="border: solid 0.35rem {{ pokedex.color }};">
-                  <div class="d-flex flex-column h-100 border border-dark-subtle border-2 shadow">
+              <div class="card shadow-sm h-100" style="border: solid 0.6rem {{ pokedex.color }};">
+                  <div class="d-flex bg-secondary-subtle flex-column h-100 border border-dark-subtle border-2 shadow">
                       {% if pokedex.cover_image %}
                           <img src="{{ pokedex.cover_image.url }}" alt="Cover picture" class="card-img-top cover bg-white ratio-16x9">
                       {% else %}
-                          <img src="{% static 'images/pokedex-cover.webp' %}" alt="Pokedex Cover Image" class="card-img-top cover ratio-16x9 bg-white">
+                      <img src="{% static 'images/pokedex-cover.webp' %}" alt="Pokedex Cover Image" class="card-img-top cover ratio-16x9 mb-3">
                       {% endif %}
                       <div class="card-body d-flex flex-column justify-content-between p-3">
                           <h3 class="card-title font-heading"><a href="{% url 'pokedex_details' slug=pokedex.slug %}" class="link-warning">{{ pokedex.name }}</a></h3>
