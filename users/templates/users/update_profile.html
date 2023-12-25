@@ -22,7 +22,7 @@
                             {% if user.profile_picture %}
                                 <img src="{{ user.profile_picture.url }}" alt="Profile picture" class="img-fluid rounded-circle avatar w-50">
                             {% else %}
-                                <img src="#" alt="Placeholder avatar" class="img-fluid rounded-circle avatar w-50">
+                                <img src="{% static 'images/pikachu-placeholder.webp' %}" alt="Placeholder avatar" class="img-fluid rounded-circle avatar w-50">
                             {% endif %}
                         </div>
                         {{ picture_form.as_p }}
@@ -33,7 +33,7 @@
                     <form method="post" action="" class="text-start mt-1">
                         {% csrf_token %}
                         {{ bio_form.as_p }}
-                        <button type="submit" name="update_picture" class="btn btn-secondary dark text-uppercase fw-800 fs-6 mt-2">Update bio</button>
+                        <button type="submit" name="update_bio" class="btn btn-secondary dark text-uppercase fw-800 fs-6 mt-2">Update bio</button>
                     </form>
                 </div>
             </div>
