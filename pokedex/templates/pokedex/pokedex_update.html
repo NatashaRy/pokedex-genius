@@ -6,81 +6,94 @@
 
 {% block head_title %}Update Pokedex | Pokedex Genius{% endblock head_title %}
 
-
-
 {% block content %}
-<section class="py-5 text-center container update-pokedex-header">
-    <div class="row py-lg-5">
-        <div class="col-md-8 mx-auto">
-            <h1 class="font-heading letterspacing-2 fw-800 mb-4 gold">Update Pokedex</h1>
-        </div>
-    </div>
-</section>
+<div class="container-fluid d-flex bg-bubbles vh-90 update-pokedex-form align-items-center justify-content-center my-3">
+    <div class="col-xl-9 col-md-10 nerumorphism justify-content-center py-xl-3 my-4 mb-5 m-sm-4 p-sm-3 mb-sm-5">
+        <form method="post" enctype="multipart/form-data" class="form-floating w-100">
+            {% csrf_token %}
+            
+            <div class="row d-flex mx-auto justify-content-around p-auto">
 
-<section class="container update-pokedex-form">
-    <div class="row">
-        <div class="col-md-6 mx-auto">
-            <form method="post" action="" class="form-floating">
-                {% csrf_token %}
+                <!-- Left column: Cover image upload -->
+                <div class="col-12 col-xl-6 d-flex text-center align-items-center p-sm-4 pt-3">
+                    <div class="row gap-3 justify-content-center mx-auto p-auto">
 
-                <!-- Cover image field -->
-                <div class="col mini-text text-uppercase text-center my-5 pb-2">
-                    <label for="{{ form.cover_image.id_for_label }}">Add a cover image: </label>
-                    {% if form.instance.cover_image %}
-                        <img src="{{ form.instance.cover_image.url }}" alt="Current Cover Image" class="img-fluid cover ratio-16x9">
-                    {% else %}
-                        <img src="{% static 'images/pokedex-cover.webp' %}" alt="Pokedex Cover Image" class="img-fluid cover ratio-16x9 mb-3">
-                    {% endif %}
-                    {{ form.cover_image }}
-                    {% for error in form.cover_image.errors %}
-                        <div class="invalid-feedback">{{ error }}</div>
-                    {% endfor %}
-                </div>
-
-                <!-- Name Field with Floating Label -->
-                <div class="form-floating mb-3">
-                    {% render_field form.name class+="form-control" id="id_name" %}
-                    <label for="id_name">Name</label>
-                </div>
-
-                <!-- Description Field with Floating Label -->
-                <div class="form-floating mb-4">
-                    <textarea class="form-control" id="{{ form.description.id_for_label }}" name="{{ form.description.html_name }}" placeholder="Describe your Pokedex" style="height: 100px;">{{ form.description.value|default_if_none:'' }}</textarea>
-                    <label for="{{ form.description.id_for_label }}">Description</label>
-                    {% for error in form.description.errors %}
-                        <div class="invalid-feedback">{{ error }}</div>
-                    {% endfor %}
-                </div>
-                
-                <div class="row">
-                    <div class="col-md-5">
-                        <!-- Color field -->
-                        <div class="col d-flex align-items-center mb-4">
-                            {{ form.color }}
-                            <label for="{{ form.color.id_for_label }}" class="fs-6 text-uppercase ms-3">Pokedex color</label>
-                            {% for error in form.color.errors %}
+                        <!-- Cover image field -->
+                        <div class="col mini-text text-uppercase text-centermy-3 pb-1">
+                            {% if form.instance.cover_image %}
+                                <img src="{{ form.instance.cover_image.url }}" alt="Current Cover Image" class="img-fluid cover ratio-16x9 my-3">
+                            {% else %}
+                                <img src="{% static 'images/pokedex-cover.webp' %}" alt="Pokedex Cover Image" class="img-fluid cover ratio-16x9 my-3">
+                            {% endif %}
+                            {{ form.cover_image }}
+                            {% for error in form.cover_image.errors %}
                                 <div class="invalid-feedback">{{ error }}</div>
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="col-md-7">
-                        <!-- Is favorite field -->
-                        <div class="form-check mb-3">
-                            {{ form.is_favorite }}
-                            <label for="{{ form.is_favorite.id_for_label }}" class="form-check-label fs-6 white text-uppercase p-0 mt-0 ms-2">
-                                Make this Pokedex a favorite
-                            </label>
-                            {% for error in form.is_favorite.errors %}
-                                <div class="invalid-feedback">{{ error }}</div>
-                            {% endfor %}
-                        </div>                        
-                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary text-uppercase fw-800 dark fs-5 w-100">Update Pokedex</button>
-            </form>
+
+                <!-- Right column: Form fields -->
+                <div class="col-12 col-xl-6 d-flex align-items-center py-2 py-lg-4">
+                    <div class="row gap-3 align-items-center mx-auto">
+                        <div class="col pb-3 mx-auto">
+                            <h1 class="font-heading gold text-uppercase letterspacing-2 text-center fw-800 mb-4">Update Pokedex</h1>
+    
+                            <!-- Name field -->
+                            <div class="form-floating mb-4">
+                                {% render_field form.name class+="form-control" id="id_name" %}
+                                <label for="{{ form.name.id_for_label }}">Name of Pokedex</label>
+                                {% for error in form.name.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+            
+                            <!-- Description field -->
+                            <div class="form-floating mb-4">
+                                <textarea class="form-control" id="{{ form.description.id_for_label }}" name="{{ form.description.html_name }}" placeholder="Describe your Pokedex" style="height: 100px;">
+                                    {{ form.description.value|default_if_none:'' }}
+                                </textarea>
+                                <label for="{{ form.description.id_for_label }}">Description</label>
+                                {% for error in form.description.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="row text-start">
+                                <div class="col m-0">
+                                    <!-- Color field -->
+                                    <div class="col d-flex align-items-center mb-4">
+                                        {{ form.color }}
+                                        <label for="{{ form.color.id_for_label }}" class="fs-6 text-uppercase ms-3">Pokedex color</label>
+                                        {% for error in form.color.errors %}
+                                            <div class="invalid-feedback">{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="col-auto m-0">
+                                    <!-- Is favorite field -->
+                                    <div class="form-check mb-3">
+                                        {{ form.is_favorite }}
+                                        <label for="{{ form.is_favorite.id_for_label }}" class="form-check-label fs-6 white text-start p-0 mt-0 ms-1">
+                                            Make this Pokedex a favorite
+                                        </label>
+                                        {% for error in form.is_favorite.errors %}
+                                            <div class="invalid-feedback">{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <!-- Submit Button -->
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-secondary text-uppercase fw-800 dark fs-5 w-100">Update Pokedex</button>
+                                </div>                            
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</section>
+</div>
 {% endblock content %}
 
 {% block footer_scripts %}
@@ -97,4 +110,3 @@
     });
 </script>
 {% endblock footer_scripts %}
-

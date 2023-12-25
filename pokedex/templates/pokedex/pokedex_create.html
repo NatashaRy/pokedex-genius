@@ -18,14 +18,14 @@
                         <div class="col d-flex mini-text text-uppercase mx-auto">
                             <div class="col text-center pt-2">
                                 {% if form.instance.cover_image %}
-                                <img src="{{ form.instance.cover_image.url }}" alt="Cover image" class="img-fluid cover rounded-2 w-100">
+                                <img src="{{ form.instance.cover_image.url }}" alt="Cover image" class="img-fluid cover rounded-2">
                             {% else %}
-                                <img src="{% static 'images/pokedex-cover.webp' %}" alt="Pokedex Cover Image" class="img-fluid cover rounded-2 w-100">
+                                <img src="{% static 'images/pokedex-cover.webp' %}" alt="Pokedex cover image" class="img-fluid cover rounded-2">
                             {% endif %}
                             
                             </div>
                             <div class="col-12 text-center">
-                                <input type="file" name="{{ form.cover_image.name }}" id="id_{{ form.cover_image.name }}" class="mini-text p-2">
+                                <input type="file" name="{{ form.cover_image.name }}" id="id_{{ form.cover_image.name }}" class="mini-text text-uppercase p-2">
                                 {% for error in form.cover_image.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
@@ -38,7 +38,7 @@
                 <div class="col-12 col-xl-6 d-flex align-items-center py-2">
                     <div class="row gap-3 align-items-center mx-auto p-3">
                         <div class="col pb-3 mx-auto">
-                            <h1 class="font-heading green text-uppercase letterspacing-2 text-center fw-800 mb-4">Create a new Pokedex</h1>
+                            <h1 class="font-heading green text-uppercase letterspacing-2 text-center fw-800 mb-4">Create Pokedex</h1>
     
                             <!-- Name field -->
                             <div class="form-floating mb-4">
@@ -92,6 +92,5 @@
             </div>
         </div>
     </div>
-
-    </div>
+</div>
 {% endblock content %}
