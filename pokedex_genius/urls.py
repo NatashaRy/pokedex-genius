@@ -19,5 +19,4 @@ else:
     # Serve media files through WhiteNoise in production
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT,
-                          view='whitenoise.storage.'
-                          'CompressedManifestStaticFilesStorage')
+                          view='whitenoise.storage.CompressedManifestStaticFilesStorage')
