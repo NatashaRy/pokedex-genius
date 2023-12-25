@@ -17,9 +17,7 @@ class Pokedex(models.Model):
     color = models.CharField(max_length=7, null=True)
     cover_image = models.ImageField(upload_to='pokedex_covers/',
                                     blank=True,
-                                    null=True,
-                                    default='images/pokedex-cover.webp'
-                                    )
+                                    null=True)
     updated_on = models.DateTimeField(auto_now=True)
     created_on = models.DateTimeField(auto_now_add=True)
     is_favorite = models.BooleanField(default=False)

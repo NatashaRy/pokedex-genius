@@ -48,9 +48,9 @@
                 <div class="row justify-content-around">
                     <div class="col-3 p-3 user-profile text-end">
                         {% if user.profile_picture %}
-                            <img src="{{ user.trainer_qr_code.url }}" alt="Profile picture" class="img-fluid w-75">
+                            <img src="{{ user.trainer_qr_code.url }}" alt="Profile picture" class="img-fluid cover ratio-1x1">
                         {% else %}
-                            <img src="{% static 'images/trainer-qr-code.webp' %}" alt="Pokemon Trainer qr-code" class="img-fluid w-75">
+                            <img src="{% static 'images/trainer-qr-code.webp' %}" alt="Pokemon Trainer qr-code" class="img-fluid cover ratio-1x1">
                         {% endif %}
                     </div>
                     <div class="col-3 p-3 user-profile text-start">

@@ -28,12 +28,12 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 ALLOWED_HOSTS = ['pokedex-genius-9617911b5f35.herokuapp.com',
-                 'localhost', '127.0.0.1']
+                 '127.0.0.1', 'localhost']
 
 # Authentication settings
 

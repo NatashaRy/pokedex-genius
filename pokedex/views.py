@@ -27,7 +27,7 @@ def dashboard(request):
         user=request.user).annotate(
         num_pokemon=Count('userpokemon')
         )
-    print("Pokedexes:", pokedexes)
+
     return render(request, 'pokedex/dashboard.html', {'pokedexes': pokedexes})
 
 
@@ -101,18 +101,15 @@ class PokemonDeleteView(UserIsOwnerMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Retrieve the relevant Pokemon and Pokedex objects and add them to the context
         context['pokemon'] = self.get_object()
-        context['pokedex'] = context['pokemon'].pokedex  # Assuming there's a ForeignKey relationship
+        context['pokedex'] = context['pokemon'].pokedex
         return context
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
-        # Add the context variables to the template context
         context['pokemon'] = self.get_object()
-        context['pokedex'] = context['pokemon'].pokedex  # Assuming there's a ForeignKey relationship
+        context['pokedex'] = context['pokemon'].pokedex
         return self.render_to_response(context)
-
 
     def get_success_url(self):
         messages.success(self.request,
