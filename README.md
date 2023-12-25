@@ -239,6 +239,10 @@ We always have bugs in development, a few bullet points here to talk about bugs 
 * Issue - Display "None" instead of Pokemons name
 * Cause - 
 * Resolution - 
+
+* Issue - Pokedex cover image uploaded by user is not displayed. 
+* Cause - 
+* Resolution - 
 ​
 
 ***
@@ -263,10 +267,11 @@ You  can find the live site via the following URL - [live webpage](https://youru
 It's always nice to mention those that helped you get there, if people gave you support on slack or the local cat scared you into completing give them a mention!
 ​
 ### **Content:**
-​* Poppins and Open Sans fonts from [Google Fonts](https://fonts.google.com/specimen/Open+Sans?query=open+sans) 
+* Poppins and Open Sans fonts from [Google Fonts](https://fonts.google.com/specimen/Open+Sans?query=open+sans) 
+* Bubbles background pattern from [Hero Patterns](https://heropatterns.com/)
   
 ### **Media:**
-* Logotype, colour palette, typography are created by myself using [Adobe Illustrator](https://www.adobe.com/se/products/illustrator)​
+* Logotype, color palette, typography and placeholders are created by myself using [Adobe Illustrator](https://www.adobe.com/se/products/illustrator)​
 * Wireframes are created by myself using [Adobe XD](https://helpx.adobe.com/se/xd/get-started.html)​
 * Icons from [Font Awesome](https://fontawesome.com/)
 * Images compressed with [TinyPNG](https://tinypng.com/)
