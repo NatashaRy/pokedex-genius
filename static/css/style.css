@@ -380,6 +380,7 @@ input[type='color'] {
         margin-left: auto;
         margin-right: auto;
     }
+
 }
 
 @media (max-width: 600px) {
@@ -389,5 +390,5 @@ input[type='color'] {
     .img-max-750, .img-max-650 {
         max-width: auto;
     }
+
 }
-  

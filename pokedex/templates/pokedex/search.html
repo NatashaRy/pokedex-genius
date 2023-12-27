@@ -1,22 +1,30 @@
 {% extends 'base.html' %}
 
-{% load crispy_forms_tags %}
+{% load static %}
 {% load i18n %}
 
 {% block head_title %}Find a Pokemon | Pokedex Genius{% endblock head_title %}
 
 {% block content %}
-    <section class="py-5 text-center container">
-        <div class="row py-lg-5">
-            <div class="col-md-8 mx-auto height-60 align-items-center d-flex flex-column justify-content-center">
-                <h1 class="font-heading letterspacing-2 fw-800 mb-4 gold">
+<div class="container-fluid d-flex bg-bubbles align-items-center justify-content-center vh-90  p-4">
+    <div class="container d-flex justify-content-center">
+        <div class="row col-lg-6 nerumorphism px-md-5 p-sm-4 p-3">
+            <div class="text-center">
+                <!-- Heading -->
+                <h1 class="font-heading orchid text-uppercase letterspacing-2 fw-800 pt-4">
                     Find a Pokemon
                 </h1>
-                <p class="lead">Unfortunately, we can only show Pokemons from Kanto region (generation I) at the moment. We are working on getting all regions avalible soon.</p>
-                <form method="post" action="" class="mt-3">
+                <form method="post" action="">
                     {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit">Choose Pokemon</button>
+                    <!-- Dropdown to select Pokemon -->
+                    <div class="form-floating my-4">
+                        {{ form.pokemon }}
+                        <label for="{{ form.pokemon.id_for_label }}">Select Pokemon</label>
+                        {% for error in form.pokemon.errors %}
+                            <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <button type="submit" class="btn btn-outline-primary text-uppercase lh-1 fw-800 dark fs-5 mb-md-3 py-3 w-100">Choose Pokemon</button>
                 </form>
             </div>
         </div>

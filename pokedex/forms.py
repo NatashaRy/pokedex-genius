@@ -6,7 +6,10 @@ from .models import UserPokemon, Pokedex
 class PokemonDropdown(forms.Form):
     def __init__(self, choices=None, *args, **kwargs):
         super(PokemonDropdown, self).__init__(*args, **kwargs)
-        self.fields['pokemon'] = forms.ChoiceField(choices=choices or [])
+        self.fields['pokemon'] = forms.ChoiceField(
+            choices=choices or [],
+            widget=forms.Select(attrs={'class': 'form-select'})
+        )
 
 
 # Form to add Pokemon to Pokedex. Holdes the Pokemons entry number and

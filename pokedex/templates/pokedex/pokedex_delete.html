@@ -3,18 +3,24 @@
 {% block head_title %}Delete Pokedex {{ pokedex.name|title }} | Pokedex Genius{% endblock head_title %}
 
 {% block content %}
-    <section class="py-5 text-center container create-pokedex-page">
-        <div class="row py-lg-5">
-            <div class="col-md-8 mx-auto height-60 align-items-center d-flex flex-column justify-content-center">
-                <h1 class="font-heading letterspacing-2 fw-800 mb-4 gold">
+<div class="container-fluid d-flex bg-bubbles align-items-center justify-content-center vh-90 p-4">
+    <div class="col-lg-6 d-flex justify-content-center">
+        <div class="row nerumorphism px-sm-5 p-3">
+            <div class="text-center">
+                <!-- Heading -->
+                <h1 class="font-heading red text-uppercase letterspacing-2 fw-800 pt-4 pb-2">
                     Confirm your Pokedex deletion
                 </h1>
-                <p class="lead">Are you sure you want to delete {{ pokedex.name|title }}?</p>
-                <form action="" method="post" class="mt-3">
+
+                <!--Confirmation question -->
+                <p class="lead py-2">Are you sure you want to delete {{ pokedex.name|title }}?</p>
+
+                <!-- Deletion form -->
+                <form action="" method="post">
                     {% csrf_token %}
-                    <div class="col d-grid gap-3">
-                        <input type="submit" value="Yes, delete {{ pokedex.name|title }}" class="btn btn-lg btn btn-danger text-uppercase">
-                        <a href="{% url 'dashboard' %}" class="btn btn-lg btn-outline-info text-uppercase">
+                    <div class="col d-flex flex-column gap-3">
+                        <input type="submit" value="Yes, delete {{ pokedex.name|title }}" class="btn btn-lg btn btn-danger text-uppercase mb-2">
+                        <a href="{% url 'dashboard' %}" class="btn btn-lg btn-outline-success text-uppercase mb-4">
                             No, don't delete <strong>{{ pokedex.name|title }}</strong>,<br>
                             <span class="fs-6">Back to Dashboard.</span>
                         </a>                     
@@ -22,5 +28,6 @@
                 </form>
             </div>
         </div>
-    </section>
+    </div>
+</div>
 {% endblock content %}

@@ -5,112 +5,123 @@
 {% block head_title %}{{ pokedex.name|title }} | Pokedex Genius{% endblock head_title %}
 
 {% block content %}
-<!-- Hero -->
-  <section class="pt-5 text-center container">
-      <div class="row py-lg-5">
-        <div class="col-md-8 mx-auto">
-            <h1 class="font-heading letterspacing-2 fw-800">{{ pokedex.name|title }}</h1>
+<div class="container-fluid bg-bubbles vh-90 m-0 p-3 pb-5 p-md-2">
+    <!-- Hero -->
+    <section class="d-flex justify-content-center container-fluid py-4 py-md-2 mb-3 px-md-0">
+        <div class="container m-0 px-md-0 pt-md-2">
+            <div class="nerumorphism py-lg-3 m-1 mt-lg-5 mt-4 pt-md-3 px-md-0 mx-sm-auto p-3">
+                <h1 class="font-heading text-uppercase letterspacing-2 text-center fw-800 mt-3 py-lg-2 pt-4">
+                    {{ pokedex.name|title }}
+                </h1>
 
-            <!-- Statistics -->
-            <div class="col-lg-8 justify-content-center mx-auto">
-                <div class="row gap-4 my-5">
-                    <div class="col d-flex rounded-3 text-center white justify-content-center p-2 px-0" style="background-color: {{ pokedex.color }};">
-                        <div>
-                            <span class="text-uppercase fw-semibold text-color-adjust">Pokemon:</span></br>
-                            <span class="fw-800 fs-3 text-color-adjust">{{ num_pokemon }}</span>
-                        </div>
-                    </div>
-                    <div class="col d-flex rounded-3 text-center white justify-content-center p-2 px-0" style="background-color: {{ pokedex.color }};">
-                        <div>
-                            <span class="text-uppercase fw-semibold text-color-adjust">Pokemon:</span></br>
-                            <span class="fw-800 fs-3 text-color-adjust">{{ numbers_of_pokemon }}</span>
-                        </div>
-                    </div>
-                    <div class="col d-flex rounded-3 text-center white justify-content-center p-2 px-0" style="background-color: {{ pokedex.color }};">
-                        <div>
-                            <span class="text-uppercase fw-semibold text-color-adjust">Pokemon:</span></br>
-                            <span class="fw-800 fs-3 text-color-adjust">{{ numbers_of_pokemon }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-        <!-- Buttons -->
-        <div class="row justify-content-between">
-            <div class="col">
-                <a href="{% url 'search' %}" class="link-success text-start">
-                    <span class="lead text-uppercase">
-                        <i class="bi bi-star me-1"></i> Add Pokemon
-                    </span>
-                </a>
-            </div>
-            <div class="col">
-                <a href="{% url 'pokedex_update' slug=pokedex.slug %}" class="link-info">
-                    <span class="lead text-uppercase text-end">
-                        <i class="bi bi-gear me-1"></i> Edit Pokedex</span>
-                </a>
-            </div>
-            <div class="col">
-                <a href="{% url 'pokedex_delete' slug=pokedex.slug %}" class="link-danger">
-                    <span class="lead text-uppercase text-end">
-                        <i class="bi bi-trash3 me-1"></i> Delete Pokedex</span>
-                </a>
-            </div>
-        </div>
-      </div>
-  </section>
-  <hr class="border border-1 opacity-50">
-
-
-  <!-- Pokemon cards -->
-    <div class="container mb-5">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 justify-content-center row-gap-4 my-5 pb-3">
-            {% for pokemon in pokemons %}
-                <div class="col-md-3">
-                    <div class="card shadow-sm p-2" style="background-color: {{ pokedex.color }};">
-                        <div class="col bg-white border border-dark-subtle border-2 shadow">
-                            <div class="col radial-gradient-background text-center ratio-1-1 pt-0 p-2">
-                                <div class="row w-100 justify-content-between p-0 m-0">
-                                    <!-- Date Column -->
-                                    <div class="col text-start p-0 m-0">
-                                        <small class="mini-text dark fw-bold text-uppercase">Added {{ pokemon.date_added|date:"Y-m-d" }}</small>
-                                    </div>
-                                
-                                    <!-- Icon Column -->
-                                    <div class="col-auto text-end p-0 m-0 ">
-                                        <i class="bi bi-bookmark-heart fs-2 dark m-0 p-0"></i>
-                                    </div>
+                <!-- Statistics -->
+                <div class="d-flex justify-content-center">
+                    <div class="col-xl-6 col-md-8 col-6 justify-content-center mx-auto mb-lg-4">
+                        <div class="row d-flex flex-wrap gap-4 gap-lg-5 my-4">
+                            <div class="col d-flex rounded-3 text-center white justify-content-center p-2 px-0" style="background-color: {{ pokedex.color }};">
+                                <div>
+                                    <span class="text-uppercase fw-semibold text-color-adjust">Pokemon:</span></br>
+                                    <span class="fw-800 fs-3 text-color-adjust">{{ num_pokemon }}</span>
                                 </div>
-                                <!-- Pokemon image -->
-                                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{ pokemon.pokemon_id }}.png" alt="Official Artwork of {{ pokemon.species.name | title }}" class="img-fluid w-75 pt-0 pb-3 mt-0">
-                                <div class="col p-0">
-                                    <small class="mini-text dark fw-bold text-uppercase">Pokemon ID: {{ pokemon.pokemon_id }}</small>
+                            </div>
+                            <div class="col d-flex rounded-3 text-center white justify-content-center p-2 px-0" style="background-color: {{ pokedex.color }};">
+                                <div>
+                                    <span class="text-uppercase fw-semibold text-color-adjust">Pokemon:</span></br>
+                                    <span class="fw-800 fs-3 text-color-adjust">{{ numbers_of_pokemon }}</span>
                                 </div>
-                            </div>                        
-                            <div class="card-body text-center p-3">
-                                <div class="col">
-                                    <h3 class="card-title font-heading align-items-center">
-                                        <a href="{% url 'pokemon_details' entry_number=pokemon.pokemon_id %}" class="dark mb-3">
-                                            {{ pokemon.pokemon_name }}
-                                        </a>
-                                    </h3>
-                                </div>
-                                <div class="d-flex justify-content-center align-items-center pt-1">
-                                    <div class="btn-group btn-group-sm" role="group" aria-label="Pokemon management in Pokedex">
-                                        <a href="{% url 'pokemon_details' entry_number=pokemon.pokemon_id %}" class="btn btn-sm btn-outline-success fw-semibold text-uppercase">View</a>
-                                        <a href="{% url 'pokemon_delete' pokedex_slug=pokedex.slug pokemon_id=pokemon.id %}" class="btn btn-sm btn-outline-danger fw-semibold text-uppercase">Delete</a>                          
-                                    </div>
+                            </div>
+                            <div class="col d-flex rounded-3 text-center white justify-content-center p-2 px-0" style="background-color: {{ pokedex.color }};">
+                                <div>
+                                    <span class="text-uppercase fw-semibold text-color-adjust">Pokemon:</span></br>
+                                    <span class="fw-800 fs-3 text-color-adjust">{{ numbers_of_pokemon }}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            {% empty %}
-                <p class="lead text-center mt-4" style="color: {{ pokedex.color }};"><i>No Pokemon added to this Pokedex yet.</i></p>
-            {% endfor %}
+
+            <!-- Buttons -->
+            <div class="d-flex justify-content-center my-4">
+                <div class="col-lg-10 col-md-11 col-10 nerumorphism py-3 mb-lg-3 px-md-3 py-md-4">
+                    <div class="row d-flex flex-md-row flex-column">
+                        <div class="col text-center p-2 p-md-0 px-0">
+                            <a href="{% url 'search' %}" class="link-success text-center">
+                                <span class="lead text-uppercase">
+                                    <i class="bi bi-star me-1"></i> Add Pokemon
+                                </span>
+                            </a>
+                        </div>
+                        <div class="col text-center p-2 px-0 p-md-0">
+                            <a href="{% url 'pokedex_update' slug=pokedex.slug %}" class="link-info">
+                                <span class="lead text-uppercase text-center">
+                                    <i class="bi bi-gear me-1"></i> Edit Pokedex
+                                </span>
+                            </a>
+                        </div>
+                        <div class="col text-center p-2 px-0 p-md-0">
+                            <a href="{% url 'pokedex_delete' slug=pokedex.slug %}" class="link-danger">
+                                <span class="lead text-uppercase text-center">
+                                    <i class="bi bi-trash3 me-1"></i> Delete Pokedex
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Pokemon cards -->
+        <div class="container mb-5">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 justify-content-center row-gap-4 my-5 pb-3">
+                {% for pokemon in pokemons %}
+                    <div class="col-md-3">
+                        <div class="card shadow-sm p-2" style="background-color: {{ pokedex.color }};">
+                            <div class="col bg-white border border-dark-subtle border-2 shadow">
+                                <div class="col radial-gradient-background text-center ratio-1-1 pt-0 p-2">
+                                    <div class="row w-100 justify-content-between p-0 m-0">
+                                        <!-- Date Column -->
+                                        <div class="col text-start p-0 m-0">
+                                            <small class="mini-text dark fw-bold text-uppercase">Added {{ pokemon.date_added|date:"Y-m-d" }}</small>
+                                        </div>
+                                    
+                                        <!-- Icon Column -->
+                                        <div class="col-auto text-end p-0 m-0 ">
+                                            <i class="bi bi-bookmark-heart fs-2 dark m-0 p-0"></i>
+                                        </div>
+                                    </div>
+                                    <!-- Pokemon image -->
+                                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{ pokemon.pokemon_id }}.png" alt="Official Artwork of {{ pokemon.species.name | title }}" class="img-fluid w-75 pt-0 pb-3 mt-0">
+                                    <div class="col p-0">
+                                        <small class="mini-text dark fw-bold text-uppercase">Pokemon ID: {{ pokemon.pokemon_id }}</small>
+                                    </div>
+                                </div>                        
+                                <div class="card-body text-center p-3">
+                                    <div class="col">
+                                        <h3 class="card-title font-heading align-items-center">
+                                            <a href="{% url 'pokemon_details' entry_number=pokemon.pokemon_id %}" class="dark mb-3">
+                                                {{ pokemon.pokemon_name|title }}
+                                            </a>
+                                        </h3>
+                                    </div>
+                                    <div class="d-flex justify-content-center align-items-center pt-1">
+                                        <div class="btn-group btn-group-sm" role="group" aria-label="Pokemon management in Pokedex">
+                                            <a href="{% url 'pokemon_details' entry_number=pokemon.pokemon_id %}" class="btn btn-sm btn-outline-success fw-semibold text-uppercase">View</a>
+                                            <a href="{% url 'pokemon_delete' pokedex_slug=pokedex.slug pokemon_id=pokemon.id %}" class="btn btn-sm btn-outline-danger fw-semibold text-uppercase">Delete</a>                          
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                <div class="col-lg-6 flex-lg-row nerumorphism justify-content-center py-2 px-md-3 w-auto">
+                    <p class="lead text-center pt-3 px-md-3" style="color: {{ pokedex.color }};"><i>No Pokemon added to this Pokedex yet.</i></p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+</div>
 {% endblock content %}
 
 {% block footer_scripts %}

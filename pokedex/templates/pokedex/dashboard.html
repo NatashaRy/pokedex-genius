@@ -15,7 +15,7 @@
           <h1 class="font-heading text-uppercase letterspacing-2 text-center fw-800 mt-3 pb-lg-5 pb-3 pb-sm-4">Dashboard</h1>
   
           <!-- Buttons -->
-          <div class="col-12 d-flex flex-lg-row nerumorphism justify-content-center mx-auto p-4">
+          <div class="col-md-7 col-12 d-flex flex-lg-row nerumorphism justify-content-center mx-auto p-4">
             <div class="row justify-content-between gap-3 gap-lg-4">
               <div class="col-12 col-lg-auto">
                 <a href="{% url 'pokedex_create' %}" class="link-success text-start">
@@ -45,9 +45,9 @@
             <div class="card shadow-sm h-100" style="border: solid 0.6rem {{ pokedex.color }};">
               <div class="d-flex bg-secondary-subtle flex-column h-100 border border-dark-subtle border-2 shadow">
                 {% if pokedex.cover_image %}
-                  <img src="{{ pokedex.cover_image.url }}" alt="Cover picture" class="card-img-top cover bg-white ratio-16x9">
+                  <img src="{{ pokedex.cover_image.url }}" alt="Cover picture" class="card-img-top cover mb-2">
                 {% else %}
-                  <img src="{% static 'images/pokedex-cover.webp' %}" alt="Pokedex Cover Image" class="card-img-top cover ratio-16x9 mb-3">
+                  <img src="{% static 'images/pokedex-cover.webp' %}" alt="Pokedex Cover Image" class="card-img-top cover mb-2">
                 {% endif %}
                 <div class="card-body d-flex flex-column justify-content-between p-3">
                   <h3 class="card-title font-heading">

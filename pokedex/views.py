@@ -97,7 +97,7 @@ class PokedexDeleteView(UserIsOwnerMixin, DeleteView):
 class PokemonDeleteView(UserIsOwnerMixin, DeleteView):
     model = UserPokemon
     pk_url_kwarg = 'pokemon_id'
-    template_name = 'pokedex/pokemon_confirm_delete.html'
+    template_name = 'pokedex/pokemon_delete.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

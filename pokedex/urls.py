@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
 from . import views
 from .views import PokedexCreateView, PokedexDetailsView, PokedexUpdateView, PokedexDeleteView, PokemonDeleteView
@@ -31,3 +33,6 @@ urlpatterns = [
           PokemonDeleteView.as_view(),
           name='pokemon_delete'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
