@@ -386,5 +386,8 @@ input[type='color'] {
     .form-row {
         flex-direction: column;
     }
+    .img-max-750, .img-max-650 {
+        max-width: auto;
+    }
 }
   

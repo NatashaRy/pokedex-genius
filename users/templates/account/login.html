@@ -7,7 +7,7 @@
 {% block head_title %}Sign in | Pokedex Genius{% endblock head_title %}
 
 {% block page_heading %}
-    <h1 class="blue text-center font-heading fw-800 my-3">Login</h1>
+    <h1 class="blue text-center text-uppercase font-heading fw-800 my-md-3 mb-1">Login</h1>
 {% endblock page_heading %}
 
 {% block form_content %}
@@ -33,7 +33,7 @@
                         {% if field.name == 'remember' %}
                             <div class="form-check d-flex align-items-center mb-3">
                                 {{ field|add_class:"form-check-input" }}
-                                <label for="{{ field.id_for_label }}" class="form-check-label ms-2 pt-1">{{ field.label }}</label>
+                                <label for="{{ field.id_for_label }}" class="form-check-label text-uppercase letterspacing-2 ms-2 pt-1">{{ field.label }}</label>
                                 {% if field.errors %}
                                     <div class="error text-danger">{{ field.errors|first }}</div>
                                 {% endif %}
