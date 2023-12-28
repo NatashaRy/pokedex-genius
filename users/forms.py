@@ -26,12 +26,49 @@ class BioForm(forms.ModelForm):
     class Meta:
         model = pokedexUser
         fields = ('bio',)
+        widgets = {
+            'bio': forms.Textarea(attrs={
+                'class': 'form-control',
+                'style': 'height: 200px;'
+            }),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(BioForm, self).__init__(*args, **kwargs)
+        if self.instance and self.instance.bio:
+            self.fields['bio'].widget.attrs['placeholder'] = self.instance.bio
 
 
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = pokedexUser
-        fields = ('username', 'website_url', 'date_of_birth')
+        fields = ('username',
+                  'first_name',
+                  'last_name',
+                  'website_url',
+                  'date_of_birth')
+        widgets = {
+            'username': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter your username here'
+            }),
+            'first_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter your first name here'
+            }),
+            'last_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter your last name here'
+            }),
+            'website_url': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter your website url here'
+            }),
+            'date_of_birth': forms.DateInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter your date of birth here'
+            }),
+        }
 
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)
@@ -43,19 +80,38 @@ class TrainerForm(forms.ModelForm):
     class Meta:
         model = pokedexUser
         fields = ('go_trainer_id', 'trainer_qr_code')
+        widgets = {
+            'go_trainer_id': forms.TextInput(
+                attrs={'class': 'form-control',
+                       'placeholder': 'Enter your trainer id here'}),
+        }
 
 
 class AccountForm(forms.ModelForm):
     old_password = forms.CharField(
-        widget=forms.PasswordInput(), label="Old Password")
+        widget=forms.PasswordInput(
+            attrs={'class': 'form-control',
+                   'placeholder': 'Old Password'}
+        ), label="Old Password")
     new_password = forms.CharField(
-        widget=forms.PasswordInput(), label="New Password")
+        widget=forms.PasswordInput(
+            attrs={'class': 'form-control',
+                   'placeholder': 'New Password'}
+        ), label="New Password")
     confirm_password = forms.CharField(
-        widget=forms.PasswordInput(), label="Confirm New Password")
+        widget=forms.PasswordInput(
+            attrs={'class': 'form-control',
+                   'placeholder': 'Confirm New Password'}
+        ), label="Confirm New Password")
 
     class Meta:
         model = pokedexUser
         fields = ('email',)
+        widgets = {
+            'email': forms.EmailInput(
+                attrs={'class': 'form-control',
+                       'placeholder': 'Enter your email here'}),
+        }
 
     def clean(self):
         cleaned_data = super().clean()

@@ -28,9 +28,8 @@ body {
     min-height: 60vh;
 }
 
-.height-300 {
-    min-height: 300px;
-
+.height-235 {
+    min-height: 235px;
 }
 
 .main {
@@ -385,7 +384,7 @@ input[type='color'] {
 /* `md` applies to small devices (landscape phones, less than 768px) */
 @media (max-width: 767.98px) { 
 /* Graphics */
-    .img-max-650 {
+    .img-max-650, .img-max-750 {
         max-width: 90%;
         margin-left: auto;
         margin-right: auto;
@@ -394,11 +393,7 @@ input[type='color'] {
 }
 
 @media (max-width: 600px) {
-    .form-row {
-        flex-direction: column;
-    }
     .img-max-750, .img-max-650 {
         max-width: auto;
     }
-
 }

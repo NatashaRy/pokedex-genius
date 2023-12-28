@@ -15,4 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
         dismissErrorMessages();
     });
 
+    function goBack() {
+        history.back();
+    }
+
 });
