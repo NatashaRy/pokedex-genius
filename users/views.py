@@ -31,21 +31,21 @@ def update_profile(request):
         profile_form = ProfileForm(
             request.POST, instance=request.user, prefix='profile')
         trainer_form = TrainerForm(
-            request.POST, instance=request.user, prefix='trainer')
+            request.POST, request.FILES, instance=request.user, prefix='trainer')
         account_form = AccountForm(
             request.POST, instance=request.user, prefix='account')
 
         if 'update_picture' in request.POST and picture_form.is_valid():
             picture_form.save()
-        elif 'update_profile' in request.POST and profile_form.is_valid():
+        if 'update_bio' in request.POST and bio_form.is_valid():
             bio_form.save()
-        elif 'update_profile' in request.POST and profile_form.is_valid():
+        if 'update_profile' in request.POST and profile_form.is_valid():
             profile_form.save()
-        elif 'update_trainer' in request.POST and trainer_form.is_valid():
+        if 'update_trainer' in request.POST and trainer_form.is_valid():
             trainer_form.save()
-        elif 'update_account' in request.POST and account_form.is_valid():
+        if 'update_account' in request.POST and account_form.is_valid():
             account_form.save()
-            return redirect('profile_updated')
+            return redirect('profile')  # Assuming you have this URL configured
     else:
         picture_form = UpdateProfilePicture(
             instance=request.user, prefix='pic')
@@ -66,3 +66,4 @@ def update_profile(request):
         'account_form': account_form
     }
     return render(request, 'users/update_profile.html', context)
+
