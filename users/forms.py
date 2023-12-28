@@ -16,6 +16,17 @@ class CustomPasswordResetForm(PasswordResetForm):
         return email
 
 
+class PokedexUserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = pokedexUser
+        fields = ['first_name', 'last_name', 'username', 'email', 'date_of_birth', 'website_url', 'bio', 'go_trainer_id', 'trainer_qr_code', 'profile_picture']
+
+    def __init__(self, *args, **kwargs):
+        super(PokedexUserUpdateForm, self).__init__(*args, **kwargs)
+        for fieldname in ['first_name', 'last_name', 'username', 'email', 'date_of_birth', 'website_url', 'bio', 'go_trainer_id', 'trainer_qr_code', 'profile_picture']:
+            self.fields[fieldname].widget.attrs = {'class': 'form-control'}
+
+
 class UpdateProfilePicture(forms.ModelForm):
     class Meta:
         model = pokedexUser

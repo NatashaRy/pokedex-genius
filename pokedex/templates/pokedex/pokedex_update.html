@@ -95,18 +95,3 @@
     </div>
 </div>
 {% endblock content %}
-
-{% block footer_scripts %}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var checkbox = document.getElementById('{{ form.is_favorite.id_for_label }}');
-        var heartIcon = document.querySelector('.favorite-icon i');
-
-        document.querySelector('.favorite-icon').addEventListener('click', function() {
-            checkbox.checked = !checkbox.checked;
-            heartIcon.classList.toggle('bi-heart-fill');
-            heartIcon.classList.toggle('bi-heart');
-        });
-    });
-</script>
-{% endblock footer_scripts %}

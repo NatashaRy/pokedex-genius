@@ -8,213 +8,121 @@
 
 {% block content %}
 <div class="container-fluid bg-bubbles d-flex flex-column align-items-center justify-content-center vh-90 p-3 pb-4 p-md-0">
-    <!-- Backspace Icon -->
-    <div class="row align-self-start justify-content-start mb-5 pt-2 ms-1">
-        <div class="col align-self-start justify-content-start">
-            <div class="bg-white rounded-circle px-2">
-                {% include 'backspace_icon.html' with back_url="javascript:void(0);" onclick="goBack();" %}
-            </div>
-        </div>
-    </div>
-
     <div class="col-md-8 p-0">
-        <div class="nerumorphism d-flex flex-column text-sm-start text-center justify-content-between h-100 p-4">
-            <div class="col-12 text-center">
-                <h1 class="font-heading text-uppercase letterspacing-2 text-center fw-800 p-4 pt-sm-3 pt-3 mb-4">Update Your Profile</h1>
-            </div>
-            <div class="row w-100">
+        <div class="nerumorphism d-flex flex-column text-sm-start text-center justify-content-between h-100 p-5">
+            <h1 class="font-heading text-uppercase letterspacing-2 text-center fw-800 p-4 pt-sm-3 pt-4 mb-4">Update Profile</h1>
 
-                <!-- Personal information -->
-                <div class="col-md-6">
-                    <h4 class="font-heading letterspacing-2 text-center mb-4">Personal information</h4>
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <div class="col-md-12">
-                            <!-- Username -->
-                            <div class="form-floating mb-4">
-                                {% render_field profile_form.username class+="form-control" id="id_username" %}
-                                <label for="{{ profile_form.username.id_for_label }}">Username</label>
-                                {% for error in profile_form.username.errors %}
-                                    <div class="invalid-feedback">{{ error }}</div>
-                                {% endfor %}
-                            </div>
+            <!-- Display Messages -->
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="row">
+
+                    <!-- Profile picture, bio -->
+                    <div class="col-md-3 text-center">
+
+                        <!-- Profile picture -->
+                        <div class="mb-3">
+                            {% if user_profile.profile_picture %}
+                                <img src="{{ user_profile.profile_picture.url }}" alt="Profile picture" class="rounded-circle mb-3" style="width: 165px; height: 165px;">
+                            {% else %}
+                                <img src="{% static 'images/pikachu-placeholder.webp' %}" alt="Pikaschu profile picture" class="rounded-circle border-gold p-2 mb-3" style="width: 165px; height: 165px;">
+                            {% endif %}
+                            <input class="form-control custom-file-input mini-text" type="file" id="profile_picture" name="profile_picture">
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <!-- First name -->
-                                <div class="form-floating mb-4">
-                                    {% render_field profile_form.first_name class+="form-control" id="id_first_name" %}
-                                    <label for="{{ profile_form.first_name.id_for_label }}">First name</label>
-                                    {% for error in profile_form.first_name.errors %}
-                                        <div class="invalid-feedback">{{ error }}</div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <!-- Last name -->
-                                <div class="form-floating mb-4">
-                                    {% render_field profile_form.last_name class+="form-control" id="id_last_name" %}
-                                    <label for="{{ profile_form.last_name.id_for_label }}">Last name</label>
-                                    {% for error in profile_form.last_name.errors %}
-                                        <div class="invalid-feedback">{{ error }}</div>
-                                    {% endfor %}
-                                </div>
-                            </div>
+
+                        <!-- Biography -->
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" id="bio" name="bio" placeholder="Bio" style="height: 80px;">{{ user_profile.bio }}</textarea>
+                            <label for="bio">Bio</label>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <!-- Date of birth -->
-                                <div class="form-floating mb-4">
-                                    {% render_field profile_form.date_of_birth class+="form-control" id="id_date_of_birth" %}
-                                    <label for="{{ profile_form.date_of_birth.id_for_label }}">Date of birth</label>
-                                    {% for error in profile_form.date_of_birth.errors %}
-                                        <div class="invalid-feedback">{{ error }}</div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <!-- Website -->
-                                <div class="form-floating mb-4">
-                                    {% render_field profile_form.website_url class+="form-control" id="id_website_url" %}
-                                    <label for="{{ profile_form.website_url.id_for_label }}">Website</label>
-                                    {% for error in profile_form.website_url.errors %}
-                                        <div class="invalid-feedback">{{ error }}</div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                            <div>
-                                <button type="submit" class="btn btn-sm btn-secondary text-uppercase fw-800 dark w-100 mt-auto pt-sm-2">Save Changes</button>
-                            </div>
+                    </div>
+
+                    <!-- GO trainer codes -->
+                    <div class="col-md-3 text-center">
+                        <!-- Trainer QR-code -->
+                        <div class="my-3">
+                            {% if user_profile.trainer_qr_code %}
+                                <img src="{{ user_profile.trainer_qr_code.url }}" alt="Trainer QR Code" class="img-fluid mb-3" style="width: 170px; height: 170px;">
+                            {% else %}
+                                <img src="{% static 'images/trainer-qr-code.webp' %}" alt="Default QR Code" class="img-fluid mb-3" style="width: 170px; height: 170px;">
+                            {% endif %}
+                            <input class="form-control custom-file-input mini-text" type="file" id="trainer_qr_code" name="trainer_qr_code">
                         </div>
-                    </form>
+
+                        <!-- Go trainer code -->
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="go_trainer_id" name="go_trainer_id" placeholder="1234 1234 1234" value="{{ user_profile.go_trainer_id }}">
+                            <label for="go_trainer_id">Pokemon Go trainer id</label>
+                        </div>
+                    </div>
+
+                    <!-- Personal information -->
+                    <div class="col-md-3">
+                        <h2 class="font-heading fs-4 text-center mb-3">Personal information</h2>
+                        <!-- Username -->
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Username" value="{{ user_profile.username }}">
+                            <label for="username">Username</label>
+                        </div>
+
+                        <!-- First name -->
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" value="{{ user_profile.first_name }}">
+                            <label for="first_name">First Name</label>
+                        </div>
+
+                        <!-- Last name -->
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" value="{{ user_profile.last_name }}">
+                            <label for="last_name">Last Name</label>
+                        </div>
+
+                        <!-- Date of birth -->
+                        <div class="form-floating mb-3">
+                            <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" placeholder="Date of Birth" value="{{ user_profile.date_of_birth|date:'Y-m-d' }}">
+                            <label for="date_of_birth">Date of Birth</label>
+                        </div>
+                    </div>
+
+                    <!-- Account information  -->
+                    <div class="col-md-3">
+                        <h2 class="font-heading fs-4 text-center mb-3">Account information</h2>
+                        <!-- Username -->
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="email" name="email" placeholder="name@domain.com" value="{{ user_profile.email }}">
+                            <label for="email">Email</label>
+                        </div>
+
+                        <!-- Old password -->
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="old_password" name="old_password" placeholder="old_password" value="{{ user_profile.old_password }}">
+                            <label for="old_password">Old Password</label>
+                        </div>
+
+                        <!-- New password -->
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="new_password" name="new_password" placeholder="New password" value="{{ user_profile.new_password }}">
+                            <label for="new_password">New password</label>
+                        </div>
+
+                        <!-- Confirm password -->
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="confirm_password" name="confirm_password" placeholder="Repeat new password" value="{{ user_profile.confirm_password }}">
+                            <label for="confirm_password">Confirm Name</label>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Profile biography -->
-                <div class="col-md-6">
-                    <h4 class="font-heading letterspacing-2 text-center mb-4">Profile biography</h4>
-                    <div class="form-floating nerumorphism">
-                        <form method="post" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            {{ bio_form.bio }}
-                            <label for="{{ bio_form.bio.id_for_label }}"></label>
-                            {% for error in bio_form.bio.errors %}
-                                <div class="invalid-feedback">{{ error }}</div>
-                            {% endfor %}
-                            <button type="submit" class="btn btn-sm btn-secondary text-uppercase fw-800 dark w-100 mt-auto">Save bio</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row w-100 my-5 gap-5">
-
-            <!-- Profile picture -->
-            <div class="col-md-3 nerumorphism d-flex flex-column text-center justify-content-between px-4 py-5">
-                <h4 class="font-heading letterspacing-2 text-center">Profile picture</h4>
-                <form method="post" enctype="multipart/form-data" class="text-center">
-                    {% csrf_token %}
-                    {% if picture_form.profile_picture.value %}
-                        <img src="{{ picture_form.profile_picture.value.url }}" alt="Profile picture" class="img-fluid rounded-circle border-gold avatar p-2 mb-3">
-                    {% else %}
-                        <img src="{% static 'images/pikachu-placeholder.webp' %}" alt="Placeholder avatar" class="img-fluid rounded-circle border-gold avatar p-2 mb-3">
-                    {% endif %}
-                    <div class="text-center">
-                        {{ picture_form.profile_picture }}
-                        {% for error in picture_form.profile_picture.errors %}
-                            <div class="invalid-feedback">{{ error }}</div>
-                        {% endfor %}
-                    </div>
-                    <div class="mt-auto pt-4">
-                        <button type="submit" class="btn btn-sm btn-secondary text-uppercase fw-800 dark w-100 mt-auto mt-auto">Update picture</button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Trainer information -->
-            <div class="col-md-3 nerumorphism d-flex flex-column text-center justify-content-between px-4 py-5">
-                <h4 class="font-heading letterspacing-2 text-center mb-4">Trainer information</h4>
-                <form method="post" enctype="multipart/form-data" class="text-center">
-                    {% csrf_token %}
-
-                    <!-- Trainer code -->
-                    <div class="form-floating mb-4">
-                        {% render_field trainer_form.go_trainer_id class+="form-control" id="id_go_trainer_id" %}
-                        <label for="{{ trainer_form.go_trainer_id.id_for_label }}">Go trainer id</label>
-                        {% for error in trainer_form.go_trainer_id.errors %}
-                            <div class="invalid-feedback">{{ error }}</div>
-                        {% endfor %}
-                    </div>
-
-                    <!-- Trainer qr-code -->
-                    <div>
-                        {% if trainer_form.trainer_qr_code.value %}
-                            <img src="{{ trainer_form.trainer_qr_code.value.url }}" alt="Profile picture" class="img-fluid border-gold p-3 w-75 mb-3">
-                        {% else %}
-                            <img src="{% static 'images/trainer-qr-code.webp' %}" alt="Placeholder trainer qr-code" class="img-fluid border-gold p-3 w-75 mb-3">
-                        {% endif %}
-                        {{ trainer_form.trainer_qr_code }}
-                        {% for error in trainer_form.trainer_qr_code.errors %}
-                            <div class="invalid-feedback">{{ error }}</div>
-                        {% endfor %}
-                    </div>
-                    <div class="mt-auto pt-4">
-                        <button type="submit" class="btn btn-sm btn-secondary text-uppercase fw-800 dark w-100 mt-auto mt-auto">Update trainer info</button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Account settings  -->
-            <div class="col-md-5 nerumorphism p-5">
-                <h4 class="font-heading letterspacing-2 text-center mb-4">Account settings</h4>
-                <form method="post" enctype="multipart/form-data">
-                    <!-- Email address -->
-                    <div class="form-floating mb-3">
-                        {% render_field account_form.email class+="form-control" id="id_email" %}
-                        <label for="{{ account_form.email.id_for_label }}">Email</label>
-                        {% for error in account_form.email.errors %}
-                            <div class="invalid-feedback">{{ error }}</div>
-                        {% endfor %}
-                    </div>
-    
-                    <h5 class="font-heading letterspacing-2 text-center pt-3 mt-4 mb-3">Change password</h5>
-                    <!-- Change password -->
-                    <div class="form-floating mb-3">
-                        {% render_field account_form.old_password class+="form-control" id="id_old_password" %}
-                        <label for="{{ account_form.old_password.id_for_label }}">Old password</label>
-                        {% for error in account_form.old_password.errors %}
-                            <div class="invalid-feedback">{{ error }}</div>
-                        {% endfor %}
-                    </div>
-                    <div class="form-floating mb-3">
-                        {% render_field account_form.new_password class+="form-control" id="id_new_password" %}
-                        <label for="{{ account_form.new_password.id_for_label }}">New password</label>
-                        {% for error in account_form.new_password.errors %}
-                            <div class="invalid-feedback">{{ error }}</div>
-                        {% endfor %}
-                    </div>
-                    <div class="form-floating mb-3">
-                        {% render_field account_form.confirm_password class+="form-control" id="id_confirm_password" %}
-                        <label for="{{ account_form.confirm_password.id_for_label }}">Confirm password</label>
-                        {% for error in account_form.confirm_password.errors %}
-                            <div class="invalid-feedback">{{ error }}</div>
-                        {% endfor %}
-                    </div>
-                    <div class="pt-2">
-                        <button type="submit" class="btn btn-sm btn-secondary text-uppercase fw-800 dark w-100 mt-auto">Save Changes</button>
-                    </div>
-                </form>
-            </div>
-
+                <button type="submit" class="btn btn-primary text-uppercase fw-800 dark fs-5 w-100">Save Changes</button>
+            </form>
         </div>
     </div>
 </div>
 {% endblock content %}
-
-{% block scripts %}
-    <script>
-        function goBack() {
-            window.history.back();
-        }
-    </script>
-{% endblock scripts %}
