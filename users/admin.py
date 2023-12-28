@@ -3,7 +3,7 @@ from .models import pokedexUser
 
 
 class pokedexUserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'first_name', 'last_name', 'username', 'email', 'date_of_birth', 'website_url', 'bio', 'go_trainer_id', 'trainer_qr_code', 'profile_picture', 'date_joined', 'last_login')
+    list_display = ('id', 'first_name', 'last_name', 'username', 'email', 'date_of_birth', 'website_url', 'date_joined', 'last_login')
     list_filter = ('date_joined', 'last_login')
     search_fields = ('username', 'email')
     ordering = ('-date_joined',)
