@@ -28,6 +28,11 @@ body {
     min-height: 60vh;
 }
 
+.height-300 {
+    min-height: 300px;
+
+}
+
 .main {
     display: flex;
     flex-direction: column;
@@ -189,6 +194,11 @@ body {
 .border-gold {
     border: 2px solid #FFD700;
 }
+
+.border-blue {
+    border: 2px solid #4169E1;
+}
+
 
 /*----------- Buttons */
 .btn-primary {
