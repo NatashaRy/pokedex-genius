@@ -28,7 +28,7 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
@@ -69,7 +69,7 @@ LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
 
 # Cripsy forms
-CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
+CRISPY_ALLOWED_TEMPLATE_PACKS = ['bootstrap5']
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 # Account
