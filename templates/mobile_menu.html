@@ -1,0 +1,67 @@
+{% load static %}
+
+<div id="mobileMenu" class="mobile-menu">
+    <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary z-3" style="width: 280px;">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+            <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+            <span class="fs-4">Sidebar</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills text-end">
+            <li class="nav-item">
+                <a href="{% url 'dashboard' %}" class="nav-link text-uppercase fw-bold p-1 px-2 mx-2">Dashboard</a>
+            </li>
+
+            <!-- Dynamic dropdown of Pokedexes -->
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link text-uppercase d-block fw-bold text-decoration-none dropdown-toggle p-1 px-2 mx-2 w-auto" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span>Pokedexes</span>
+                </a>
+                <ul class="dropdown-menu custom-dropdown-menu justify-content-start fw-normal mt-1 p-2 shadow" aria-labelledby="dropdown">
+                    <li><a class="dropdown-item text-uppercase mt-2" href="{% url 'pokedex_create' %}">Create Pokedex</a></li>
+                    <li><hr class="d-flex green border-2 opacity-50 align-self-center w-75"></li>
+                    {% for pokedex in user_pokedexes %}
+                        <li><a class="dropdown-item text-uppercase" href="{% url 'pokedex_details' slug=pokedex.slug %}">{{ pokedex.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+
+            <!-- Find a Pokemon -->
+            <li class="nav-item">
+                <a href="{% url 'search' %}" class="nav-link text-uppercase fw-bold p-1 px-2 mx-2">Find Pokemon</a>
+            </li>
+        </ul>
+
+        <!-- Profile dropdown -->
+        <div class="col-md-1 dropdown text-end">
+            <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                {% if user.profile_picture %}
+                    <img src="{{ user.profile_picture.url }}" alt="Profile avatar image" class="img-fluid rounded-circle avatar w-50">
+                {% else %}
+                    <img src="{% static 'images/pikachu-placeholder.webp' %}" alt="Placeholder avatar image" class="rounded-circle avatar header-avatar">
+                {% endif %}
+            </a>
+            <ul class="dropdown-menu text-uppercase fw-normal mt-2 py-3 px-2 gap-4 shadow" aria-labelledby="dropdown">
+                <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+                <li><a class="dropdown-item my-2" href="{% url 'update_profile' %}">Settings</a></li>
+                <li><hr class="green border-2 opacity-50"></li>
+                <li><a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a></li>
+            </ul>
+        <hr>
+        <div class="dropdown">
+            <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                {% if user.profile_picture %}
+                    <img src="{{ user.profile_picture.url }}" alt="Profile avatar image" class="img-fluid rounded-circle avatar w-50">
+                {% else %}
+                    <img src="{% static 'images/pikachu-placeholder.webp' %}" alt="Placeholder avatar image" class="rounded-circle avatar header-avatar">
+                {% endif %}
+            </a>
+            <ul class="dropdown-menu text-uppercase fw-normal mt-2 py-3 px-2 gap-4 shadow" aria-labelledby="dropdown">
+                <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+                <li><a class="dropdown-item my-2" href="{% url 'update_profile' %}">Settings</a></li>
+                <li><hr class="green border-2 opacity-50"></li>
+                <li><a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</div>

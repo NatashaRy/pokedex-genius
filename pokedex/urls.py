@@ -2,7 +2,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 from . import views
-from .views import PokedexCreateView, PokedexDetailsView, PokedexUpdateView, PokedexDeleteView, PokemonDeleteView
+from .views import (PokedexCreateView, PokedexDetailsView, PokedexUpdateView,
+                    PokedexDeleteView, PokemonDeleteView)
 
 urlpatterns = [
      path('dashboard/', views.dashboard, name='dashboard'),
@@ -32,7 +33,9 @@ urlpatterns = [
      path('pokedex/<slug:pokedex_slug>/delete-pokemon/<int:pokemon_id>/',
           PokemonDeleteView.as_view(),
           name='pokemon_delete'),
+
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

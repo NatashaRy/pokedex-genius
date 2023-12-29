@@ -1,13 +1,3 @@
-/**
-Red #FF6347
-Gold #FFD700
-Green #32CD32
-Blue #4169E1
-Orchid #BA55D3
-Bg #171717
-Text #FFFFFF
-**/
-
 /* Generic */
 body {
     background-color: #171717;
@@ -36,6 +26,11 @@ body {
     flex-direction: column;
     justify-content: center;
     height: 100%;
+}
+
+.align-items-stretch {
+    align-items: stretch;
+    flex-wrap: wrap;
 }
 
 .bg-bubbles {
@@ -70,6 +65,50 @@ body {
 /*-------- Navigation */
 .dropdown-item:hover {
     padding: auto;
+}
+
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: none;
+}
+
+.mobile-menu-content {
+    background-color: #BA55D3;
+    padding: 20px;
+    width: 65%;
+    height: 100%;
+}
+
+.mobile-menu-content .btn-close {
+    position: absolute;
+    top: 15px;
+    font-size: 1.2rem;
+    color: #000;
+    background-color: #fff;
+    margin-bottom: 20px;
+    padding: 7px;
+    z-index: 1234;
+}
+
+.nav-link[data-bs-toggle="collapse"]::after {
+    content: "";
+    display: inline-block;
+    margin-left: 5px; 
+    vertical-align: middle;
+    border-top: 10px solid; 
+    border-right: 10px solid transparent;
+    border-left: 10px solid transparent;
+}
+
+.nav-link.collapsed::after {
+    border-top: none;
+    border-bottom: 10px solid;
 }
 
 /*-------- Details boxes */
@@ -137,7 +176,7 @@ body {
     color: #FFD700;
 }
 
-.green, a:hover {
+.green, a:hover, .bi-plus-square-fill:hover {
     color: #32CD32;
 }
 
@@ -149,7 +188,7 @@ body {
     color: #4169E1;
 }
 
-.dark, .nav-link:hover, .dropdown-item:hover, .btn-outline-green:hover {
+.dark, .nav-link:hover, .dropdown-item:hover, .btn-outline-green:hover, .bi-plus-square-fill {
     color: #171717;
 }
 

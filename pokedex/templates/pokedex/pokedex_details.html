@@ -26,8 +26,8 @@
                             </div>
                             <div class="col d-flex rounded-3 text-center white justify-content-center p-2 px-0" style="background-color: {{ pokedex.color }};">
                                 <div>
-                                    <span class="text-uppercase fw-semibold text-color-adjust">Pokemon:</span></br>
-                                    <span class="fw-800 fs-3 text-color-adjust">{{ numbers_of_pokemon }}</span>
+                                    <span class="text-uppercase fw-semibold text-color-adjust">Favorites:</span></br>
+                                    <span class="fw-800 fs-3 text-color-adjust">{{ favorite_pokemons_count }}</span>
                                 </div>
                             </div>
                             <div class="col d-flex rounded-3 text-center white justify-content-center p-2 px-0" style="background-color: {{ pokedex.color }};">
@@ -72,7 +72,7 @@
     </section>
 
     <!-- Pokemon cards -->
-        <div class="container mb-5">
+        <div class="container mb-5 px-sm-0 px-5">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 justify-content-center row-gap-4 my-5 pb-3">
                 {% for pokemon in pokemons %}
                     <div class="col-md-3">
@@ -87,7 +87,7 @@
                                     
                                         <!-- Icon Column -->
                                         <div class="col-auto text-end p-0 m-0 ">
-                                            <i class="bi bi-bookmark-heart fs-2 dark m-0 p-0"></i>
+
                                         </div>
                                     </div>
                                     <!-- Pokemon image -->

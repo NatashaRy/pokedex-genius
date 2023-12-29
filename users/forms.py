@@ -1,9 +1,11 @@
 from django import forms
 from django.contrib.auth.forms import PasswordResetForm
 from django.core.exceptions import ValidationError
-from django.contrib.auth.password_validation import validate_password
+from django.core.validators import URLValidator
+from django.contrib.auth import password_validation
 from django.contrib.auth.models import User
 from .models import pokedexUser
+from datetime import date
 
 
 # Password reset form which validates that an
@@ -17,6 +19,7 @@ class CustomPasswordResetForm(PasswordResetForm):
 
 
 # User can update and add extra profile information
+# Validation logic
 class PokedexUserUpdateForm(forms.ModelForm):
     class Meta:
         model = pokedexUser
@@ -24,41 +27,78 @@ class PokedexUserUpdateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(PokedexUserUpdateForm, self).__init__(*args, **kwargs)
-        for fieldname in ['first_name', 'last_name', 'username', 'email', 'date_of_birth', 'website_url', 'bio', 'go_trainer_id', 'trainer_qr_code', 'profile_picture']:
+        for fieldname in self.fields:
             self.fields[fieldname].widget.attrs = {'class': 'form-control'}
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if pokedexUser.objects.filter(username=username).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError("This username is already in use. Please choose another.")
+        return username
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if '@' not in email:
+            raise forms.ValidationError("Please enter a valid email address.")
+        if pokedexUser.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError("This email address is already in use. Please choose another.")
+        return email
+
+    def clean_date_of_birth(self):
+        dob = self.cleaned_data['date_of_birth']
+        if dob and dob > date.today():
+            raise forms.ValidationError("Date of birth cannot be in the future.")
+        return dob
+
+    def clean_website_url(self):
+        website_url = self.cleaned_data['website_url']
+        if website_url:
+            validate = URLValidator()
+            try:
+                validate(website_url)
+            except ValidationError:
+                raise forms.ValidationError("Invalid URL. Please enter a valid URL.")
+        return website_url
 
 
 # User can update email address or password
 # Validate password against password validators
 class AccountForm(forms.ModelForm):
     old_password = forms.CharField(
-        widget=forms.PasswordInput(
-            attrs={'class': 'form-control',
-                   'placeholder': 'Old Password'}
-        ), label="Old Password")
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Old Password'}),
+        label="Old Password"
+    )
     new_password = forms.CharField(
-        widget=forms.PasswordInput(
-            attrs={'class': 'form-control',
-                   'placeholder': 'New Password'}
-        ), label="New Password")
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'New Password'}),
+        label="New Password"
+    )
     confirm_password = forms.CharField(
-        widget=forms.PasswordInput(
-            attrs={'class': 'form-control',
-                   'placeholder': 'Confirm New Password'}
-        ), label="Confirm New Password")
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm New Password'}),
+        label="Confirm New Password"
+    )
 
     class Meta:
         model = pokedexUser
         fields = ('email',)
         widgets = {
-            'email': forms.EmailInput(
-                attrs={'class': 'form-control',
-                       'placeholder': 'Enter your email here'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Enter your email here'}),
         }
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if pokedexUser.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
+            raise ValidationError("This email address is already in use. Please choose another.")
+        return email
+
+    def clean_old_password(self):
+        old_password = self.cleaned_data.get('old_password')
+        if not self.instance.check_password(old_password):
+            raise ValidationError("Your old password was entered incorrectly. Please enter it again.")
+        return old_password
 
     def clean_new_password(self):
         new_password = self.cleaned_data.get('new_password')
-        validate_password(new_password, self.instance)
+        password_validation.validate_password(new_password, self.instance)
         return new_password
 
     def clean(self):
@@ -67,8 +107,7 @@ class AccountForm(forms.ModelForm):
         confirm_password = cleaned_data.get('confirm_password')
 
         if new_password and new_password != confirm_password:
-            self.add_error('confirm_password',
-                           "New password and confirm password do not match")
+            self.add_error('confirm_password', "New password and confirm new password do not match.")
 
         return cleaned_data
 

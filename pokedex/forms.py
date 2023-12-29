@@ -37,6 +37,10 @@ class AddUserPokemonForm(forms.ModelForm):
         selected_pokemon_id = cleaned_data.get('entry_number')
         selected_pokedex_id = cleaned_data.get('pokedex')
 
+        if not selected_pokedex_id:
+            raise forms.ValidationError(
+                'Please select a Pokedex to add this Pokemon to.')
+
         if UserPokemon.objects.filter(
             user=pokedex_user,
             pokemon_id=selected_pokemon_id,
