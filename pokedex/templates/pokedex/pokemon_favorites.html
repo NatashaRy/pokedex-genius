@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head_title %}{{ pokedex.name|title }} | Pokedex Genius{% endblock head_title %}
+
+{% block content %}
+<div class="container-fluid bg-bubbles vh-90 m-0 p-3 pb-5 p-md-2">
+    <!-- Hero -->
+    <section class="d-flex justify-content-center container-fluid py-4 py-md-2 mb-3 px-md-0">
+        <div class="container m-0 px-md-0 pt-md-2">
+            <div class="nerumorphism py-lg-3 m-1 mt-lg-5 mt-4 pt-md-3 px-md-0 mx-sm-auto p-3">
+                <h1 class="font-heading text-uppercase letterspacing-2 text-center fw-800 mt-3 py-lg-2 pt-4">
+                    Your Favorite Pokemon
+                </h1>
+                </div>
+                <div class="col d-flex bg-red rounded-3 text-center white justify-content-center p-2 px-0">
+                    <div>
+                        <span class="text-uppercase fw-semibold text-color-adjust">Favorite Pokemon:</span></br>
+                        <span class="fw-800 fs-3 text-color-adjust">{{ favorite_pokemons_count }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pokemon cards -->
+    {% if favorite_pokemons %}
+        <div class="container mb-5 px-sm-0 px-5">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 justify-content-center row-gap-4 my-5 pb-3">
+                {% for pokemon in favorite_pokemons %}
+                    <div class="col-md-3">
+                        <div class="card bg-red shadow-sm p-2">
+                            <div class="col bg-white border border-dark-subtle border-2 shadow">
+                                <div class="col radial-gradient-background text-center ratio-1-1 pt-0 p-2">
+                                    <div class="row w-100 justify-content-between p-0 m-0">
+                                        <!-- Date Column -->
+                                        <div class="col text-start p-0 m-0">
+                                            <small class="mini-text dark fw-bold text-uppercase">Added {{ pokemon.date_added|date:"Y-m-d" }}</small>
+                                        </div>
+                                    
+                                        <!-- Icon Column -->
+                                        <div class="col-auto text-end p-0 m-0 ">
+
+                                        </div>
+                                    </div>
+                                    <!-- Pokemon image -->
+                                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{ pokemon.pokemon_id }}.png" alt="Official Artwork of {{ pokemon.species.name | title }}" class="img-fluid w-75 pt-0 pb-3 mt-0">
+                                    <div class="col p-0">
+                                        <small class="mini-text dark fw-bold text-uppercase">Pokemon ID: {{ pokemon.pokemon_id }}</small>
+                                    </div>
+                                </div>                        
+                                <div class="card-body text-center p-3">
+                                    <div class="col">
+                                        <h3 class="card-title font-heading align-items-center">
+                                            <a href="{% url 'pokemon_details' entry_number=pokemon.pokemon_id %}" class="dark mb-3">
+                                                {{ pokemon.pokemon_name|title }}
+                                            </a>
+                                        </h3>
+                                    </div>
+                                    <div class="d-flex justify-content-center align-items-center pt-1">
+                                        <div class="btn-group btn-group-sm" role="group" aria-label="Pokemon management in Pokedex">
+                                            <a href="{% url 'pokemon_details' entry_number=pokemon.pokemon_id %}" class="btn btn-sm btn-outline-success fw-semibold text-uppercase">View</a>
+                                            <a href="{% url 'pokemon_delete' pokedex_slug=pokedex.slug pokemon_id=pokemon.id %}" class="btn btn-sm btn-outline-danger fw-semibold text-uppercase">Delete</a>                          
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                <div class="col-lg-6 flex-lg-row nerumorphism justify-content-center py-2 px-md-3 w-auto">
+                    <p class="lead text-center pt-3 px-md-3" style="color: {{ pokedex.color }};"><i>You have no favorite Pokemon yet.</i></p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock content %}
