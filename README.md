@@ -158,7 +158,7 @@ We have chosen to use PokeAPI to fetch dynamic comprehensive data about Pokemons
 ​
 ### **Features**
 
-#### *Creating account*
+#### *Sign up account*
 * 
 
 #### *Login/logout*
@@ -167,12 +167,27 @@ We have chosen to use PokeAPI to fetch dynamic comprehensive data about Pokemons
 #### *Dashboard page*
 * Gives the user an overall created Pokedexes.
 
-#### *Account page*
+#### *Account*
+* The user can easily see their account information.
+* The user can see their avatar image, if added.
+* The user can see their pokemon trainer id, if added.
+
+#### *Account settings*
 * The user can easily change their account information.
 * The user can add an avatar image.
 * The user can add their pokemon trainer id.
 
 #### *Creating Pokedex*
+* User adds a name, description (optional) and chooses the colour of the Pokedex.
+* User can upload cover image
+* User can make Pokedex favorite
+
+#### *Edit Pokedex*
+* User adds a name, description (optional) and chooses the colour of the Pokedex.
+* User can upload cover image
+* User can add/remove Pokedex as favorite
+
+#### *Delete Pokedex*
 * User adds a name, description (optional) and chooses the colour of the Pokedex.
 * 
 

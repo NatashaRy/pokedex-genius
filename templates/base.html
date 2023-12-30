@@ -102,7 +102,7 @@
                             </a>
                         </div>
                         
-                        <ul class="nav nav-pills flex-column fs-2">
+                        <ul class="nav nav-pills flex-column fs-5">
                             <li class="nav-item">
                                 <a href="{% url 'dashboard' %}" class="nav-link text-uppercase fw-bold p-1 px-2 m-2">Dashboard</a>
                             </li>
@@ -128,8 +128,8 @@
                             </li>
 
                             <!-- Profile collapse -->
-                            <li class="nav-item text-end align-items-center">
-                                <a class="nav-link text-uppercase fw-bold p-1 px-2 m-2 mb-0" data-bs-toggle="collapse" href="#profileDropdown" role="button" aria-expanded="false" aria-controls="profileDropdown">
+                            <li class="nav-item align-items-center me-2">
+                                <a class="nav-link text-uppercase fw-bold p-1 px-2 m-2 mb-0 me-2" data-bs-toggle="collapse" href="#profileDropdown" role="button" aria-expanded="false" aria-controls="profileDropdown">
                                     <span class="me-2">{{ user.username }}</span>
                                     {% if user.profile_picture %}
                                         <img src="{{ user.profile_picture.url }}" alt="Profile avatar image" class="img-fluid rounded-circle avatar w-50">
@@ -137,12 +137,12 @@
                                         <img src="{% static 'images/pikachu-placeholder.webp' %}" alt="Placeholder avatar image" class="rounded-circle avatar header-avatar">
                                     {% endif %}
                                 </a>
-                                <div class="collapse text-start bg-gold rounded-3 p-3 mt-1 mx-2 shadow" id="profileDropdown">
-                                    <ul class="nav flex-column p-2">
-                                        <li><a class="dropdown-item dark fw-semibold mt-2 ps-3" href="{% url 'account' %}">Account</a></li>
-                                        <li><a class="dropdown-item dark fw-semibold mt-2 ps-3" href="{% url 'account_settings' %}">Account settings</a></li>
-                                        <li><a class="dropdown-item dark fw-semibold mt-2 ps-3" href="/accounts/password/change/">Change password</a></li>
-                                        <li><a class="dropdown-item dark fw-800 text-uppercase mt-4 ps-3" href="{% url 'account_logout' %}"><strong>Logout</strong></a></li>
+                                <div class="collapse text-start bg-gold rounded-3 p-2 mt-1 mx-3 shadow" id="profileDropdown">
+                                    <ul class="nav flex-column p-2 fs-5">
+                                        <li><a class="dropdown-item dark fw-semibold mt-2 ps-2" href="{% url 'account' %}">Account</a></li>
+                                        <li><a class="dropdown-item dark fw-semibold mt-2 ps-2" href="{% url 'account_settings' %}">Account settings</a></li>
+                                        <li><a class="dropdown-item dark fw-semibold mt-2 ps-2" href="/accounts/password/change/">Change password</a></li>
+                                        <li><a class="dropdown-item dark fw-800 text-uppercase mt-4 ps-2" href="{% url 'account_logout' %}"><strong>Logout</strong></a></li>
                                     </ul>
                                 </div>
                             </li>

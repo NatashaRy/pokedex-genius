@@ -81,7 +81,7 @@ body {
 .mobile-menu-content {
     background-color: #BA55D3;
     padding: 20px;
-    width: 65%;
+    width: 80%;
     height: 100%;
 }
 
@@ -92,7 +92,7 @@ body {
     color: #000;
     background-color: #fff;
     margin-bottom: 20px;
-    padding: 7px;
+    padding: 6px;
     z-index: 1234;
 }
 
@@ -101,14 +101,14 @@ body {
     display: inline-block;
     margin-left: 5px; 
     vertical-align: middle;
-    border-top: 10px solid; 
-    border-right: 10px solid transparent;
-    border-left: 10px solid transparent;
+    border-top: 6px solid; 
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
 }
 
 .nav-link.collapsed::after {
     border-top: none;
-    border-bottom: 10px solid;
+    border-bottom: 7px solid;
 }
 
 /*-------- Details boxes */
@@ -156,10 +156,6 @@ body {
     margin: 20px; 
 }
 
-.custom-file-input {
-    background-color: transparent;
-    border: none;
-}
 
 /*------ Typography  */
 .font-heading, .nav-link {
@@ -278,16 +274,6 @@ body {
     border: 2px solid #BA55D3;
 } 
 
-.btn-outline-blue {
-    color: #4169E1;
-    border: 2px solid #4169E1;
-} 
-
-.btn-outline-blue:hover {
-    background-color: #4169E1;
-    border: 2px solid #4169E1;
-    box-shadow: 0 0 12px #BA55D3;
-} 
 
 .btn-outline-secondary {
     color: #FF6347;
@@ -300,16 +286,6 @@ body {
     box-shadow: 0 0 12px #BA55D3;
 } 
 
-.btn-outline-gold {
-    color: #FFD700;
-    border: 2px solid #FFD700;
-} 
-
-.btn-outline-gold:hover {
-    background-color: #FFD700;
-    border: 2px solid #FFD700;
-    box-shadow: 0 0 12px #BA55D3;
-} 
 
 a {
     text-decoration: none;

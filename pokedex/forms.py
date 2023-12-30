@@ -86,4 +86,6 @@ class PokedexForm(forms.ModelForm):
             'is_favorite': forms.CheckboxInput(
                 attrs={'class': 'form-check-input'}
                 ),
+            'cover_image': forms.FileInput(attrs={
+                'class': 'form-control-file'}),
         }

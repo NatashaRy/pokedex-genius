@@ -56,6 +56,7 @@ class PokedexCreateView(LoginRequiredMixin, CreateView):
     template_name = 'pokedex/pokedex_create.html'
 
     def form_valid(self, form):
+        form.save()
         form.instance.user = self.request.user
         color_value = form.cleaned_data['color']
         form.instance.color = color_value
@@ -164,26 +165,6 @@ class PokedexList(LoginRequiredMixin, ListView):
 
 
 @login_required
-def toggle_favorite_pokemon(request):
-    """
-    Let users add Pokemon as favorite
-    """
-    if request.method == 'POST' and request.is_ajax():
-        pokemon_id = request.POST.get('pokemon_id')
-        user = request.user
-
-        try:
-            user_pokemon = UserPokemon.objects.get(user=user, pokemon_id=pokemon_id)
-            user_pokemon.is_favorite = not user_pokemon.is_favorite
-            user_pokemon.save()
-            return JsonResponse({'status': 'success', 'is_favorite': user_pokemon.is_favorite})
-        except UserPokemon.DoesNotExist:
-            return JsonResponse({'status': 'error', 'message': 'Pokemon not found'})
-
-    return JsonResponse({'status': 'error', 'message': 'Invalid request'})
-
-
-@login_required
 def search(request):
     """
     Signed-in users can search for Pokemon in a dropdown menu
@@ -264,17 +245,3 @@ def pokemon_details(request, entry_number):
         'pokemon': pokemon_data,
         'form': form,
     })
-
-
-
-# Characteristics
-# Abilities: Each Pokémon may have one or more abilities that can affect battles and gameplay. Abilities can have various effects, such as boosting stats, preventing status conditions, or influencing weather.
-# Stats: Pokémon have six core stats: HP (Hit Points), Attack, Defense, Special Attack, Special Defense, and Speed. These stats determine how well a Pokémon performs in battles and can be influenced by their species, level, and individual values (IVs).
-# Evolution: Many Pokémon can evolve into a different species when they reach a certain level, meet specific conditions, or use certain items. Evolution can significantly impact a Pokémon's stats and appearance.
-# Moves and Attacks: Pokémon can learn a variety of moves and attacks. The moves they know can be crucial in battles, and they can learn new moves as they level up or through other means.
-# Egg Groups: Pokémon are categorized into different egg groups, which determine their breeding compatibility. Pokémon in the same egg group can breed to produce offspring.
-# Pokedex Number: Each Pokémon has a unique Pokedex number that helps identify it within the game's Pokedex.
-# Shiny Variation: Some Pokémon have a rare "shiny" variation with different coloration. Shiny Pokémon are highly sought after by collectors.
-# Gigantamax/Dynamax Forms: In certain Pokémon games, some species can undergo Gigantamax or Dynamax transformations, granting them increased size and power in specific battles.
-# Habitat: Pokémon can be found in various in-game habitats, such as forests, caves, or water bodies.
-# Legendary and Mythical Pokémon: These are special, often unique, Pokémon with significant roles in the game's storyline.

@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container-fluid bg-bubbles vh-90 p-4 d-flex align-items-center justify-content-center">
     <div class="row justify-content-center">
-        <div class="col-md-8 nerumorphism px-sm-5 p-3">
+        <div class="col-md-8 col-8 nerumorphism px-sm-5 p-3">
             <div class="text-center">
                 <!-- Heading -->
                 <h1 class="font-heading red text-uppercase letterspacing-2 fw-800 pt-4 pb-2">
@@ -19,7 +19,7 @@
                 <form action="" method="post">
                     {% csrf_token %}
                     <div class="d-flex flex-column gap-3">
-                        <input type="submit" value="Yes, delete {{ pokemon.pokemon_name|title }} from {{ pokedex.name }}" class="btn btn-lg btn-danger text-uppercase">
+                        <input type="submit" value="Yes, delete {{ pokemon.pokemon_name|title }} from {{ pokedex.name }}" class="btn btn-lg btn-danger flex-wrap text-uppercase">
                         <a href="{% url 'pokemon_delete' pokedex_slug=pokedex.slug pokemon_id=pokemon.id %}" class="btn btn-lg btn-outline-success lh-1 text-uppercase">
                             No, don't delete <strong>{{ pokemon.pokemon_name|title }}</strong>,<br>
                             <span class="fs-6">Back to {{ pokedex.name }}.</span>
