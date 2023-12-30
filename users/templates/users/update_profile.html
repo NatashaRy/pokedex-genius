@@ -1,43 +1,159 @@
 {% extends 'base.html' %}
 
-{% load crispy_forms_tags %}
 {% load static %}
+{% load i18n %}
+{% load widget_tweaks %}
 
-{% block head_title %}Update Profile | Pokedex Genius{% endblock head_title %}
+{% block head_title %}Profile settings | Pokedex Genius{% endblock head_title %}
 
 {% block content %}
-<div class="container-fluid bg-bubbles d-flex align-items-center justify-content-center vh-90 p-3">
-    <div class="col-md-8 p-lg-5">
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="row">
+        <div class="container-fluid bg-bubbles d-flex flex-column align-items-center justify-content-center vh-90 p-3 pb-4 p-md-0">
+            <div class="col-md-8 col-sm-10 p-0">
+                <div class="nerumorphism d-flex flex-column text-sm-start text-center justify-content-between h-100 p-5">
+                    <h1 class="font-heading text-uppercase letterspacing-2 text-center fw-800 p-4 pt-sm-3 pt-4 mb-4">Update Profile</h1>                    
+                    <div class="col">
+                        <div class="col-md-6 ms-2 pe-5 me-5">
+                            <!-- Display form errors -->
+                            {% if form.errors %}
+                                <div class="alert alert-danger text-center text-uppercase fs-6 py-2 me-4">
+                                    {% for error in form.non_field_errors %}
+                                    {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}   
+                        </div>
+                    </div>
 
-                <!-- Update user information -->
-                <div class="col-md-6">
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        {% crispy user_form %}
-                        <button type="submit">Update User Info</button>
+
+                        
+                        <!-- Display Django messages -->
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                        {% endfor %}
+
+                        <div class="row">
+
+                            <!-- Profile picture, bio -->
+                            <div class="col-md-3 text-center">
+                                
+                                <!-- Profile picture -->
+                                <div class="mb-3">
+                                    {% if user_profile.profile_picture %}
+                                    <img src="{{ user_profile.profile_picture.url }}" alt="Profile picture" class="rounded-circle mb-3" style="width: 165px; height: 165px;">
+                                    {% else %}
+                                        <img src="{% static 'images/pikachu-placeholder.webp' %}" alt="Pikachu profile picture" class="rounded-circle border-gold p-2 mb-3" style="width: 165px; height: 165px;">
+                                    {% endif %}
+                                    <input class="form-control custom-file-input" type="file" id="profile_picture" name="profile_picture">
+                                    {% for error in form.profile_picture.errors %}
+                                        <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+
+                                <!-- Biography -->
+                                <div class="form-floating mb-3">
+                                    <textarea class="form-control" id="bio" name="bio" placeholder="Bio" style="height: 80px;">{{ user_profile.bio }}</textarea>
+                                    <label for="bio">Bio</label>
+                                    {% for error in form.bio.errors %}
+                                        <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <!-- GO trainer codes -->
+                            <div class="col-md-3 text-center">
+                                <!-- Trainer QR-code -->
+                                <div class="my-3">
+                                    {% if user_profile.trainer_qr_code %}
+                                        <img src="{{ user_profile.trainer_qr_code.url }}" alt="Trainer QR Code" class="img-fluid mb-3" style="max-width: 200px;">
+                                    {% else %}
+                                        <img src="{% static 'images/trainer-qr-code-placeholder.webp' %}" alt="Default QR Code" class="img-fluid mb-3" style="max-width: 200px;">
+                                    {% endif %}
+                                    <input class="form-control custom-file-input" type="file" id="trainer_qr_code" name="trainer_qr_code">
+                                    {% for error in form.trainer_qr_code.errors %}
+                                        <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+
+                                <!-- Go trainer code -->
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="go_trainer_id" name="go_trainer_id" placeholder="1234 1234 1234" value="None">
+                                    <label for="go_trainer_id">Pokemon Go trainer id</label>
+                                    {% for error in form.go_trainer_id.errors %}
+                                        <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <!-- Personal information -->
+                            <div class="col-md-3">
+                                <h2 class="font-heading fs-4 text-center mb-3">Personal information</h2>
+                                <!-- Username -->
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="username" name="username" placeholder="Username" value="admin">
+                                    <label for="username">Username</label>
+                                    {% for error in form.username.errors %}
+                                        <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+
+                                <!-- First name -->
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" value="">
+                                    <label for="first_name">First Name</label>
+                                    {% for error in form.first_name.errors %}
+                                        <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+
+                                <!-- Last name -->
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" value="">
+                                    <label for="last_name">Last Name</label>
+                                    {% for error in form.last_name.errors %}
+                                        <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+
+                                <!-- Date of birth -->
+                                <div class="form-floating mb-3">
+                                    <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" placeholder="Date of Birth" value="">
+                                    <label for="date_of_birth">Date of Birth</label>
+                                    {% for error in form.date_of_birth.errors %}
+                                        <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        <button type="submit" class="btn btn-primary text-uppercase fw-800 dark fs-5 w-100">Save Changes</button>
                     </form>
-                </div>
-                <!-- Update email address information -->
-                <div class="col-md-6">
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        {% crispy account_form %}
-                        <button type="submit">Update Email Address</button>
-                    </form>
+                    
+                    <!-- Delete Account Button -->
+                    <button type="button" class="btn btn-danger text-uppercase fw-800 fs-5 w-100 mt-3" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">Delete my account</button>
                 </div>
             </div>
-            <!-- Change Password -->
-            <div class="col-md-6 mt-3">
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {% crispy password_form %}
-                    <button type="submit">Change Password</button>
-                </form>
+        </div>
+
+        <!-- Delete account Modal -->
+        <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-blue">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <h5 class="modal-title font-heading text-center text-uppercase" id="deleteAccountModalLabel">Confirm Account Deletion</h5>
+                        <p class="text-center p-3">Are you sure you want to delete your account?<br>
+                        <span class="m-3 fs-5"><strong>This action cannot be undone.</strong></span></p>
+                        <div class="d-flex flex-row justify-content-center gap-4 mb-3">
+                            <button type="button" class="btn btn-primary dark text-uppercase fw-800 shadow" data-bs-dismiss="modal">No, keep my account</button>
+                            <form method="post" action="{% url 'delete_account' %}">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-danger text-uppercase fw-800 shadow" value="Confirm Deletion">
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </form>
-    </div>
-</div>
+        </div>
 {% endblock content %}

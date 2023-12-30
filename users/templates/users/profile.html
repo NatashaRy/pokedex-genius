@@ -74,7 +74,7 @@
                                     {% if user.first_name %}
                                         <span class="green">{{ user.first_name }}</span>
                                     {% else %}
-                                        <span><i><a href="{% url 'update_profile' %}">Add first name</a></i></span>
+                                        <span><i><a href="#">Add first name</a></i></span>
                                     {% endif %}
                                 </p>
                             </div>
@@ -85,7 +85,7 @@
                                     {% if user.last_name %}
                                         <span class="green">{{ user.last_name }}</span>
                                     {% else %}
-                                        <span><i><a href="{% url 'update_profile' %}">Add last name</a></i></span>
+                                        <span><i><a href="#">Add last name</a></i></span>
                                     {% endif %}
                                 </p>
                             </div>
@@ -99,7 +99,7 @@
                                     {% if user.email %}
                                         <span class="green">{{ user.email }}</span>
                                     {% else %}
-                                        <span><i><a href="{% url 'update_profile' %}">Add email address</a></i></span>
+                                        <span><i><a href="#">Add email address</a></i></span>
                                     {% endif %}
                                 </p>
                             </div>
@@ -110,7 +110,7 @@
                                     {% if user.date_of_birth %}
                                         <span class="green">{{ user.date_of_birth }}</span>
                                     {% else %}
-                                        <span><i><a href="{% url 'update_profile' %}">Add date of birth</a></i></span>
+                                        <span><i><a href="#">Add date of birth</a></i></span>
                                     {% endif %}
                                 </p>
                             </div>
@@ -123,14 +123,14 @@
                                     {% if user.website_url %}
                                         <span class="green">{{ user.website_url }}</span>
                                     {% else %}
-                                        <span><i><a href="{% url 'update_profile' %}">Add website</a></i></span>
+                                        <span><i><a href="#">Add website</a></i></span>
                                     {% endif %}
                                 </p>
                             </div>
                         </div>
                         <div class="mt-auto">
                             <!-- Update profile button -->
-                            <a href="{% url 'update_profile' %}" class="btn btn-secondary text-justify text-uppercase letterspacing-2 dark fw-800 fs-6 w-100">
+                            <a href="#" class="btn btn-secondary text-justify text-uppercase letterspacing-2 dark fw-800 fs-6 w-100">
                                 Update profile
                             </a>
                         </div>

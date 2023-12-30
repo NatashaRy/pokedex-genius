@@ -2,8 +2,10 @@ from django import forms
 from .models import UserPokemon, Pokedex
 
 
-# Dropdown with list of Pokemon from the PokeAPI
 class PokemonDropdown(forms.Form):
+    """
+    Dropdown with list of Pokemon from the PokeAPI
+    """
     def __init__(self, choices=None, *args, **kwargs):
         super(PokemonDropdown, self).__init__(*args, **kwargs)
         self.fields['pokemon'] = forms.ChoiceField(
@@ -12,9 +14,12 @@ class PokemonDropdown(forms.Form):
         )
 
 
-# Form to add Pokemon to Pokedex. Holdes the Pokemons entry number and
-# validates that the user does not already exist in the user's Pokedex.
 class AddUserPokemonForm(forms.ModelForm):
+    """
+    Form to add Pokemon to Pokedex. Holdes the Pokemons entry number and
+    validates that the user does not already exist in the user's Pokedex.
+    A save method is also defined to save the Pokemon to the user's Pokedex.
+    """
     entry_number = forms.IntegerField(widget=forms.HiddenInput())
 
     def __init__(self, *args, **kwargs):
@@ -23,8 +28,6 @@ class AddUserPokemonForm(forms.ModelForm):
         self.fields['pokedex'].choices = [
             ('', 'Select Pokedex to add Pokemon to')
             ] + list(self.fields['pokedex'].choices)[1:]
-
-        # Mark 'pokemon_name' field as not required
         self.fields['pokemon_name'].required = False
 
     class Meta:
@@ -60,8 +63,10 @@ class AddUserPokemonForm(forms.ModelForm):
         return instance
 
 
-# Form for customization to create or updating a Pokedex
 class PokedexForm(forms.ModelForm):
+    """
+    Form for create or update a Pokedex
+    """
     color = forms.CharField(
         widget=forms.TextInput(
             attrs={'type': 'color', 'class': 'form-control form-control-color'}

@@ -2,14 +2,12 @@ from django import forms
 from django.contrib.auth.forms import PasswordResetForm
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import password_validation
 from django.contrib.auth.models import User
 from .models import pokedexUser
-from datetime import date
-from crispy_bootstrap5.bootstrap5 import FloatingField
-from django.forms import ModelForm
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit
+
+
 
 
 class CustomPasswordResetForm(PasswordResetForm):
@@ -23,111 +21,67 @@ class CustomPasswordResetForm(PasswordResetForm):
         return email
 
 
-class ProfileUpdateForm(forms.ModelForm):
-    class Meta:
-        model = pokedexUser
-        fields = ['username', 'password', 'date_of_birth',
-                  'website_url', 'bio', 'go_trainer_id']
-        widgets = {
-            'password': forms.PasswordInput(),
-        }
-
-
-class AccountForm(forms.ModelForm):
+class CustomPasswordChangeForm(PasswordChangeForm):
     """
-    Account form for updating email address
+    Customized PasswordChangeForm
     """
-    class Meta:
-        model = pokedexUser
-        fields = ('email',)
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['email'].widget.attrs.update(
-            {'placeholder': 'Enter your email here'})
+        self.fields['old_password'].widget.attrs.update({
+            'placeholder': 'Old Password',
+            'class': 'form-control floating-label',
+        })
 
-        self.fields['email'].required = False
+        self.fields['new_password1'].widget.attrs.update({
+            'placeholder': 'New Password',
+            'class': 'form-control floating-label',
+        })
 
-        self.helper = FormHelper()
-        self.helper.layout = Layout(
-            FloatingField('email', placeholder="Email")
-        )
+        self.fields['new_password2'].widget.attrs.update({
+            'placeholder': 'Confirm Password',
+            'class': 'form-control floating-label',
+        })
 
-    def clean_email(self):
-        email = self.cleaned_data['email']
-        if pokedexUser.objects.filter(
-            email=email
-            ).exclude(
-                pk=self.instance.pk
-                ).exists():
-            raise ValidationError(
-                "This email address is already in use. Please choose another.")
-        return email
+        self.fields['old_password'].label = 'Old Password'
+        self.fields['new_password1'].label = 'New Password'
+        self.fields['new_password2'].label = 'Confirm Password'
 
 
-class PasswordChangeForm(forms.Form):
+class UserProfileForm(forms.ModelForm):
     """
-    Form to change password
+    Form for updating user profile
     """
-    old_password = forms.CharField(
-        widget=forms.PasswordInput(attrs={'placeholder': 'Old Password'}),
-        label="Old password"
-    )
-    new_password = forms.CharField(
-        widget=forms.PasswordInput(attrs={'placeholder': 'New Password'}),
-        label="New password"
-    )
-    confirm_password = forms.CharField(
-        widget=forms.PasswordInput(attrs={
-            'placeholder': 'Confirm New Password'}),
-        label="Confirm Password"
-    )
+    class Meta:
+        model = pokedexUser
+        fields = ['date_of_birth', 'website_url', 'bio', 'go_trainer_id',
+                  'trainer_qr_code', 'profile_picture']
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for fieldname in self.fields:
-            self.fields[fieldname].widget.attrs.update({
-                'class': 'form-control'})
+    widgets = {
+        'username': forms.TextInput(attrs={'class': 'form-control'}),
+        'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        'date_of_birth': forms.DateInput(attrs={'class': 'form-control'}),
+        'website_url': forms.URLInput(attrs={'class': 'form-control'}),
+        'bio': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        'go_trainer_id': forms.TextInput(attrs={'class': 'form-control'}),
+        'trainer_qr_code': forms.ClearableFileInput(
+            attrs={'class': 'form-control-file'}),
+        'profile_picture': forms.ClearableFileInput(
+            attrs={'class': 'form-control-file'}),
+    }
 
-        self.helper = FormHelper()
-        self.helper.layout = Layout(
-            FloatingField('old_password',
-                          placeholder="Old Password"),
-            FloatingField('new_password',
-                          placeholder="New Password"),
-            FloatingField('confirm_password',
-                          placeholder="Confirm New Password"),
-        )
-
-    def clean_old_password(self):
-        old_password = self.cleaned_data.get('old_password')
-        if not self.instance.check_password(old_password):
-            raise ValidationError("Your old password was entered incorrectly. "
-                                  "Please enter it again.")
-        return old_password
-
-    def clean_new_password(self):
-        new_password = self.cleaned_data.get('new_password')
-        password_validation.validate_password(new_password, self.instance)
-        return new_password
-
-    def clean(self):
-        cleaned_data = super().clean()
-        new_password = cleaned_data.get('new_password')
-        confirm_password = cleaned_data.get('confirm_password')
-
-        if new_password and new_password != confirm_password:
-            self.add_error('confirm_password',
-                           "New password and confirm new password "
-                           "do not match.")
-
-        return cleaned_data
-
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        new_password = self.cleaned_data.get('new_password')
-        if new_password:
-            user.set_password(new_password)
-        if commit:
-            user.save()
-        return user
+    username = forms.CharField(widget=forms.TextInput(
+        attrs={'class': 'form-control'}), required=False)
+    email = forms.EmailField(widget=forms.EmailInput(
+        attrs={'class': 'form-control'}), required=False)
+    date_of_birth = forms.DateField(required=False)
+    website_url = forms.URLField(required=False)
+    bio = forms.CharField(widget=forms.Textarea(
+        attrs={'class': 'form-control', 'height': '100px'}), required=False)
+    go_trainer_id = forms.CharField(widget=forms.TextInput(
+        attrs={'class': 'form-control'}), required=False)
+    trainer_qr_code = forms.ImageField(
+        widget=forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
+        required=False)
+    profile_picture = forms.ImageField(
+        widget=forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
+        required=False)
