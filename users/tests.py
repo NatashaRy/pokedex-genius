@@ -1,13 +1,15 @@
 from django.test import TestCase, Client
 from django.contrib.auth import get_user_model
 from .models import pokedexUser
+from .forms import UserProfileForm
 from django.urls import reverse
 
 
 # Model tests
 class UserModelTestCase(TestCase):
     def setUp(self):
-        self.user = pokedexUser.objects.create(username='testuser')
+        self.user = pokedexUser.objects.create_user(username='testuser',
+                                                    password='password')
 
     def test_user_creation(self):
         """Test that a user is created successfully."""
@@ -42,7 +44,27 @@ class UpdateProfileViewTestCase(TestCase):
         response = self.client.get(reverse('update_profile'))
         self.assertEqual(response.status_code, 200)
 
+
 # Form tests
+class UserProfileFormTest(TestCase):
+    def test_valid_data(self):
+        form_data = {
+            'username': 'testuser',
+            'first_name': 'Test',
+            'last_name': 'User',
+            'email': 'testuser@example.com',
+            'date_of_birth': '1990-01-01',
+            'website_url': 'https://example.com',
+            'bio': 'Test bio',
+            'go_trainer_id': '1234567890',
+        }
+        form = UserProfileForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_invalid_data(self):
+        form = UserProfileForm(data={})
+        self.assertFalse(form.is_valid())
+        self.assertTrue(form.errors)  # Form should have errors
 
 
 # Integration tests
@@ -50,8 +72,10 @@ class ProfileIntegrationTestCase(TestCase):
     def test_update_profile(self):
         """Test updating the user's profile."""
         User = get_user_model()
-        user = User.objects.create(username='testuser', password='password')
-        self.client.login(username='testuser', password='password')
+        user = User.objects.create(username='testuser',
+                                   password='password')
+        self.client.login(username='testuser',
+                          password='password')
 
         form_data = {
             'date_of_birth': '1990-01-01',

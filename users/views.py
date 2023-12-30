@@ -57,15 +57,16 @@ def account_view(request):
 @login_required
 def update_profile(request):
     """
-    View for updating user profile redirect to account view
+    View for updating user profile, redirects to the account view upon successful update.
     """
     if request.method == 'POST':
-        form = UserProfileForm(request.POST,
-                               request.FILES,
-                               instance=request.user)
+        form = UserProfileForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('account')
+            messages.success(request, "Profile updated successfully.")  # Optional: Adding a success message
+            return redirect('account')  # Redirect to the account view
+        else:
+            messages.error(request, "Please correct the error below.")  # Optional: Adding an error message
     else:
         form = UserProfileForm(instance=request.user)
 
