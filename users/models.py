@@ -22,12 +22,8 @@ class pokedexUser(AbstractUser):
     bio = models.TextField(max_length=150, blank=True)
     go_trainer_id = models.CharField(blank=True, default=None)
     trainer_qr_code = models.ImageField(upload_to='trainer_qr_codes/',
-                                        blank=True,
-                                        default='static/images/'
-                                        'trainer-qr-code.webp')
+                                        blank=True, default=None)
     profile_picture = models.ImageField(upload_to='profile_pictures/',
-                                        blank=True,
-                                        default='static/images/'
-                                        'pikachu-placeholder.webp')
+                                        blank=True, default=None)
 
     objects = CustomUserManager()
