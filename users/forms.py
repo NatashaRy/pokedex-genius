@@ -22,18 +22,18 @@ class UserProfileForm(forms.ModelForm):
     """
     class Meta:
         model = pokedexUser
-        fields = ['date_of_birth', 'website_url', 'bio', 'go_trainer_id',
-                  'first_name', 'last_name', 'username',
-                  'trainer_qr_code', 'profile_picture', 'email']
+        fields = ['username', 'email', 'first_name', 'last_name',s
+                  'date_of_birth', 'website_url', 'bio', 'go_trainer_id']
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'date_of_birth': forms.DateInput(attrs={'class': 'form-control'}),
-            'website_url': forms.URLInput(attrs={'class': 'form-control'}),
-            'bio': forms.Textarea(attrs={'class': 'form-control', 'height': '100px'}),
+            'date_of_birth': forms.DateInput(
+                attrs={'class': 'form-control'}),
+            'website_url': forms.URLInput(
+                attrs={'class': 'form-control'}),
+            'bio': forms.Textarea(
+                attrs={'class': 'form-control', 'height': '100px'}),
             'go_trainer_id': forms.TextInput(attrs={'class': 'form-control'}),
-            'trainer_qr_code': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
-            'profile_picture': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
         }

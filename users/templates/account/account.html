@@ -18,11 +18,7 @@
                 <div class="row text-center">
                     <!-- Profile picture -->
                     <div class="col-md-3 p-sm-4 p-md-0">
-                        {% if user.profile_picture %}
-                            <img src="{{ user.profile_picture.url }}" alt="Profile picture" class="img-thumbnail rounded-circle avatar border-gold w-75">
-                        {% else %}
                             <img src="{% static 'images/pikachu-placeholder.webp' %}" alt="Placeholder avatar" class="img-thumbnail rounded-circle avatar border-gold w-75">
-                        {% endif %}
                         <div class="col-12 pt-3">
                             <!-- Username -->
                             <p class="mt-2">
@@ -46,11 +42,7 @@
                 <div class="col-md-4 text-center">
                     <div class="nerumorphism text-center d-flex flex-column align-items-center p-3">
                         <div class="pt-4">
-                            {% if user.trainer_qr_code %}
-                                <img src="{{ user.trainer_qr_code.url }}" alt="Trainer qr-code" class="img-fluid cover w-75">
-                            {% else %}
-                                <img src="{% static 'images/trainer-qr-code.webp' %}" alt="Trainer qr-code" class="img-fluid cover w-75">
-                            {% endif %}
+                            <img src="{% static 'images/trainer-qr-code.webp' %}" alt="Trainer qr-code" class="img-fluid cover w-75">
                         </div>
                         <!-- Pokemon Go trainer code -->
                         <p class="pt-4 mt-auto">
