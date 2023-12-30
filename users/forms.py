@@ -22,7 +22,7 @@ class UserProfileForm(forms.ModelForm):
     """
     class Meta:
         model = pokedexUser
-        fields = ['username', 'email', 'first_name', 'last_name',s
+        fields = ['username', 'email', 'first_name', 'last_name',
                   'date_of_birth', 'website_url', 'bio', 'go_trainer_id']
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control'}),
