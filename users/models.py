@@ -20,10 +20,9 @@ class pokedexUser(AbstractUser):
     date_of_birth = models.DateField(null=True, blank=True)
     website_url = models.URLField(blank=True)
     bio = models.TextField(max_length=150, blank=True)
-    go_trainer_id = models.CharField(blank=True, default=None)
-    trainer_qr_code = models.ImageField(upload_to='trainer_qr_codes/',
-                                        blank=True, default=None)
-    profile_picture = models.ImageField(upload_to='profile_pictures/',
-                                        blank=True, default=None)
+    go_trainer_id = models.CharField(max_length=255,
+                                     blank=True,
+                                     default=None,
+                                     null=True)
 
     objects = CustomUserManager()
