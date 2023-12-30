@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% load static %}
+{% load i18n %}
+
+{% block head_title %}Profile settings | Pokedex Genius{% endblock head_title %}
+
+{% block content %}
+        <div class="container-fluid bg-bubbles d-flex flex-column align-items-center justify-content-center vh-90 p-3 pb-4 p-md-0">
+            <div class="col-md-8 col-sm-10 p-0">
+                <div class="nerumorphism d-flex flex-column text-sm-start text-center justify-content-between h-100 p-5">
+                    <h1 class="font-heading text-uppercase letterspacing-2 text-center fw-800 p-4 pt-sm-3 pt-4 mb-4">Update Profile</h1>                    
+                    <div class="col">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+        
+                            <!-- Non-field errors -->
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger">
+                                    {% for error in form.non_field_errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+        
+                            <!-- Render fields -->
+                            {% for field in form %}
+                                <div class="form-floating mb-3">
+                                    {% if field.errors %}
+                                        <div class="alert alert-danger">
+                                            {% for error in field.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    {{ field|add_class:"form-control" }}
+                                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                </div>
+                            {% endfor %}
+        
+                            <button type="submit" class="btn btn-primary text-uppercase fw-800 dark fs-5 w-100">Update Profile</button>
+                        </form>
+
+                    <!-- Delete Account Button -->
+                    <button type="button" class="btn btn-danger text-uppercase fw-800 fs-5 w-100 mt-3" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">Delete my account</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete account Modal -->
+        <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-blue">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <h5 class="modal-title font-heading text-center text-uppercase" id="deleteAccountModalLabel">Confirm Account Deletion</h5>
+                        <p class="text-center p-3">Are you sure you want to delete your account?<br>
+                        <span class="m-3 fs-5"><strong>This action cannot be undone.</strong></span></p>
+                        <div class="d-flex flex-row justify-content-center gap-4 mb-3">
+                            <button type="button" class="btn btn-primary dark text-uppercase fw-800 shadow" data-bs-dismiss="modal">No, keep my account</button>
+                            <form method="post" action="{% url 'delete_account' %}">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-danger text-uppercase fw-800 shadow" value="Confirm Deletion">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock content %}
