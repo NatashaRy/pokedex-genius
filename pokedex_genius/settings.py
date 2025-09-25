@@ -1,4 +1,12 @@
+# ============================================================
+# DEBUG OVERRIDE FOR HEROKU
+# ============================================================
 import os
+if os.getenv("HEROKU_DEBUG", "") == "1":
+    DEBUG = True
+    print("⚠️ HEROKU_DEBUG=1: DEBUG MODE IS ENABLED ON HEROKU ⚠️")
+
+
 from pathlib import Path
 import environ
 
