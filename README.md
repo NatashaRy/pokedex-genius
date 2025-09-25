@@ -509,7 +509,7 @@ Settings.py: DEGBUG = False
 15. Chose **"Automatic deploys"** or **"Manual deploys"**.
 
 ### **5. Run migrations**
-- After deployment, run: `python manage.py migrate`
+- After deployment, run: `heroku run python manage.py migrate`
 - (You may also want to create a superuser)
 
 Final deployment is found [here](https://pokedex-genius-9617911b5f35.herokuapp.com/).
