@@ -62,6 +62,7 @@ core.python*
 # GitHub / CI configs
 # ==========================================
 .github/
+.github/ISSUE_TEMPLATE/
 
 # ==========================================
 # Miscellaneous
