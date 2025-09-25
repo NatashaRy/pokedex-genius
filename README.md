@@ -7,8 +7,20 @@ Pokedex Genius is a web application that allows users to create, manage, and exp
 
 [Pokedex Genius will be found here.](https://pokedex-genius-9617911b5f35.herokuapp.com/)
 ​
+## Test Account
+To make it easy for you to try out all the features of Pokedex Genius without having to create your own account, you can use the following test user:
+
+### Credentials
+* **Username**: testuser
+* **Password**: TestPassword123!
+* **Email**: testuser@example.com
+
+Feel free to log in with these credentials to explore the app’s functionality.\
+*Note: This account is for demonstration and testing purposes only.*
+
 ## Table of contents:
 1. [**Site Overview**](#site-overview)
+1. [**Test Account**](#test-account)
 1. [**Planning stage**](#planning-stage)
     * [*Summary of audience*](#summary-of-our-audience)
     * [*Wireframes*](#wireframes)
@@ -19,6 +31,12 @@ Pokedex Genius is a web application that allows users to create, manage, and exp
 1. [**Future-Enhancements**](#future-enhancements)
 1. [**Testing Phase**](#testing-phase)
 1. [**Deployment**](#deployment)
+    * [*Database Change: From ElephantSQL to Supabase*](#database-change-from-elephantsql-to-supabase)
+    * [*Create Database*](#1-create-database)
+    * [*Setting up app*](#2-setting-up-app)
+    * [*Settings*](#3-settings-tab)
+    * [*Deploy*](#4-display-tab)
+    * [*Migration*](#5-run-migrations)
 1. [**Tech**](#tech)
 1. [**Credits**](#credits)
     * [*Honorable mentions*](#honorable-mentions)
@@ -441,16 +459,32 @@ This project was deployed to Heroku through the following process:
 
 Settings.py: DEGBUG = False
 
-### **Creating database**
-1. Log in to [elephantsql.com](https://elephantsql.com)
-2. Clicked the button labelled **"Create new database"** on the dashboard in the top right corner above the instances.
-3. Entered a name, we chose **"db-pokedex-genius"** from the dropdown menu.
-4. Then chose plan, we chose **"Tiny turtle"**.
-5. Choosing a region, we chose Europe since it is the most relevant.
-6. Click button to **"Create app"**.
+### **Database Change: From ElephantSQL to Supabase**
+> **Important**:\
+> As of 2024, ElephantSQL has discontinued its free database hosting.\
+> Pokedex Genius now uses **[Supabase](https://supabase.com)**
 
+- All data and migrations are now handled via Supabase.
+- If you see references to ElephantSQL in older documentation, these are now replaced by Supabase.
+- The app works as before, but with a new, modern database backend. 
 
-### **Setting up app**
+### **1. Create database**
+#### **ElephantSQL** (Old)
+1. ~~Log in to [elephantsql.com](https://elephantsql.com)~~
+2. ~~Clicked the button labelled **"Create new database"** on the dashboard in the top right corner above the instances.~~
+3. ~~Entered a name, we chose **"db-pokedex-genius"** from the dropdown menu.~~
+4. ~~Then chose plan, we chose **"Tiny turtle"**.~~
+5. ~~Choosing a region, we chose Europe since it is the most relevant.~~
+6. ~~Click button to **"Create app"**.~~
+
+#### **Supabase** (Current)
+1. Go to [supabase.com](https://supabase.com) and sign up/log in.
+2. Click **New project** and fill in the required details (project name, password, region).
+3. Once the project is created, click on **Connect** in the project header. 
+4. Copy the `DATABASE_URL` found under **Connection String**.
+5. Save the URL for later. 
+
+### **2. Setting up app**
 1. Log in to [Heroku.com](https://heroku.com)
 2. Clicked the button labelled **"New"** on the dashboard in the top right corner under the profile picture.
 3. Choosing **"Create new app"** from the dropdown menu.
@@ -458,23 +492,27 @@ Settings.py: DEGBUG = False
 5. Choosing a region, we chose Europe since it is the most relevant.
 6. Click button labelled **"Create app"** and come to the projects **"Deploy"** tab.
 
-### **Settings tab**
+### **3. Settings tab**
 7. Click the **"Settings"** tab and navigate to **"config Vars"** section.
-8. Added:
-* **`DATABASE_URL`** as and **`link to database url`** as value, then clicked **"add"**.
-* **`PORT`** as and **`8000`** as value, then clicked **"add"**.
-* **`SECRET_KEY`** as and **`secret key`** as value, then clicked **"add"**.
+8. Add:
+* **`DATABASE_URL`** as key and **`link to database url`** as value, then clicked **"add"**.
+* **`PORT`** as key and **`8000`** as value, then clicked **"add"**.
+* **`SECRET_KEY`** as key and **`secret key`** as value, then clicked **"add"**.
 9. Scroll down to **"Buildpacks"** section, clicking **"Add buildpack"** and then selection **"Python"**.
 10. Repeating the process above but adding **"Node.js"** instead of "Python".
 
-### **Display tab**
+### **4. Display tab**
 11. Click **"Deploy"** in the tabs menu.
 12. Chose **GitHub** as **"Deployment method"**.
 13. Confirm connection. 
 14. Search for the repository name and click **"Connect"**. 
 15. Chose **"Automatic deploys"** or **"Manual deploys"**.
 
-Final deployment is found [here](https://pokedex-genius-9617911b5f35.herokuapp.com/)
+### **5. Run migrations**
+- After deployment, run: `python manage.py migrate`
+- (You may also want to create a superuser)
+
+Final deployment is found [here](https://pokedex-genius-9617911b5f35.herokuapp.com/).
 ​
 ## **Tech**
 - HTML
