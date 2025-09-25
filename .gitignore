@@ -10,9 +10,6 @@ __pycache__/
 *.egg
 *.log
 
-# Pyenv / Python version
-.python-version
-
 # ==========================================
 # 🐍 Virtual Environments
 # ==========================================
@@ -73,3 +70,4 @@ core.python*
 # 📄 Miscellaneous
 # ==========================================
 cloudinary_python.txt
+
