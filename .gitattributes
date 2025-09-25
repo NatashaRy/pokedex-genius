@@ -1,0 +1,44 @@
+# ==========================================
+# Line endings - always use LF on checkout
+# ==========================================
+* text=auto eol=lf
+
+# Python source files
+*.py text eol=lf
+
+# Django settings & environment
+.env text eol=lf
+.python-version text eol=lf
+Procfile text eol=lf
+requirements.txt text eol=lf
+
+# Templates, static, configs
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.toml text eol=lf
+
+# Shell and scripts
+*.sh text eol=lf
+
+# Windows scripts (keep CRLF if needed)
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary files - do not modify line endings
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.zip binary
+*.gz binary
+*.db binary
