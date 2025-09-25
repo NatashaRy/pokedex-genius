@@ -1,136 +1,173 @@
 {% extends 'base.html' %}
-
 {% load static %}
-{% load i18n %}
+{% load i18n %} 
 {% load widget_tweaks %}
 
-{% block head_title %}Profile | Pokedex Genius{% endblock head_title %}
+{% block head_title %}Profile | Pokedex Genius{% endblock head_title %} 
 
 {% block content %}
-<div class="container-fluid bg-bubbles d-flex flex-column align-items-center justify-content-center vh-90 p-3">
-    <div class="col-md-8 p-lg-5">
-        <div class="row gap-5">
-            <div class="col-md-12 nerumorphism p-4 p-sm-5">
-                <!-- Heading -->
-                <div class="text-center">
-                    <h1 class="font-heading text-uppercase letterspacing-2 text-center fw-800 p-4 pt-sm-3 pt-3">Account details</h1>
-                </div>
-                <div class="row text-center">
-                    <!-- Profile picture -->
-                    <div class="col-md-3 p-sm-4 p-md-0">
-                            <img src="{% static 'images/pikachu-placeholder.webp' %}" alt="Placeholder avatar" class="img-thumbnail rounded-circle avatar border-gold w-75">
-                        <div class="col-12 pt-3">
-                            <!-- Username -->
-                            <p class="mt-2">
-                                <span class="fw-bold">Username:</span><br>
-                                <span class="green fs-4">{{ user.username}}</span>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- Bio text -->
-                    <div class="col">
-                        <div class="nerumorphism user-profile text-start border-gold p-4 mb-3 w-100 h-100 height-235">
-                            <p class="fw-bold text-uppercase letterspacing-2 fs-5">Bio:</p>
-                            <p>{{ user.bio }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row gap-5 d-flex align-items-stretch mb-5 mx-0 px-0">
-                <!-- Pokemon Go trainer code -->
-                <div class="col-md-4 text-center">
-                    <div class="nerumorphism text-center d-flex flex-column align-items-center p-3">
-                        <div class="pt-4">
-                            <img src="{% static 'images/trainer-qr-code.webp' %}" alt="Trainer qr-code" class="img-fluid cover w-75">
-                        </div>
-                        <!-- Pokemon Go trainer code -->
-                        <p class="pt-4 mt-auto">
-                            <span class="fw-bold">Pokemon Go trainer id:</span><br>
-                            {% if user.go_trainer_id %}
-                                <span class="green"><strong>{{ user.go_trainer_id }}</strong></span>
-                            {% else %}
-                                <span><i><a href="{% url 'update_profile' %}">Add Trainer id</a></i></span>
-                            {% endif %}
-                        </p> 
-                    </div>
-                </div>
-
-                <div class="col p-0">
-                    <div class="nerumorphism d-flex flex-column text-sm-start text-center justify-content-between h-100 p-4 p-sm-5 m-0">
-                        <div class="row">
-                            <div class="col-sm-6 col-12">
-                                <!-- First name -->
-                                <p class="mt-3">
-                                    <span class="fw-bold">First name:</span><br>
-                                    {% if user.first_name %}
-                                        <span class="green">{{ user.first_name }}</span>
-                                    {% else %}
-                                        <span><i><a href="#">Add first name</a></i></span>
-                                    {% endif %}
-                                </p>
-                            </div>
-                            <div class="col-sm-6 col-12">
-                                <!-- Last name -->
-                                <p class="mt-3">
-                                    <span class="fw-bold">Last name:</span><br>
-                                    {% if user.last_name %}
-                                        <span class="green">{{ user.last_name }}</span>
-                                    {% else %}
-                                        <span><i><a href="#">Add last name</a></i></span>
-                                    {% endif %}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-6 col-12">
-                                <!-- Email -->
-                                <p class="mt-3">
-                                    <span class="fw-bold">Email:</span><br>
-                                    {% if user.email %}
-                                        <span class="green">{{ user.email }}</span>
-                                    {% else %}
-                                        <span><i><a href="#">Add email address</a></i></span>
-                                    {% endif %}
-                                </p>
-                            </div>
-                            <div class="col-sm-6 col-12">
-                                <!-- Data of birth -->
-                                <p class="mt-4">
-                                    <span class="fw-bold">Birthday:</span><br>
-                                    {% if user.date_of_birth %}
-                                        <span class="green">{{ user.date_of_birth }}</span>
-                                    {% else %}
-                                        <span><i><a href="#">Add date of birth</a></i></span>
-                                    {% endif %}
-                                </p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6 col-12 mb-3">
-                                <!-- Website -->
-                                <p class="mt-4">
-                                    <span class="fw-bold">Website:</span><br>
-                                    {% if user.website_url %}
-                                        <span class="green">{{ user.website_url }}</span>
-                                    {% else %}
-                                        <span><i><a href="#">Add website</a></i></span>
-                                    {% endif %}
-                                </p>
-                            </div>
-                        </div>
-                        <div class="mt-auto">
-                            <!-- Update profile button -->
-                            <a href="{% url 'account_settings' %}" class="btn btn-secondary text-justify text-uppercase letterspacing-2 dark fw-800 fs-6 w-100">
-                                Update profile
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div
+  class="container-fluid bg-bubbles d-flex flex-column align-items-center justify-content-center vh-90 p-3"
+>
+  <div class="col-md-8 p-lg-5">
+    <div class="row gap-5">
+      <div class="col-md-12 nerumorphism p-4 p-sm-5">
+        <!-- Heading -->
+        <div class="text-center">
+          <h1
+            class="font-heading text-uppercase letterspacing-2 text-center fw-800 p-4 pt-sm-3 pt-3"
+          >
+            Account details
+          </h1>
         </div>
+        <div class="row text-center">
+          <!-- Profile picture -->
+          <div class="col-md-3 p-sm-4 p-md-0">
+            <img
+              src="{% static 'images/pikachu-placeholder.webp' %}"
+              alt="Placeholder avatar"
+              class="img-thumbnail rounded-circle avatar border-gold w-75"
+            />
+            <div class="col-12 pt-3">
+              <!-- Username -->
+              <p class="mt-2">
+                <span class="fw-bold">Username:</span><br />
+                <span class="green fs-4">{{ user.username}}</span>
+              </p>
+            </div>
+          </div>
+          <!-- Bio text -->
+          <div class="col">
+            <div
+              class="nerumorphism user-profile text-start border-gold p-4 mb-3 w-100 h-100 height-235"
+            >
+              <p class="fw-bold text-uppercase letterspacing-2 fs-5">Bio:</p>
+              <p>{{ user.bio }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row gap-5 d-flex align-items-stretch mb-5 mx-0 px-0">
+        <!-- Pokemon Go trainer code -->
+        <div class="col-md-4 text-center">
+          <div
+            class="nerumorphism text-center d-flex flex-column align-items-center p-3"
+          >
+            <div class="pt-4">
+              <img
+                src="{% static 'images/trainer-qr-code.webp' %}"
+                alt="Trainer qr-code"
+                class="img-fluid cover w-75"
+              />
+            </div>
+            <!-- Pokemon Go trainer code -->
+            <p class="pt-4 mt-auto">
+              <span class="fw-bold">Pokemon Go trainer id:</span><br />
+              {% if user.go_trainer_id %}
+              <span class="green"
+                ><strong>{{ user.go_trainer_id }}</strong></span
+              >
+              {% else %}
+              <span
+                ><i
+                  ><a href="{% url 'update_profile' %}">Add Trainer id</a></i
+                ></span
+              >
+              {% endif %}
+            </p>
+          </div>
+        </div>
+
+        <div class="col p-0">
+          <div
+            class="nerumorphism d-flex flex-column text-sm-start text-center justify-content-between h-100 p-4 p-sm-5 m-0"
+          >
+            <div class="row">
+              <div class="col-sm-6 col-12">
+                <!-- First name -->
+                <p class="mt-3">
+                  <span class="fw-bold">First name:</span><br />
+                  {% if user.first_name %}
+                  <span class="green">{{ user.first_name }}</span>
+                  {% else %}
+                  <span
+                    ><i><a href="#">Add first name</a></i></span
+                  >
+                  {% endif %}
+                </p>
+              </div>
+              <div class="col-sm-6 col-12">
+                <!-- Last name -->
+                <p class="mt-3">
+                  <span class="fw-bold">Last name:</span><br />
+                  {% if user.last_name %}
+                  <span class="green">{{ user.last_name }}</span>
+                  {% else %}
+                  <span
+                    ><i><a href="#">Add last name</a></i></span
+                  >
+                  {% endif %}
+                </p>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-6 col-12">
+                <!-- Email -->
+                <p class="mt-3">
+                  <span class="fw-bold">Email:</span><br />
+                  {% if user.email %}
+                  <span class="green">{{ user.email }}</span>
+                  {% else %}
+                  <span
+                    ><i><a href="#">Add email address</a></i></span
+                  >
+                  {% endif %}
+                </p>
+              </div>
+              <div class="col-sm-6 col-12">
+                <!-- Data of birth -->
+                <p class="mt-4">
+                  <span class="fw-bold">Birthday:</span><br />
+                  {% if user.date_of_birth %}
+                  <span class="green">{{ user.date_of_birth }}</span>
+                  {% else %}
+                  <span
+                    ><i><a href="#">Add date of birth</a></i></span
+                  >
+                  {% endif %}
+                </p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6 col-12 mb-3">
+                <!-- Website -->
+                <p class="mt-4">
+                  <span class="fw-bold">Website:</span><br />
+                  {% if user.website_url %}
+                  <span class="green">{{ user.website_url }}</span>
+                  {% else %}
+                  <span
+                    ><i><a href="#">Add website</a></i></span
+                  >
+                  {% endif %}
+                </p>
+              </div>
+            </div>
+            <div class="mt-auto">
+              <!-- Update profile button -->
+              <a
+                href="{% url 'update_profile' %}"
+                class="btn btn-secondary text-justify text-uppercase letterspacing-2 dark fw-800 fs-6 w-100"
+              >
+                Update profile
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 {% endblock content %}
-

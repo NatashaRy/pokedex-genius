@@ -10,5 +10,5 @@ urlpatterns = [
          name='password_reset'),
     path('delete-account/', views.delete_account, name='delete_account'),
     path('account/', account_view, name='account'),
-    path('account/settings/', update_profile, name='account_settings'),
+    path('account/settings/', update_profile, name='update_profile'),
 ]
