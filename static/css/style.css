@@ -143,7 +143,8 @@ body {
 .img-max-750 {
     max-width: 750px;
     margin-left: auto;
-    margin-right: auto;}
+    margin-right: auto;
+}
 
 .bi-backspace:hover {
     color: #4169E1;
@@ -385,5 +386,73 @@ input[type='color'] {
 @media (max-width: 600px) {
     .img-max-750, .img-max-650 {
         max-width: auto;
+    }
+}
+
+/* ================================================================== */
+/* ============ Guest pages: login, logout, password change ========= */
+/* ================================================================== */
+
+body.guest-page {
+    background: var(--bs-dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.guest-header {
+    background: linear-gradient(90deg, #1a1a40, #0d0d1a);
+    padding: 1rem 0;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+.guest-header img {
+    max-width: 280px;
+    height: auto;
+}
+
+.guest-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.guest-container {
+    background: rgba(255,255,255,0.05);
+    border-radius: 1rem;
+    padding: 2.5rem 2rem;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.guest-container h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #00e5ff;
+    margin-bottom: 1.5rem;
+}
+
+.guest-footer {
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.85rem;
+    color: #ccc;
+    background: #0b0b20;
+    margin-top: auto;
+}
+
+@media (max-width: 576px) {
+    .guest-header img {
+        max-width: 200px;
+    }
+
+    .guest-container {
+        padding: 2rem 1rem;
     }
 }

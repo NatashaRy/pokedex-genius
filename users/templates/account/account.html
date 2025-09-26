@@ -92,7 +92,7 @@
                   <span class="green">{{ user.first_name }}</span>
                   {% else %}
                   <span
-                    ><i><a href="#">Add first name</a></i></span
+                    ><i><a href="{% url 'update_profile' %}">Add first name</a></i></span
                   >
                   {% endif %}
                 </p>
@@ -105,7 +105,7 @@
                   <span class="green">{{ user.last_name }}</span>
                   {% else %}
                   <span
-                    ><i><a href="#">Add last name</a></i></span
+                    ><i><a href="{% url 'update_profile' %}">Add last name</a></i></span
                   >
                   {% endif %}
                 </p>
@@ -121,7 +121,7 @@
                   <span class="green">{{ user.email }}</span>
                   {% else %}
                   <span
-                    ><i><a href="#">Add email address</a></i></span
+                    ><i><a href="{% url 'update_profile' %}">Add email address</a></i></span
                   >
                   {% endif %}
                 </p>
@@ -134,7 +134,7 @@
                   <span class="green">{{ user.date_of_birth }}</span>
                   {% else %}
                   <span
-                    ><i><a href="#">Add date of birth</a></i></span
+                    ><i><a href="{% url 'update_profile' %}">Add date of birth</a></i></span
                   >
                   {% endif %}
                 </p>
@@ -149,7 +149,7 @@
                   <span class="green">{{ user.website_url }}</span>
                   {% else %}
                   <span
-                    ><i><a href="#">Add website</a></i></span
+                    ><i><a href="{% url 'update_profile' %}">Add website</a></i></span
                   >
                   {% endif %}
                 </p>

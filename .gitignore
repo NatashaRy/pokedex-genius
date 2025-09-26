@@ -52,6 +52,7 @@ Thumbs.db
 # 🛠️ IDE / Editor settings
 # ==========================================
 .vscode/
+.prettierignore
 
 # ==========================================
 # 💥 Crash dumps & debug files

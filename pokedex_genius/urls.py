@@ -8,7 +8,6 @@ urlpatterns = [
     path('', include('core.urls'), name='core-urls'),
     path('', include('pokedex.urls')),
     path('', include('users.urls')),
-    path('accounts/', include('allauth.urls')),
 ]
 
 handler404 = 'core.views.custom_404'

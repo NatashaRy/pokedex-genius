@@ -9,18 +9,18 @@ import environ
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))  # Läs miljövariabler
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))  # Read environment variables
 
 # ============================================================
 # SECURITY
 # ============================================================
 
 SECRET_KEY = env('SECRET_KEY')
-DEBUG = env.bool('DEBUG', default=False)
+DEBUG = env.bool('DEBUG', default=True)
 
 ALLOWED_HOSTS = [
     'pokedex-genius-9617911b5f35.herokuapp.com',  # Heroku
-    '127.0.0.1',                                  # Lokalt
+    '127.0.0.1',                                  # Local
     'localhost',
 ]
 
@@ -42,9 +42,6 @@ INSTALLED_APPS = [
 
     # Third-party apps
     'django_extensions',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
     'crispy_forms',
     'crispy_bootstrap5',
     'widget_tweaks',
@@ -58,31 +55,26 @@ INSTALLED_APPS = [
 SITE_ID = 1
 AUTH_USER_MODEL = 'users.pokedexUser'
 
-LOGIN_REDIRECT_URL = '/dashboard/'
-LOGOUT_REDIRECT_URL = '/'
-
 # ============================================================
-# AUTHENTICATION / DJANGO-ALLAUTH
+# AUTHENTICATION
 # ============================================================
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-ACCOUNT_FORMS = {}
-ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+LOGIN_REDIRECT_URL = '/dashboard/'
+LOGIN_URL = '/login/'
+LOGOUT_REDIRECT_URL = '/'
 
 # ============================================================
 # EMAIL
 # ============================================================
 
-# Använd konsolbackend i utveckling
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'noreply@pokedex-genius.com'
 
-# (Framtid: Byt till riktig SMTP i produktion via miljövariabler)
+# (Future: Switch to real SMTP in production via environment variables)
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = env('EMAIL_HOST', default='')
 # EMAIL_PORT = env.int('EMAIL_PORT', default=587)
@@ -103,7 +95,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware',
 ]
 
 # ============================================================

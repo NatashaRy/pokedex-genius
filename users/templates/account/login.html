@@ -15,7 +15,7 @@
     <div class="col-lg-6 col-md-8 col-sm-10 col-12 mx-auto">
         <div class="col d-block justify-content-center flex-wrap align-items-center">
             <p class="text-uppercase lead gold text-center mb-5">
-                Don't have an account yet? <a href="{{ signup_url }}" class="link-success text-decoration-none">Sign up</a> for free!
+                Don't have an account yet? <a href="{% url 'custom_signup' %}" class="link-success text-decoration-none">Sign up</a> for free!
             </p>
 
             <!-- Login form -->
@@ -54,7 +54,7 @@
 
                     <!-- Forgot password link -->
                     <div class="mt-4 text-center">
-                        <a href="/accounts/password/reset/" class="main-link mini-text text-uppercase">Forgot password?</a>
+                        <a href="{% url 'password_reset' %}" class="main-link mini-text text-uppercase">Forgot password?</a>
                     </div>
                 </form>                
             </div>
